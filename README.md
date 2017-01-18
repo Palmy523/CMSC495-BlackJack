@@ -8,4 +8,6 @@
 4. When complete, open GitHub desktop.
 5. In the upper left hand corner click the + button.
 6. Select clone -> Palmy523 -> CMSC495-BlackJack
-7. Choose a file location to save the project. 
+7. Click the Clone button.
+8. Select a file location to save the project.
+9. Click Ok.
