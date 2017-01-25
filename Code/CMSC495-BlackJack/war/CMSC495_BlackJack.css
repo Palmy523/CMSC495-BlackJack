@@ -2,6 +2,15 @@
 
 
 /** Example rules used by the template application (remove for your app) */
+html {
+	height: 100%;
+	width: 100%;
+	padding: 0px;
+	margin: 0px;
+	min-height: 400px;
+	background: radial-gradient(white, black);
+}
+
 h1 {
   font-size: 2em;
   font-weight: bold;
@@ -31,4 +40,142 @@ h1 {
 /** Set ids using widget.getElement().setId("idOfElement") */
 #closeButton {
   margin: 15px 6px 6px;
+}
+
+.body-background {
+	height: 100%;
+	width: 100%;
+	padding: 0px;
+	margin: 0px;
+	min-height: 400px;
+	background: url("img/Test_Background.jpeg");
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center center;
+}
+
+.label {
+	display: inline-block;
+	font-size: 14px;
+}
+
+.label-form {
+	margin-right: 10px;
+}
+
+.label-roomHeader,
+.label-long {
+	width: 125px;
+}
+
+.label-roomHeader,
+.label-white {
+	color: white;
+}
+
+.label-roomHeader,
+.label-centered {
+	text-align: center;
+}
+
+.label-roomHeader,
+.label-padded {
+	padding: 5px;
+}
+
+.label-underline {
+	border-bottom: 1px solid gray;
+}
+
+.label-green {
+	background: rgb(55, 168, 108);
+}
+
+.label-blue {
+	background-color: rgb(54, 112, 165);
+}
+
+.label-red {
+	background-color: rgb(165, 54, 54);
+}
+
+.label-goldFont {
+	color: gold;
+}
+
+.textbox {
+	padding: 2px!important;
+}
+
+.modal {
+	padding: 25px;
+    background: linear-gradient(to bottom right, rgba(0, 0, 0, .9), rgba(0, 0, 0, .7));
+    box-shadow: 0px 0px 15px 0px black;
+    border-radius: 1px;
+    border: 1px solid black;
+    white-space: nowrap;
+}
+
+.modal-left {
+	float: left;
+	margin: 5px;
+}
+
+.roomSelectionPanel {
+	display: inline-block;
+}
+
+.roomPanel {
+	cursor: pointer;
+	text-align: center;
+}
+
+.roomPanel:hover {
+	transform: scale(1.1);
+}
+
+.centered {
+	top: 50%;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+}
+
+.button {
+	background-color: lightgray;
+	margin: 0;
+    padding: 5px 7px;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: small;
+    border: none;
+    border-radius: 1px;
+    -moz-border-radius: 1px;
+    font-size: 14px;
+    color: white;
+}
+
+.button-left {
+	margin-right: 5px!important;
+}
+
+.button-middle {
+	margin-left: 5px!important;
+	margin-right: 5px!important;
+}
+
+.button-right {
+	margin-left: 5px!important;
+}
+
+.button-green {
+	background-color: rgb(55, 168, 108)!important;
+}
+
+.button-red {
+	background-color: rgb(165, 54, 54);
+}
+
+.button-blue {
+	background-color: rgb(54, 112, 165);
 }

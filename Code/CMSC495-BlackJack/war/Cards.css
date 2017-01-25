@@ -1,0 +1,143 @@
+.card {
+	height: 117px;
+	width: 85px;
+	border-radius: 10px;
+	box-shadow: 0px 0px 13px 0px gold;
+}
+
+.card:hover {
+	box-shadow: 0px 0px 25px 0px white;
+}
+
+.card-set1 {
+	background: url("img/Cards1.jpeg");
+	background-size: 961px 961px;
+}
+
+.card-set1-seven,
+.card-set1-king,
+.card-set1-clubs-ace {
+	background-position-y: -119px;
+}
+
+.card-set1-six,
+.card-set1-queen,
+.card-set1-hearts-ace {
+	background-position-y: -260px;
+}
+
+.card-set1-five,
+.card-set1-jack,
+.card-set1-spades-ace {
+	background-position-y: -401px;
+}
+
+.card-set1-four,
+.card-set1-ten,
+.card-set1-diamonds-ace {
+	background-position-y: -541px;
+}
+
+.card-set1-three,
+.card-set1-nine {
+	background-position-y: -682px;
+}
+
+.card-set1-two,
+.card-set1-eight,
+.card-set1-back {
+	background-position-y: -823px;
+}
+
+.card-set1-ace,
+.card-set1-back {
+	background-position-x: -438px;
+}
+
+.card-set1-spades-eight,
+.card-set1-spades-nine,
+.card-set1-spades-ten,
+.card-set1-spades-jack,
+.card-set1-spades-queen,
+.card-set1-spades-king {
+	background-position-x: -126px;
+}
+
+.card-set1-spades-seven,
+.card-set1-spades-six,
+.card-set1-spades-five,
+.card-set1-spades-four,
+.card-set1-spades-three,
+.card-set1-spades-two {
+	background-position-x: -645px;
+}
+
+.card-set1-clubs-eight,
+.card-set1-clubs-nine,
+.card-set1-clubs-ten,
+.card-set1-clubs-jack,
+.card-set1-clubs-queen,
+.card-set1-clubs-king {
+	background-position-x: -335px;
+}
+
+.card-set1-clubs-seven,
+.card-set1-clubs-six,
+.card-set1-clubs-three,
+.card-set1-clubs-two {
+	background-position-x: -854px;
+}
+
+.card-set1-diamonds-eight,
+.card-set1-diamonds-nine,
+.card-set1-diamonds-ten,
+.card-set1-diamonds-jack,
+.card-set1-diamonds-queen,
+.card-set1-diamonds-king {
+	background-position-x: -21px;
+}
+
+.card-set1-diamonds-seven,
+.card-set1-diamonds-six,
+.card-set1-diamonds-five,
+.card-set1-diamonds-four,
+.card-set1-diamonds-three,
+.card-set1-diamonds-two {
+	background-position-x: -539px;
+}
+
+.card-set1-hearts-eight,
+.card-set1-hearts-nine,
+.card-set1-hearts-ten,
+.card-set1-hearts-jack,
+.card-set1-hearts-queen,
+.card-set1-hearts-king {
+	background-position-x: -231px;
+}
+
+.card-set1-hearts-seven,
+.card-set1-hearts-six,
+.card-set1-hearts-five,
+.card-set1-hearts-four,
+.card-set1-hearts-three,
+.card-set1-hearts-two {
+	background-position-x: -750px;
+}
+
+.card-set1-clubs-five {
+    background-size: 1030px 1020px;
+    background-position-y: -427px;
+    background-position-x: -919px;
+}
+
+.card-set1-clubs-four {
+    background-size: 1030px 1020px;
+    background-position-y: -577px;
+    background-position-x: -919px;
+}
+
+.card-set1-clubs-three {
+    background-size: 1030px 1020px;
+    background-position-y: -727px;
+    background-position-x: -919px;
+}
