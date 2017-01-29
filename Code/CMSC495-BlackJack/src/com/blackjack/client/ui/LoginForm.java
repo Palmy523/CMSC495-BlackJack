@@ -7,6 +7,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
 
 public class LoginForm extends FormPanel {
@@ -14,7 +15,7 @@ public class LoginForm extends FormPanel {
 	private Label userNameLabel;
 	private TextBox userNameTextBox;
 	private Label passwordLabel;
-	private TextBox passwordTextBox;
+	private PasswordTextBox passwordTextBox;
 	private Button loginButton;
 	private Button forgotPasswordButton;
 	private Button createAccountButton;
@@ -28,11 +29,12 @@ public class LoginForm extends FormPanel {
 		this.setStyleName("centered", true);
 		FlowPanel wrapper = new FlowPanel();
 		
+		ModalHeader header = new ModalHeader("Login");
 		userNameLabel = new Label("Username:");
 		userNameLabel.setStylePrimaryName("label");
 		userNameLabel.addStyleDependentName("medium");
 		userNameLabel.addStyleDependentName("white");
-		userNameLabel.addStyleDependentName("label-form");
+		userNameLabel.addStyleDependentName("form");
 		
 		userNameTextBox = new TextBox();
 		userNameTextBox.addStyleName("textbox");
@@ -41,10 +43,10 @@ public class LoginForm extends FormPanel {
 		passwordLabel.setStylePrimaryName("label");
 		passwordLabel.addStyleDependentName("medium");
 		passwordLabel.addStyleDependentName("white");
-		passwordLabel.addStyleDependentName("label-form");
+		passwordLabel.addStyleDependentName("form");
 
 		
-		passwordTextBox = new TextBox();
+		passwordTextBox = new PasswordTextBox();
 		passwordTextBox.addStyleName("textbox");
 		
 		loginButton = new Button("Login");
@@ -72,6 +74,7 @@ public class LoginForm extends FormPanel {
 		createAccountButton.addStyleDependentName("blue");
 		createAccountButton.setWidth("279px");
 		
+		wrapper.add(header);
 		wrapper.add(userNameLabel);
 		wrapper.add(userNameTextBox);
 		wrapper.add(new HTML("<br/>"));
@@ -83,6 +86,10 @@ public class LoginForm extends FormPanel {
 		wrapper.add(new HTML("<br/>"));
 		wrapper.add(createAccountButton);
 		this.add(wrapper);
+	}
+	
+	public void AddLoginHandler() {
+		
 	}
 	
 	public Button getForgotPasswordButton() {

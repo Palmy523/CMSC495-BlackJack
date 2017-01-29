@@ -63,6 +63,14 @@ h1 {
 	margin-right: 10px;
 }
 
+.label-short {
+	width: 75px;
+}
+
+.label-medium {
+	width: 100px;
+}
+
 .label-roomHeader,
 .label-long {
 	width: 125px;
@@ -81,6 +89,11 @@ h1 {
 .label-roomHeader,
 .label-padded {
 	padding: 5px;
+}
+
+.label-header {
+	font-size: 18px;
+    text-shadow: 0px 2px 3px rgba(255,255,255,0.6);
 }
 
 .label-underline {
@@ -105,6 +118,27 @@ h1 {
 
 .textbox {
 	padding: 2px!important;
+	font-family: Arial Unicode MS, Arial, sans-serif;
+}
+
+.fixed {
+	position: fixed;
+}
+
+.fixed-bottom {
+	bottom: 0;
+}
+
+.fixed-left {
+	left: 0;
+}
+
+.fixed-top {
+	top: 0;
+}
+
+.fixed-right {
+	right: 0;
 }
 
 .modal {
@@ -115,6 +149,13 @@ h1 {
     border: 1px solid black;
     white-space: nowrap;
 }
+
+.modal-header {
+	text-align: center;
+    padding: 5px;
+    margin-bottom: 20px;
+    border-radius: 3px;
+    background: linear-gradient(white, #6f849a);}
 
 .modal-left {
 	float: left;
@@ -130,8 +171,23 @@ h1 {
 	text-align: center;
 }
 
+.roomPanel[disabled] {
+    background: linear-gradient(to bottom right, lightgray, gray);
+    opacity: .98;
+}
+
+.roomPanel[disabled]:hover {
+	transform: scale(1);
+	cursor: not-allowed;
+}
+
 .roomPanel:hover {
 	transform: scale(1.1);
+}
+
+.centeredHorizontal {
+	left: 50%;
+	transform: translate(-50%, 0%);
 }
 
 .centered {

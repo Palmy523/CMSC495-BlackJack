@@ -101,4 +101,10 @@ public class RoomPanel extends SimplePanel {
 		
 		this.add(panel);
 	}
+	
+	public void enable(boolean enable) {
+		String enabled = (enable) ? "true" : "false";
+		this.getElement().setAttribute("disabled", enabled);
+		this.setTitle("Requirements not met");
+	}
 }

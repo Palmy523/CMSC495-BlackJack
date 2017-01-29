@@ -1,10 +1,13 @@
 package com.blackjack.client.ui;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
 
 public class CreateAccountForm extends FormPanel {
@@ -14,9 +17,9 @@ public class CreateAccountForm extends FormPanel {
 	private Label emailLabel;
 	private TextBox emailTextBox;
 	private Label passwordLabel;
-	private TextBox passwordTextBox;
+	private PasswordTextBox passwordTextBox;
 	private Label confirmPasswordLabel;
-	private TextBox confirmPasswordTextBox;
+	private PasswordTextBox confirmPasswordTextBox;
 	private Button createAccountButton;
 	private Button cancelButton;
 	
@@ -51,7 +54,7 @@ public class CreateAccountForm extends FormPanel {
 		passwordLabel.addStyleDependentName("label-form");
 
 		
-		passwordTextBox = new TextBox();
+		passwordTextBox = new PasswordTextBox();
 		passwordTextBox.setStylePrimaryName("textbox");
 		
 		confirmPasswordLabel = new Label("Confirm Password:");
@@ -61,7 +64,7 @@ public class CreateAccountForm extends FormPanel {
 		confirmPasswordLabel.addStyleDependentName("label-form");
 
 		
-		confirmPasswordTextBox = new TextBox();
+		confirmPasswordTextBox = new PasswordTextBox();
 		confirmPasswordTextBox.setStylePrimaryName("textbox");
 		
 		createAccountButton = new Button("Create");
@@ -69,11 +72,21 @@ public class CreateAccountForm extends FormPanel {
 		createAccountButton.addStyleDependentName("green");
 		createAccountButton.setWidth("298px");
 		
+		createAccountButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				submit();
+			}
+			
+		});
+		
 		cancelButton = new Button("Cancel");
 		cancelButton.setStylePrimaryName("button");
 		cancelButton.addStyleDependentName("red");
 		cancelButton.setWidth("298px");
 		
+		panel.add(new ModalHeader("Create Account"));
 		panel.add(userNameLabel);
 		panel.add(userNameTextBox);
 		panel.add(new HTML("<br/>"));
