@@ -18,7 +18,6 @@ public class EmailService {
 	 */
 	public static boolean sendEmailUpdateKey(String email) {
 		//TODO send an email with the Email Update key to update email
-	
 		//TODO return success
 		return false;
 	}

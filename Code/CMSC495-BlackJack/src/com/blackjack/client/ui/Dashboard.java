@@ -192,6 +192,10 @@ public class Dashboard extends SimplePanel {
 		}
 	}
 	
+	public void loadRoomSelectionScreen() {
+		this.loadView(roomSelectionPanel);
+	}
+	
 	/**
 	 * Displays a message to the user of the application
 	 * @param type the type of message to display

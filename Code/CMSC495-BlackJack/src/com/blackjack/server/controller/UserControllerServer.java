@@ -54,6 +54,12 @@ public class UserControllerServer {
 		return false;
 	}
 	
+	public boolean userNameExists(String username) {
+		//TODO check if the username exists in the database
+		//TODO return true if userNameExists false if not
+		return false;
+	}
+	
 	public boolean emailExists(String emailAddress) {
 		//TODO check if the email exists in the database
 		
