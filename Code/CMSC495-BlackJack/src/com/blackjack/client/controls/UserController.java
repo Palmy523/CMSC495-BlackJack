@@ -23,29 +23,37 @@ public class UserController {
 	
 	public UserController(Dashboard dashboard) {}
 	
+	/**
+	 * Creates an account with the specified information.
+	 * @param username the username to create the account with
+	 * @param password the password to create the account with
+	 * @param confirmPassword the confirmation of the password to ensure the user
+	 * typed in exactly what they meant
+	 * @param email the email address to create the account with.
+	 */
 	public void createAccount(String username, 
 			String password, 
 			String confirmPassword, 
 			String email) {
 		
 		if (FieldVerifier.isValidEmail(email) == FormatError.INVALID_FORMAT) {
-			dashboard.displayMessage(MessageType.ERROR, FieldVerifier.EMAIL_ADDRESS_ERROR);
+			dashboard.displayMessage(MessageType.INFO, FieldVerifier.EMAIL_ADDRESS_ERROR);
 		}
 		
 		if (FieldVerifier.isValidPassword(password) == FormatError.LENGTH) {
-			dashboard.displayMessage(MessageType.ERROR, FieldVerifier.PASSWORD_LENGTH_ERROR);
+			dashboard.displayMessage(MessageType.INFO, FieldVerifier.PASSWORD_LENGTH_ERROR);
 		}
 		
 		if (FieldVerifier.isValidPassword(password) == FormatError.INVALID_FORMAT) {
-			dashboard.displayMessage(MessageType.ERROR, FieldVerifier.PASSWORD_REGEX_ERROR);
+			dashboard.displayMessage(MessageType.INFO, FieldVerifier.PASSWORD_REGEX_ERROR);
 		}
 		
 		if (FieldVerifier.isValidEmail(email) == FormatError.INVALID_FORMAT) {
-			dashboard.displayMessage(MessageType.ERROR, FieldVerifier.EMAIL_ADDRESS_ERROR);
+			dashboard.displayMessage(MessageType.INFO, FieldVerifier.EMAIL_ADDRESS_ERROR);
 		}
 		
 		if (!password.equals(confirmPassword)) {
-			dashboard.displayMessage(MessageType.ERROR, "Sorry, the passwords you provided do not match.");
+			dashboard.displayMessage(MessageType.INFO, "Sorry, the passwords you provided do not match.");
 		}
 		
 		UserServiceAsync userService = GWT.create(UserService.class);
@@ -81,7 +89,8 @@ public class UserController {
 	}
 	
 	public void resetPassword(String emailAddress) {
-		//TODO very email address format is correct
+		//TODO verify user is logged in
+		//TODO verify email address format is correct
 		
 		//Call the UserService to reset the password
 		
@@ -126,17 +135,38 @@ public class UserController {
 		//TODO display an error message
 	}
 	
-	public void updatePassword(String userID, String currentPassword, String oldPassword) {
+	public void updatePassword(String currentPassword, String oldPassword) {
+		checkLogin();
 		//TODO verify password formats are correct
 		//TODO send action to userservice
 	}
 	
-	public void onUpdatePasswordSuccess() {
+	public void onUpdatePasswordSuccess(UpdatePasswordEvent event) {
 		//TODO display success message
 	}
 	
 	public void onUpdatePasswordFailure(UpdatePasswordEvent event) {
 		//TODO display error message
+	}
+	
+	/**
+	 * @return true if the user has logged in and the user object is available
+	 * false if otherwise
+	 */
+	public boolean isUserLoggedIn() {
+		return (user != null);
+	}
+	
+	/**
+	 * Checks the login status of the current user. If the user is not logged in
+	 * return them to the Login Screen and display an info message to log back in.
+	 */
+	public void checkLogin() {
+		if (!isUserLoggedIn()) {
+			dashboard.displayLoginScreen();
+			dashboard.displayMessage(MessageType.INFO, 
+					"You have been logged out, please log back in.");
+		}
 	}
 	
 }

@@ -192,8 +192,18 @@ public class Dashboard extends SimplePanel {
 		}
 	}
 	
+	/**
+	 * Display the room selection screen as the current screen for the user.
+	 */
 	public void loadRoomSelectionScreen() {
 		this.loadView(roomSelectionPanel);
+	}
+	
+	/**
+	 * Display the login screen as the current screen for the user.
+	 */
+	public void displayLoginScreen() {
+		this.loadView(loginForm);
 	}
 	
 	/**
@@ -202,7 +212,7 @@ public class Dashboard extends SimplePanel {
 	 * @param message the message to display
 	 */
 	public void displayMessage(MessageType type, String message) {
-		
+		//TODO display an error message on the screen overlaying the current view.
 	}
 
 	/**
