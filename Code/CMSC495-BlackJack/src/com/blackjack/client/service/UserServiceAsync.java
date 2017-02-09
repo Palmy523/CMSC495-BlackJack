@@ -11,6 +11,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface UserServiceAsync {
 
+	void initDB(AsyncCallback<Void> callback);
 	void login(String username, String password, AsyncCallback<LoginEvent> callback);
 	void createAccount(String username, String password, String email, AsyncCallback<CreateAccountEvent> callbacks);
 	void updateChipCount(String userID, int amount, AsyncCallback<UpdateChipEvent> callback);

@@ -1,9 +1,11 @@
 package com.blackjack.shared.events;
 
+import java.io.Serializable;
+
 import com.blackjack.shared.handlers.UpdateChipHandler;
 import com.google.gwt.event.shared.GwtEvent;
 
-public class UpdateChipEvent extends GwtEvent<UpdateChipHandler> {
+public class UpdateChipEvent extends GwtEvent<UpdateChipHandler> implements Serializable{
 
 	private boolean isSuccess;
 	private boolean newAmount;

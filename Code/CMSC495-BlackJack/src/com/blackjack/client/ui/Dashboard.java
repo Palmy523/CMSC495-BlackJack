@@ -81,6 +81,15 @@ public class Dashboard extends SimplePanel {
 	public Dashboard() {
 		//Create the views
 		loginForm = new LoginForm();
+		final UserController controller = new UserController(this);
+		loginForm.getCreateAccountButton().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				controller.createAccount("palmy523", "rice8023", "rice8023", "palmy523@msn.com");
+			}
+			
+		});
 		forgotPasswordForm = new ForgotPasswordForm();
 		createAccountForm = new CreateAccountForm();
 		

@@ -37,23 +37,23 @@ public class UserController {
 			String email) {
 		
 		if (FieldVerifier.isValidEmail(email) == FormatError.INVALID_FORMAT) {
-			dashboard.displayMessage(MessageType.INFO, FieldVerifier.EMAIL_ADDRESS_ERROR);
+			//dashboard.displayMessage(MessageType.INFO, FieldVerifier.EMAIL_ADDRESS_ERROR);
 		}
 		
 		if (FieldVerifier.isValidPassword(password) == FormatError.LENGTH) {
-			dashboard.displayMessage(MessageType.INFO, FieldVerifier.PASSWORD_LENGTH_ERROR);
+			//dashboard.displayMessage(MessageType.INFO, FieldVerifier.PASSWORD_LENGTH_ERROR);
 		}
 		
 		if (FieldVerifier.isValidPassword(password) == FormatError.INVALID_FORMAT) {
-			dashboard.displayMessage(MessageType.INFO, FieldVerifier.PASSWORD_REGEX_ERROR);
+			//dashboard.displayMessage(MessageType.INFO, FieldVerifier.PASSWORD_REGEX_ERROR);
 		}
 		
 		if (FieldVerifier.isValidEmail(email) == FormatError.INVALID_FORMAT) {
-			dashboard.displayMessage(MessageType.INFO, FieldVerifier.EMAIL_ADDRESS_ERROR);
+			//dashboard.displayMessage(MessageType.INFO, FieldVerifier.EMAIL_ADDRESS_ERROR);
 		}
 		
 		if (!password.equals(confirmPassword)) {
-			dashboard.displayMessage(MessageType.INFO, "Sorry, the passwords you provided do not match.");
+			//dashboard.displayMessage(MessageType.INFO, "Sorry, the passwords you provided do not match.");
 		}
 		
 		UserServiceAsync userService = GWT.create(UserService.class);

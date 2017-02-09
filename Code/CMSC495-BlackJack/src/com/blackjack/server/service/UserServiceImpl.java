@@ -15,6 +15,11 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 public class UserServiceImpl extends RemoteServiceServlet implements UserService {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	public LoginEvent login(String username, String password) {
 				
@@ -184,6 +189,11 @@ public class UserServiceImpl extends RemoteServiceServlet implements UserService
 		
 		//TODO create the UpdatePasswordEvent with proper data and return 
 		return null;
+	}
+
+	@Override
+	public void initDB() {
+		ConnectionService.initDB();
 	}
 	
 	

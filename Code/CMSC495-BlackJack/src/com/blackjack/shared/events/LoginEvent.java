@@ -1,10 +1,12 @@
 package com.blackjack.shared.events;
 
+import java.io.Serializable;
+
 import com.blackjack.shared.entities.User;
 import com.blackjack.shared.handlers.LoginHandler;
 import com.google.gwt.event.shared.GwtEvent;
 
-public class LoginEvent extends GwtEvent<LoginHandler>{
+public class LoginEvent extends GwtEvent<LoginHandler> implements Serializable{
  
 	public static Type<LoginHandler> TYPE = new Type<LoginHandler>();
 	

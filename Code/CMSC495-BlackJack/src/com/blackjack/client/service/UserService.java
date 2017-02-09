@@ -8,9 +8,13 @@ import com.blackjack.shared.events.UpdateChipEvent;
 import com.blackjack.shared.events.UpdateEmailEvent;
 import com.blackjack.shared.events.UpdatePasswordEvent;
 import com.google.gwt.user.client.rpc.RemoteService;
+import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
+@RemoteServiceRelativePath("UserService")
 public interface UserService extends RemoteService {
 
+	public void initDB();
+	
 	public LoginEvent login(String username, String password);
 	
 	public CreateAccountEvent createAccount(String username, String password, String email);

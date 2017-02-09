@@ -11,5 +11,15 @@
   <welcome-file-list>
     <welcome-file>CMSC495_BlackJack.html</welcome-file>
   </welcome-file-list>
+  
+  <servlet>
+    <servlet-name>userServiceImpl</servlet-name>
+    <servlet-class>com.blackjack.server.service.UserServiceImpl</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>userServiceImpl</servlet-name>
+    <url-pattern>/cmsc495_blackjack/UserService</url-pattern>
+  </servlet-mapping>
 
 </web-app>

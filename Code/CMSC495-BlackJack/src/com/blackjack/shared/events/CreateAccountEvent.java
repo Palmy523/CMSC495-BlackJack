@@ -1,5 +1,7 @@
 package com.blackjack.shared.events;
 
+import java.io.Serializable;
+
 import com.blackjack.shared.entities.User;
 import com.blackjack.shared.handlers.CreateAccountHandler;
 import com.google.gwt.event.shared.GwtEvent;
@@ -10,7 +12,7 @@ import com.google.gwt.event.shared.GwtEvent;
  * @author Dave
  *
  */
-public class CreateAccountEvent extends GwtEvent<CreateAccountHandler> {
+public class CreateAccountEvent extends GwtEvent<CreateAccountHandler> implements Serializable {
 
 	private User user;
 	private boolean isSuccess;

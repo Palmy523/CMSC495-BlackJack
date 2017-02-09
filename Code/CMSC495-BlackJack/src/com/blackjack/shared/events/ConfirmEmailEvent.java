@@ -1,10 +1,17 @@
 package com.blackjack.shared.events;
 
+import java.io.Serializable;
+
 import com.blackjack.shared.handlers.ConfirmEmailHandler;
 import com.google.gwt.event.shared.GwtEvent;
 
-public class ConfirmEmailEvent extends GwtEvent<ConfirmEmailHandler>{
+public class ConfirmEmailEvent extends GwtEvent<ConfirmEmailHandler> implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	public static Type<ConfirmEmailHandler> TYPE = new Type<ConfirmEmailHandler>();
 	
 	@Override

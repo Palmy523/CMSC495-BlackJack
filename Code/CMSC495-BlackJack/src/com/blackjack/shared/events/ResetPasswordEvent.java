@@ -1,9 +1,11 @@
 package com.blackjack.shared.events;
 
+import java.io.Serializable;
+
 import com.blackjack.shared.handlers.ResetPasswordHandler;
 import com.google.gwt.event.shared.GwtEvent;
 
-public class ResetPasswordEvent extends GwtEvent<ResetPasswordHandler> {
+public class ResetPasswordEvent extends GwtEvent<ResetPasswordHandler> implements Serializable{
 
 	public static Type<ResetPasswordHandler> TYPE = new Type<ResetPasswordHandler>();
 

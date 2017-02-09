@@ -1,9 +1,11 @@
 package com.blackjack.shared.events;
 
+import java.io.Serializable;
+
 import com.blackjack.shared.handlers.UpdatePasswordHandler;
 import com.google.gwt.event.shared.GwtEvent;
 
-public class UpdatePasswordEvent extends GwtEvent<UpdatePasswordHandler>{
+public class UpdatePasswordEvent extends GwtEvent<UpdatePasswordHandler> implements Serializable{
 
 	public static Type<UpdatePasswordHandler> TYPE = new Type<UpdatePasswordHandler>();
 	

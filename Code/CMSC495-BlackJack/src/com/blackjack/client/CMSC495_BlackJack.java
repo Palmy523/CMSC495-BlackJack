@@ -1,11 +1,15 @@
 package com.blackjack.client;
 
+import com.blackjack.client.service.UserService;
+import com.blackjack.client.service.UserServiceAsync;
 import com.blackjack.client.sounds.SoundManager;
 import com.blackjack.client.sounds.SoundManager.SoundName;
 import com.blackjack.client.ui.Dashboard;
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -19,6 +23,24 @@ public class CMSC495_BlackJack implements EntryPoint {
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
+		
+		UserServiceAsync service = GWT.create(UserService.class);
+		AsyncCallback<Void> callback = new AsyncCallback<Void>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				GWT.log("Init db communication failure");
+				GWT.log(caught.getMessage());
+			}
+
+			@Override
+			public void onSuccess(Void result) {
+				GWT.log("Init db communication success");
+			}
+			
+		};
+		
+		service.initDB(callback);
 		
 		final Dashboard dashboard = new Dashboard();
 		

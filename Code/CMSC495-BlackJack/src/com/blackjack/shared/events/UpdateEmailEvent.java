@@ -1,9 +1,11 @@
 package com.blackjack.shared.events;
 
+import java.io.Serializable;
+
 import com.blackjack.shared.handlers.UpdateEmailHandler;
 import com.google.gwt.event.shared.GwtEvent;
 
-public class UpdateEmailEvent extends GwtEvent<UpdateEmailHandler> {
+public class UpdateEmailEvent extends GwtEvent<UpdateEmailHandler> implements Serializable {
 
 	public static Type<UpdateEmailHandler> TYPE = new Type<UpdateEmailHandler>();
 	
