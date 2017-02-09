@@ -8,8 +8,9 @@ public class ResetPasswordEvent extends GwtEvent<ResetPasswordHandler> {
 	public static Type<ResetPasswordHandler> TYPE = new Type<ResetPasswordHandler>();
 
 	private boolean isSuccess;
-	private boolean isEmailValid;
+	private boolean isEmailInvalid;
 	private boolean isPasswordSendSuccess;
+	private String errorString;
 	
 	@Override
 	public Type<ResetPasswordHandler> getAssociatedType() {
@@ -38,15 +39,15 @@ public class ResetPasswordEvent extends GwtEvent<ResetPasswordHandler> {
 	/**
 	 * @return the isEmailValid
 	 */
-	public boolean isEmailValid() {
-		return isEmailValid;
+	public boolean isEmailInvalid() {
+		return isEmailInvalid;
 	}
 
 	/**
 	 * @param isEmailValid the isEmailValid to set
 	 */
-	public void setEmailValid(boolean isEmailValid) {
-		this.isEmailValid = isEmailValid;
+	public void setEmailInvalid(boolean isEmailInvalid) {
+		this.isEmailInvalid = isEmailInvalid;
 	}
 
 	/**
@@ -63,6 +64,12 @@ public class ResetPasswordEvent extends GwtEvent<ResetPasswordHandler> {
 		this.isPasswordSendSuccess = isPasswordSendSuccess;
 	}
 	
-	
+	public String getErrorString() {
+		return errorString;
+	}
+
+	public void setErrorString(String errorString) {
+		this.errorString = errorString;
+	}
 
 }

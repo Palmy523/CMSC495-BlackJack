@@ -19,6 +19,7 @@ public class CreateAccountEvent extends GwtEvent<CreateAccountHandler> {
 	private boolean isEmailTaken;
 	private boolean isEmailInvalid;
 	private boolean isPasswordInvalid;
+	private String errorString;
 	
 	public static Type<CreateAccountHandler> TYPE = new Type<CreateAccountHandler>();
 
@@ -128,6 +129,14 @@ public class CreateAccountEvent extends GwtEvent<CreateAccountHandler> {
 	 */
 	public void setPasswordInvalid(boolean isPasswordInvalid) {
 		this.isPasswordInvalid = isPasswordInvalid;
+	}	
+
+	public String getErrorString() {
+		return errorString;
+	}
+
+	public void setErrorString(String errorString) {
+		this.errorString = errorString;
 	}
 
 	/**
@@ -143,4 +152,6 @@ public class CreateAccountEvent extends GwtEvent<CreateAccountHandler> {
 	public static void setTYPE(Type<CreateAccountHandler> tYPE) {
 		TYPE = tYPE;
 	}
+	
+	
 }

@@ -10,8 +10,9 @@ public class LoginEvent extends GwtEvent<LoginHandler>{
 	
 	private User user;
 	private boolean isSuccess;
-	private boolean isInvalidPassword;
-	private boolean isUsernameValid;
+	private boolean isPasswordInvalid;
+	private boolean isUserNameInalid;
+	private String errorString;
 	
 	public LoginEvent() {}
 
@@ -56,32 +57,37 @@ public class LoginEvent extends GwtEvent<LoginHandler>{
 	/**
 	 * @return the isInvalidPassword
 	 */
-	public boolean isInvalidPassword() {
-		return isInvalidPassword;
+	public boolean isPasswordInvalid() {
+		return isPasswordInvalid;
 	}
 
 	/**
 	 * @param isInvalidPassword the isInvalidPassword to set
 	 */
-	public void setInvalidPassword(boolean isInvalidPassword) {
-		this.isInvalidPassword = isInvalidPassword;
+	public void setPasswordInvalid(boolean isInvalidPassword) {
+		this.isPasswordInvalid = isInvalidPassword;
 	}
 
 	/**
 	 * @return the isUsernameValid
 	 */
-	public boolean isUsernameValid() {
-		return isUsernameValid;
+	public boolean isUsernameInvalid() {
+		return isUserNameInalid;
 	}
 
 	/**
 	 * @param isUsernameValid the isUsernameValid to set
 	 */
-	public void setUsernameValid(boolean isUsernameValid) {
-		this.isUsernameValid = isUsernameValid;
-	};
-	
-	
-	
+	public void setUsernameInvalid(boolean isUsernameValid) {
+		this.isUserNameInalid = isUsernameValid;
+	}
+
+	public String getErrorString()	{
+		return errorString;
+	}
+
+	public void setErrorString(String errorString)	{
+		this.errorString = errorString;
+	}
 	
 }
