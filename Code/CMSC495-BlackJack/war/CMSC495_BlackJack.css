@@ -92,7 +92,7 @@ h1 {
 }
 
 .label-header {
-	font-size: 18px;
+	font-size: 15px;
     text-shadow: 0px 2px 3px rgba(255,255,255,0.6);
 }
 
@@ -142,28 +142,57 @@ h1 {
 }
 
 .modal {
-	padding: 25px;
+	padding: 10px;
     background: linear-gradient(to bottom right, rgba(0, 0, 0, .9), rgba(0, 0, 0, .7));
     box-shadow: 0px 0px 15px 0px black;
     border-radius: 1px;
     border: 1px solid black;
     white-space: nowrap;
+    padding-top: 30px;
 }
 
 .modal-header {
 	text-align: center;
     padding: 5px;
-    margin-bottom: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-bottom: 10px;
+    margin-left: -5px;
+    margin-right: -5px;
+    margin-top: -5px;
     border-radius: 3px;
-    background: linear-gradient(white, #6f849a);}
+    background: linear-gradient(white, #6f849a);
+    position: absolute;
+    top: -10px;
+    left: 15px;
+}
+
+.modal-headerless {
+	padding: 10px;
+}
 
 .modal-left {
 	float: left;
 	margin: 5px;
 }
 
+.modal-game {
+	max-height: 600px;
+	max-width: 600px;
+	min-width: 380px;
+	min-height: 440px;
+	padding: 0;
+	border: none;
+	margin: 0;
+}
+
+.modal-top {
+	z-idex: 5000;
+}
+
 .roomSelectionPanel {
 	display: inline-block;
+	white-space: nowrap;
 }
 
 .roomPanel {
@@ -185,9 +214,15 @@ h1 {
 	transform: scale(1.1);
 }
 
+.chipPanel,
 .centeredHorizontal {
 	left: 50%;
 	transform: translate(-50%, 0%);
+}
+.gameButtonPanel,
+.centeredVertical {
+	top: 50%;
+	transform: translate(0%, -50%);
 }
 
 .centered {
@@ -196,7 +231,7 @@ h1 {
     position: absolute;
     transform: translate(-50%, -50%);
 }
-
+.button-game,
 .button {
 	background-color: lightgray;
 	margin: 0;
@@ -234,4 +269,171 @@ h1 {
 
 .button-blue {
 	background-color: rgb(54, 112, 165);
+}
+
+.button-goBack {
+	
+}
+
+.chipPanel {
+	position: absolute;
+	text-align: center;
+}
+
+.gameButtonPanel {
+    position: absolute;
+    white-space: normal;
+    width: 122px;
+    right: 0;
+    padding: 0;
+}
+
+
+.chipPanel {
+	bottom: 15px;
+}
+
+.button-game {
+	height: 30px;
+    margin: 10px;
+    margin-right: 0px;
+    margin-left: 0px;    
+    box-shadow: 0px 0px 7px 0px gold;
+    outline: none;
+    border-radius: 3px;
+}
+
+.button-game-depressed {
+	transform: rotateX(20deg);
+    transform-origin: top;
+}
+
+.button-game-hit {
+    background: linear-gradient(rgba(165, 54, 54, 1), rgba(165, 54, 54, .5));
+    box-shadow: inset 0px 0px 0px, 0px 2px 0px 0px rgba(200, 54, 54, 1), 0px 3px 4px grey;
+}
+
+.button-game-stand {
+	background: linear-gradient(rgba(55, 168, 108, 1), rgba(55, 168, 108, .5));
+	box-shadow: inset 0px 0px 0px, 0px 2px 0px 0px rgba(55, 168, 108, 1), 0px 3px 4px grey;
+}
+
+.button-game-doubleDown {
+	background: linear-gradient(rgba(54, 112, 165, 1), rgba(54, 112, 165, .5));
+	box-shadow: inset 0px 0px 0px, 0px 2px 0px 0px rgba(54, 112, 165, 1), 0px 3px 4px grey;
+}
+
+.button-game-split {
+	background: linear-gradient(rgba(198, 149, 51, 1), rgba(198, 149, 51, .5));
+	box-shadow: inset 0px 0px 0px, 0px 2px 0px 0px rgba(198, 149, 51, 1), 0px 3px 4px grey;
+}
+
+.button-game-insurance {
+	background: linear-gradient(rgba(48, 174, 186, 1), rgba(48, 174, 186, .5));
+	box-shadow: inset 0px 0px 0px, 0px 2px 0px 0px rgba(48, 174, 186, 1), 0px 3px 4px grey;
+}
+
+.button-game-surrender {
+	color: black;
+	background: linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, .5));
+	box-shadow: inset 0px 0px 0px, 0px 2px 0px 0px lightgrey, 0px 3px 4px grey;
+}
+
+.button-game-disabled {
+	color: white;
+	cursor: initial;
+	background: linear-gradient(rgba(196, 196, 196, 1), rgba(196, 196, 196, .5));
+	box-shadow: inset 0px 0px 0px, 0px 2px 0px 0px lightgrey, 0px 3px 4px grey;
+}
+
+.hand-panel {
+    height: 117px;
+    width: 85px;
+    border-radius: 3px;
+    background: radial-gradient(rgba(196, 196, 196, .5), rgba(196, 196, 196, .1));
+    box-shadow: 0 0 7px 0 lightgrey;
+    border: 3px solid gold;
+    text-align: center;
+    position: absolute;
+}
+
+.hand-panel-player {
+    bottom: 155px;
+}
+
+.hand-panel-dealer {
+	top: 20px;
+}
+
+.back-anchor {
+	outline: none;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	margin: 10px;
+	cursor: pointer;
+	text-align: center;
+	width: 50px;
+    height: 50px;
+    background-position-x: 11px;
+}
+
+.back-anchor-icon {
+	border-radius: 50px;
+	background-color: white;
+	background-image: url(img/BackButton.png);
+	height: 60px;
+	width: 60px;
+	background-repeat: no-repeat;
+	background-position: center center;
+	display: inline-block;
+	border: 3px solid black;
+}
+
+.account-anchor {
+	outline: none;
+	position: fixed;
+	top: 0px;
+	right: 0px;
+	margin: 10px;
+	cursor: pointer;
+	width: 100px;
+    text-align: center;
+}
+
+.account-anchor-icon {
+    border-radius: 50px;
+    background-color: white;
+    background-image: url(img/AccountManagementIcon.png);
+    height: 60px;
+    width: 60px;
+    background-size: 75%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    display: inline-block;
+    border: 3px solid black;
+}
+.back-anchor-icon:hover,
+.account-anchor-icon:hover {
+	transform: scale(1.1);
+}
+
+.chipcount {
+	color: gold;
+	font-size: 15px;
+	    background: black;
+    color: gold;
+    border-radius: 3px;
+    border: 3px solid white;
+}
+
+@keyframes coinFlip {
+	from {rotateX(0deg);},
+	to {rotateX(720deg);}
+}
+
+.coin-flip {
+	animation-name: coinFlip;
+	animation-duration: 1s;
+	animation-iteration-count: 1;
 }

@@ -1,21 +1,85 @@
 package com.blackjack.client.ui;
 
+import com.blackjack.client.controls.GameController;
+import com.blackjack.client.controls.UserController;
+import com.blackjack.client.ui.UserMessageBox.MessageType;
 import com.blackjack.shared.entities.Room;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 
+/**
+ * The Dashboard is a panel used to control UI navigation between 
+ * the sections of the application.
+ * 
+ * @author Dave
+ *
+ */
 public class Dashboard extends SimplePanel {
 
+	/**
+	 * A list of views this Dashboard can attach (only 1 can be attached at a time).
+	 */
 	private Panel[] views;
+	
+	/**
+	 * The current view index of the Dashboard. Corresponds with the index of the
+	 * view displayed.
+	 */
 	private int currentViewIndex = 0;
+	
+	private GameController gameController;
+	
+	private UserController userController;
+	
+	/**
+	 * A View for the login.
+	 */
 	private LoginForm loginForm = new LoginForm();
+	
+	/**
+	 * A view for the Forgot Password form.
+	 */
 	private ForgotPasswordForm forgotPasswordForm = new ForgotPasswordForm();
+	
+	/**
+	 * A view for the Create Account Form
+	 */
 	private CreateAccountForm createAccountForm = new CreateAccountForm();
+	
+	/**
+	 * The view for the Room Selection Screen
+	 */
 	private RoomSelectionPanel roomSelectionPanel;
+	
+	/**
+	 * A view for the BlackJack Game Screen.
+	 */
 	private BlackJackGamePanel gamePanel = new BlackJackGamePanel();
 	
+	/**
+	 * Widget used to display Chip Count and quick access to account
+	 * management.
+	 */
+	private AccountAnchor accountAnchor = new AccountAnchor();
 	
+	/**
+	 * Widget user for navigation.
+	 */
+	private BackAnchor backAnchor = new BackAnchor();
+	
+	/**
+	 * Form used for account actions.
+	 */
+	private AccountManagementForm accountManagementForm = new AccountManagementForm();
+	
+	/**
+	 * Default constructor
+	 */
 	public Dashboard() {
+		//Create the views
 		loginForm = new LoginForm();
 		forgotPasswordForm = new ForgotPasswordForm();
 		createAccountForm = new CreateAccountForm();
@@ -33,10 +97,28 @@ public class Dashboard extends SimplePanel {
 		
 		gamePanel = new BlackJackGamePanel();
 		
+		//Add the views to the array
 		views = new Panel[] {loginForm, forgotPasswordForm, createAccountForm, roomSelectionPanel, gamePanel};
 		
 		//Force the dashboard to load the first page.
 		retreat();
+		
+		backAnchor.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				retreat();
+			}
+		});
+		
+		accountAnchor.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				loadView(accountManagementForm);
+			}
+			
+		});
 	}
 	
 	//TODO Remove test
@@ -53,9 +135,70 @@ public class Dashboard extends SimplePanel {
 	}
 	//TODO end remove test
 	
+	/**
+	 * Loads a view as the current view to this dashboard.
+	 * @param view
+	 */
 	public void loadView(Panel view) {
+		boolean displayAccountAnchor = false;
+		boolean displayBackAnchor = false;
+		if (view.getClass() == RoomSelectionPanel.class 
+				|| view.getClass() == BlackJackGamePanel.class){
+			displayAccountAnchor = true;
+		} 
+		if (view.getClass() == BlackJackGamePanel.class 
+				|| view.getClass() == AccountManagementForm.class) {
+			displayBackAnchor = true;
+		}
+		this.displayAccountAnchor(displayAccountAnchor);
+		this.displayBackAnchor(displayBackAnchor);
 		this.clear();
 		this.add(view);
+	}
+	
+	/**
+	 * Displays or hides the account anchor.
+	 * @param display if true, the account anchor will be displayed. if false, the 
+	 * account anchor will be removed from the screen.
+	 */
+	public void displayAccountAnchor(boolean display) {
+		boolean anchorAttached = RootPanel.get().getWidgetIndex(accountAnchor) > -1;
+		if (display) {
+			if (!anchorAttached) {
+				RootPanel.get().add(accountAnchor);
+			}
+		} else {
+			if (anchorAttached) {
+				RootPanel.get().remove(accountAnchor);
+			}
+		}
+	}
+	
+	/**
+	 * Displays or hides the back anchor.
+	 * @param display if true, the back anchor will be displayed. if false, the 
+	 * back anchor will be removed from the screen.
+	 */
+	public void displayBackAnchor(boolean display) {
+		boolean anchorAttached = RootPanel.get().getWidgetIndex(backAnchor) > -1;
+		if (display) {
+			if (!anchorAttached) {
+				RootPanel.get().add(backAnchor);
+			}
+		} else {
+			if (anchorAttached) {
+				RootPanel.get().remove(backAnchor);
+			}
+		}
+	}
+	
+	/**
+	 * Displays a message to the user of the application
+	 * @param type the type of message to display
+	 * @param message the message to display
+	 */
+	public void displayMessage(MessageType type, String message) {
+		
 	}
 
 	/**

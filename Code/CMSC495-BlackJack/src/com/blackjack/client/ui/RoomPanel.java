@@ -25,6 +25,7 @@ public class RoomPanel extends SimplePanel {
 		this.room = room;
 		this.setStyleName("modal");
 		this.addStyleDependentName("left");
+		this.addStyleDependentName("headerless");
 		this.addStyleName("roomPanel");
 		
 		difficultyLabel = new Label(room.getStakes().getStakesString());

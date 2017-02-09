@@ -1,11 +1,6 @@
 package com.blackjack.client.ui;
 
-import com.blackjack.client.entities.Card;
-import com.blackjack.client.entities.Card.Set;
-import com.blackjack.client.entities.Deck;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
+import com.blackjack.client.entities.Hand.HandType;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
@@ -13,80 +8,82 @@ import com.google.gwt.user.client.ui.SimplePanel;
 
 public class BlackJackGamePanel extends SimplePanel {
 
-	private Deck deck = new Deck(Set.ONE, 1, false);
+	private FlowPanel content;
+	private GameButton insuranceButton;
+	private GameButton doubleDownButton;
+	private GameButton hitButton;
+	private GameButton standButton;
+	private GameButton splitButton;
+	private GameButton surrenderButton;
+	private ChipButton chip1;
+	private ChipButton chip5;
+	private ChipButton chip10;
+	private ChipButton chip25;
+	private ChipButton chip50;
+	private ChipButton chip100;
+	
 	
 	public BlackJackGamePanel() {
 		this.setStylePrimaryName("modal");
 		this.addStyleName("centered");
-		this.setHeight("500px");
-		this.setWidth("500px");
+		this.addStyleDependentName("game");
+		this.setHeight("100%");
+		this.setWidth("100%");
 		
-		FlowPanel panel = new FlowPanel();
-		panel.setStyleName("centered");
+		content = new FlowPanel();
+		FlowPanel buttonPanel = new FlowPanel();
+		buttonPanel.setStylePrimaryName("gameButtonPanel");
 		
-		//TODO Remove temporary for testing drawing cards
-		Label label = new Label("Card Drawn: ");
-		label.setStylePrimaryName("label");
-		label.addStyleDependentName("white");
+		GameButton insuranceButton = new GameButton(GameButton.GameButtonType.INSURANCE);
+		GameButton doubleDownButton = new GameButton(GameButton.GameButtonType.DOUBLE_DOWN);
+		GameButton hitButton = new GameButton(GameButton.GameButtonType.HIT);
+		GameButton standButton = new GameButton(GameButton.GameButtonType.STAND);
+		GameButton splitButton = new GameButton(GameButton.GameButtonType.SPLIT);
+		GameButton surrenderButton = new GameButton(GameButton.GameButtonType.SURRENDER);
 		
-		final Label cardLabel = new Label();
-		cardLabel.setStylePrimaryName("label");
-		cardLabel.addStyleDependentName("white");
+		buttonPanel.add(surrenderButton);
+		buttonPanel.add(insuranceButton);
+		buttonPanel.add(doubleDownButton);
+		buttonPanel.add(splitButton);
+		buttonPanel.add(hitButton);
+		buttonPanel.add(standButton);
 		
-		final CardUI cardUI = new CardUI();
+		FlowPanel playerHandPanel = new HandPanel(HandType.PLAYER);
+		FlowPanel dealerHandPanel = new HandPanel(HandType.DEALER);
 		
-		Button drawButton = new Button("Draw New Card");
-		drawButton.setStylePrimaryName("button");
-		drawButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				Card card = deck.draw();
-				if (card == null) {
-					cardLabel.setText("No more cards");
-					cardUI.setFaceUp(false);
-					return;
-				}
-				cardUI.setCard(card);
-				cardUI.setFaceUp(true);
-				cardLabel.setText(card.getSuitName() + " " + card.getRankName());
-			}
-		});
+		FlowPanel chipPanel = new FlowPanel();
+		chipPanel.setStylePrimaryName("chipPanel");
 		
-		Button newDeckButton = new Button("New Deck");
-		newDeckButton.setStylePrimaryName("button");
-		newDeckButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				deck = new Deck(Set.ONE, 1, false);
-			}
-			
-		});
+		Label betLabel = new Label("Current Bet ");
+		betLabel.setStylePrimaryName("label");
+		betLabel.addStyleDependentName("goldFont");
+		betLabel.addStyleDependentName("underline");
 		
-		Button shuffleDeck = new Button("Shuffle Deck");
-		shuffleDeck.setStylePrimaryName("button");
-		shuffleDeck.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				deck.shuffleDeck();
-			}
-			
-		});
-		//END TODO REMOVE
+		Label betLabelValue = new Label("$0");
+		betLabelValue.setStylePrimaryName("label");
+		betLabelValue.addStyleDependentName("goldFont");
 		
-		panel.add(label);
-		panel.add(new HTML("<br/>"));
-		panel.add(cardLabel);
-		panel.add(new HTML("<br/>"));
-		panel.add(cardUI);
-		panel.add(new HTML("<br/>"));
-		panel.add(drawButton);
-		panel.add(new HTML("<br/>"));
-		panel.add(newDeckButton);
-		panel.add(new HTML("<br/>"));
-		panel.add(shuffleDeck);
-		this.add(panel);
+		ChipButton chip1 = new ChipButton(ChipButton.ChipValue.ONE);
+		ChipButton chip5 = new ChipButton(ChipButton.ChipValue.FIVE);
+		ChipButton chip25 = new ChipButton(ChipButton.ChipValue.TWENTY_FIVE);
+		ChipButton chip50 = new ChipButton(ChipButton.ChipValue.FIFTY);
+		ChipButton chip100 = new ChipButton(ChipButton.ChipValue.ONE_HUNDERED);
+		
+		chipPanel.add(betLabel);
+		chipPanel.add(new HTML("<br/>"));
+		chipPanel.add(betLabelValue);
+		chipPanel.add(new HTML("<br/>"));
+		chipPanel.add(chip1);
+		chipPanel.add(chip5);
+		chipPanel.add(chip25);
+		chipPanel.add(chip50);
+		chipPanel.add(chip100);
+		
+		content.add(buttonPanel);
+		content.add(playerHandPanel);
+		content.add(dealerHandPanel);
+		content.add(chipPanel);
+		
+		this.add(content);
 	}
 }

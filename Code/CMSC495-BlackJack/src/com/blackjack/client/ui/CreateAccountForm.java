@@ -70,7 +70,7 @@ public class CreateAccountForm extends FormPanel {
 		createAccountButton = new Button("Create");
 		createAccountButton.setStylePrimaryName("button");
 		createAccountButton.addStyleDependentName("green");
-		createAccountButton.setWidth("298px");
+		createAccountButton.setWidth("311px");
 		
 		createAccountButton.addClickHandler(new ClickHandler() {
 
@@ -84,7 +84,7 @@ public class CreateAccountForm extends FormPanel {
 		cancelButton = new Button("Cancel");
 		cancelButton.setStylePrimaryName("button");
 		cancelButton.addStyleDependentName("red");
-		cancelButton.setWidth("298px");
+		cancelButton.setWidth("311px");
 		
 		panel.add(new ModalHeader("Create Account"));
 		panel.add(userNameLabel);
@@ -103,5 +103,21 @@ public class CreateAccountForm extends FormPanel {
 		panel.add(new HTML("<br/>"));
 		panel.add(cancelButton);
 		this.add(panel);
+	}
+	
+	public TextBox getUserNameTextBox() {
+		return userNameTextBox;
+	}
+	
+	public TextBox getEmailTextBox() {
+		return emailTextBox;
+	}
+	
+	public TextBox getConfirmPasswordTextBox() {
+		return confirmPasswordTextBox;
+	}
+	
+	public Button getCancelButton() {
+		return cancelButton;
 	}
 }

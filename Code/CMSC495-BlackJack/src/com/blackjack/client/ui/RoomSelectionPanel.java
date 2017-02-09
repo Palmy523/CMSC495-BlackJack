@@ -14,18 +14,19 @@ public class RoomSelectionPanel extends FlowPanel {
 		this.rooms = rooms;
 		this.roomPanels = new RoomPanel[rooms.length];
 		this.setStyleName("centered");
-		this.setWidth("640px");
+		this.setWidth("551px");
 		
 		FlowPanel roomPanelWrapper = new FlowPanel();
 		roomPanelWrapper.setStyleName("roomSelectionPanel");
-		roomPanelWrapper.setWidth("640px");
+		roomPanelWrapper.setWidth("551px");
 		
 		FlowPanel optionsPanel = new FlowPanel();
 		optionsPanel.setStylePrimaryName("modal");
 		optionsPanel.addStyleDependentName("left");
-		optionsPanel.setWidth("578px");
+		optionsPanel.addStyleDependentName("headerless");
+		optionsPanel.setWidth("520px");
 		
-		difficultyCheckBox = new CheckBox("Extreme Play (Dealer plays odds, earnings x1.5)");
+		difficultyCheckBox = new CheckBox("Easy Play (Both Dealer's cards are face up, earnings lowered.)");
 		difficultyCheckBox.setStylePrimaryName("label");
 		difficultyCheckBox.addStyleDependentName("white");
 		
@@ -39,8 +40,8 @@ public class RoomSelectionPanel extends FlowPanel {
 			}
 		}
 		
+		
 		optionsPanel.add(difficultyCheckBox);
-		this.add(new ModalHeader("Select a room to play"));
 		this.add(roomPanelWrapper);
 		this.add(optionsPanel);
 	}

@@ -1,5 +1,7 @@
 package com.blackjack.shared;
 
+import com.google.gwt.regexp.shared.RegExp;
+
 /**
  * <p>
  * FieldVerifier validates that the name the user enters is valid.
@@ -22,21 +24,45 @@ package com.blackjack.shared;
  */
 public class FieldVerifier {
 
-	/**
-	 * Verifies that the specified name is valid for our service.
-	 * 
-	 * In this example, we only require that the name is at least four
-	 * characters. In your application, you can use more complex checks to ensure
-	 * that usernames, passwords, email addresses, URLs, and other fields have the
-	 * proper syntax.
-	 * 
-	 * @param name the name to validate
-	 * @return true if valid, false if invalid
-	 */
-	public static boolean isValidName(String name) {
-		if (name == null) {
-			return false;
+	public static String USER_REGEX_ERROR = "Sorry, the username can only contain characters"
+			+ " A-Z, a-z,0-9, and '_'. Please enter a valid username.";
+	public static String USER_LENGTH_ERROR = "Sorry, the username can only be between 3 "
+			+ " and 16 characters in length. Please enter a valid username.";
+	public static String PASSWORD_REGEX_ERROR = "Sorry, the password contains illegal characters. "
+			+ " Passwords can only contain A-Z, a-z, 0-9, and special characters !@#$%^&*()";
+	public static String PASSWORD_LENGTH_ERROR = "Sorry, the password does not meet the length "
+			+ " requirements. Passwords can only be between 8-16 characters in length.";
+	public static String EMAIL_ADDRESS_ERROR = "Sorry, the email address is invalid.";
+	
+	public enum FormatError {WHITE_SPACE, LENGTH, INVALID_CHARACTER, NONE, INVALID_FORMAT }
+	public static RegExp usernameRegex = RegExp.compile("/^[A-Za-z0-9_]$");
+	public static RegExp passwordRegex = RegExp.compile("/^[A-Za-z0-9!@#$%^&*()]$");
+	public static RegExp emailRegex = RegExp.compile("/\\S+@\\S+\\.\\S+/");
+	
+	public static FormatError isValidUsername(String name) {
+		if (name.length() < 3 || name.length() > 16) {
+			return FormatError.LENGTH;
 		}
-		return name.length() > 3;
+		if (usernameRegex.test(name)) {
+			return FormatError.INVALID_CHARACTER;
+		}
+		return FormatError.NONE;
+	}
+	
+	public static FormatError isValidPassword(String password) {
+		if (password.length() < 8 || password.length() > 16) {
+			return FormatError.LENGTH;
+		}
+		if (!passwordRegex.test(password)) {
+			return FormatError.INVALID_CHARACTER;
+		}
+		return FormatError.NONE;
+	}
+	
+	public static FormatError isValidEmail(String email) {
+		if (!emailRegex.test(email)) {
+			return FormatError.INVALID_FORMAT;
+		}
+		return FormatError.NONE;
 	}
 }

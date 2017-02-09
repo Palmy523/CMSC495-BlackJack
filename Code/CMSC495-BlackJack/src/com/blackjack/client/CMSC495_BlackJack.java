@@ -1,5 +1,7 @@
 package com.blackjack.client;
 
+import com.blackjack.client.sounds.SoundManager;
+import com.blackjack.client.sounds.SoundManager.SoundName;
 import com.blackjack.client.ui.Dashboard;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -28,7 +30,7 @@ public class CMSC495_BlackJack implements EntryPoint {
 		Button advance = new Button("Next Page");
 		advance.setStylePrimaryName("button");
 		advance.addStyleDependentName("green");
-		advance.addStyleDependentName("right");
+		advance.addStyleDependentName("middle");
 		advance.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -52,10 +54,24 @@ public class CMSC495_BlackJack implements EntryPoint {
 			
 		});
 		
+		Button playSound = new Button("Play a Sound");
+		playSound.setStylePrimaryName("button");
+		playSound.addStyleDependentName("red");
+		playSound.addStyleDependentName("right");
+		playSound.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				SoundManager.play(SoundName.FAN1);
+			}
+			
+		});
+		
+		
 		buttonPanel.add(retreat);
 		buttonPanel.add(advance);
-		
-		dashboard.getRoomSelectionPanel().enableRoom(2, false);
+		buttonPanel.add(playSound);
 		
 		RootPanel.get().add(dashboard);
 		RootPanel.get().add(buttonPanel);
