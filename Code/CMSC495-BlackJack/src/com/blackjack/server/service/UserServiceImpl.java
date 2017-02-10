@@ -103,7 +103,7 @@ public class UserServiceImpl extends RemoteServiceServlet implements UserService
 		
 		String confirmationKey = UserControllerServer.createTemporaryEmailUpdateKey(userID);
 		
-		if(UserControllerServer.createTemporaryEmail(userID, newEmail))
+		if(!UserControllerServer.createTemporaryEmail(userID, newEmail))
 			updateEmailEvent.setSuccess(false);
 
 				
@@ -150,7 +150,4 @@ public class UserServiceImpl extends RemoteServiceServlet implements UserService
 	public void initDB() {
 		ConnectionService.initDB();
 	}
-	
-	
-
 }
