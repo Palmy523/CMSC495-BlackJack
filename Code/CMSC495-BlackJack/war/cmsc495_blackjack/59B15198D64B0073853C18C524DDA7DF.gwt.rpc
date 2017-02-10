@@ -1,0 +1,17 @@
+@FinalFields, false
+com.blackjack.client.service.UserService, false, false, false, false, _, 656604808
+com.blackjack.shared.entities.User, true, true, false, false, com.blackjack.shared.entities.User/3025442161, 3025442161
+com.blackjack.shared.events.ConfirmEmailEvent, true, true, false, false, com.blackjack.shared.events.ConfirmEmailEvent/1050428621, 1050428621
+com.blackjack.shared.events.CreateAccountEvent, true, true, false, false, com.blackjack.shared.events.CreateAccountEvent/3825091132, 3825091132
+com.blackjack.shared.events.LoginEvent, true, true, false, false, com.blackjack.shared.events.LoginEvent/2570823844, 2570823844
+com.blackjack.shared.events.ResetPasswordEvent, true, true, false, false, com.blackjack.shared.events.ResetPasswordEvent/2615308673, 2615308673
+com.blackjack.shared.events.UpdateChipEvent, true, true, false, false, com.blackjack.shared.events.UpdateChipEvent/3050664906, 3050664906
+com.blackjack.shared.events.UpdateEmailEvent, true, true, false, false, com.blackjack.shared.events.UpdateEmailEvent/1818519405, 1818519405
+com.blackjack.shared.events.UpdatePasswordEvent, true, true, false, false, com.blackjack.shared.events.UpdatePasswordEvent/1207011211, 1207011211
+com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException, true, true, true, true, com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException/3936916533, 3936916533
+com.google.gwt.user.client.rpc.RpcTokenException, true, true, false, false, com.google.gwt.user.client.rpc.RpcTokenException/2345075298, 2345075298
+com.google.gwt.user.client.rpc.XsrfToken, false, false, true, true, com.google.gwt.user.client.rpc.XsrfToken/4254043109, 4254043109
+java.lang.Exception, true, false, true, false, java.lang.Exception/1920171873, 1920171873
+java.lang.RuntimeException, true, false, true, false, java.lang.RuntimeException/515124647, 515124647
+java.lang.String, true, true, true, true, java.lang.String/2004016611, 2004016611
+java.lang.Throwable, true, false, true, false, java.lang.Throwable/2953622131, 2953622131

@@ -2,6 +2,7 @@ package com.blackjack.server.service;
 
 import com.blackjack.client.service.UserService;
 import com.blackjack.server.controller.UserControllerServer;
+import com.blackjack.shared.entities.User;
 import com.blackjack.shared.events.ConfirmEmailEvent;
 import com.blackjack.shared.events.CreateAccountEvent;
 import com.blackjack.shared.events.LoginEvent;
@@ -22,12 +23,20 @@ public class UserServiceImpl extends RemoteServiceServlet implements UserService
 	public LoginEvent login(String username, String password) {
 				
 		LoginEvent loginEvent = new LoginEvent();
+		loginEvent.setSuccess(false);
+		
+		if (!UserControllerServer.userNameExists(username)) {
+			loginEvent.setUsernameInvalid(true);
+			return loginEvent;
+		}
+		
+		User user = UserControllerServer.login(username, password);
+		if (loginEvent.getUser() == null) {
+			return loginEvent;
+		}
+		
 		loginEvent.setSuccess(true);
-		
-		
-		if(loginEvent.isSuccess())
-			loginEvent.setUser(UserControllerServer.login(username, password));
-
+		loginEvent.setUser(user);
 		return loginEvent;		
 		
 	}
@@ -81,10 +90,16 @@ public class UserServiceImpl extends RemoteServiceServlet implements UserService
 			resetPasswordEvent.setSuccess(false);			
 		}
 		
-		if(resetPasswordEvent.isSuccess())
-			UserControllerServer.resetPassword(email);
+		String tempPassword = null;
+		if(resetPasswordEvent.isSuccess()) {
+			tempPassword = UserControllerServer.resetPassword(email);
+		}
 		
-		String tempPassword = UserControllerServer.createRandomKey();
+		if (tempPassword == null || tempPassword.equals("")) {
+			resetPasswordEvent.setSuccess(false);
+			return resetPasswordEvent;
+		}
+		
 		if (!EmailService.sendTemporaryPassword(email, tempPassword))
 		{
 			resetPasswordEvent.setPasswordSendSuccess(false);

@@ -19,7 +19,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class UserController {
 
-	public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred, please try again later";
+public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred, please try again later";
 	
 	private Dashboard dashboard;
 	private User user;
@@ -60,11 +60,21 @@ public class UserController {
 		service.login(username, password, callback);
 	}
 	
+	/**
+	 * Navigates to the Room Selection Screen on login success
+	 * 
+	 * @param event
+	 */
 	public void onLoginSuccess(LoginEvent event) {
 		dashboard.displayRoomSelectionScreen();
 		user = event.getUser();
 	}
 	
+	/**
+	 * Display error on login failure
+	 * 
+	 * @param event
+	 */
 	public void onLoginFailure(LoginEvent event) {
 		String message = "";
 		if (event.isUsernameInvalid()) {
@@ -132,7 +142,7 @@ public class UserController {
 	}
 	
 	/**
-	 * Method to perform when login is a success.
+	 * Method to perform account creation is successful.
 	 * 
 	 * @param event the loginEvent that prompted the login
 	 */
@@ -142,6 +152,11 @@ public class UserController {
 				+ "please Login to play.");
 	}
 	
+	/**
+	 * Method to perform when account creation is a failure.
+	 * 
+	 * @param event
+	 */
 	public void onCreateAccountFailure(CreateAccountEvent event) {
 		String errorMessage = "An error occurred";
 		if (event.isUserNameTaken()) {
@@ -152,6 +167,10 @@ public class UserController {
 		dashboard.displayMessage(MessageType.INFO, errorMessage);
 	}
 	
+	/**
+	 * Resets a password for the user with the supplied email address.
+	 * @param emailAddress the email adress of the user to reset the pasword for.
+	 */
 	public void resetPassword(String emailAddress) {
 		
 		if (FieldVerifier.isValidEmail(emailAddress) == FormatError.INVALID_FORMAT) {
@@ -178,16 +197,22 @@ public class UserController {
 			
 		};
 		service.resetPassword(emailAddress, callback);
-		
-		//Call the UserService to reset the password
-		
 	}
 	
+	/**
+	 * Method to perform when reset password is success
+	 * 
+	 * @param event
+	 */
 	public void onResetPasswordSuccess(ResetPasswordEvent event) {
 		dashboard.displayMessage(MessageType.INFO, "An email has been sent to the supplied email address with " 
 					+ "a temporary password.");
 	}
 	
+	/**
+	 * Method to perform when a password reset fails
+	 * @param event
+	 */
 	public void onResetPasswordFailure(ResetPasswordEvent event) {
 		if (event.isEmailInvalid()) {
 			dashboard.displayMessage(MessageType.INFO, "The email address you supplied is not in our system, "
@@ -195,49 +220,190 @@ public class UserController {
 		}
 	}
 	
-	public void updatEmail(String userID, String newEmailAddress) {
-		//TODO verify new email format
-		
-		//TODO call the UserService to perform the update
-		
-	}
-	
-	public void onUpdateEmailSuccess() {
-		//TODO display the confirmation text box for entry of the 
-		//confirmation key sent to email
-	}
-	
-	public void onUpdateEmailFailure(UpdateEmailEvent event) {
-		//TODO display error
-	}
-	
-	
-	public void confirmEmail(String userID, String confirmationKey) {
-		//TODO very confirmation key format
-		
-		//TODO call the UserService
-	}
-	
-	public void onConfirmEmailSuccess() {
-		//TODO display success message, remove confirmation screen
-	}
-	
-	public void onConfirmEmailFailure(ConfirmEmailEvent event) {
-		//TODO display an error message
-	}
-	
-	public void updatePassword(String currentPassword, String oldPassword) {
+	/**
+	 * Calls the server to update the email address for the userID and 
+	 * @param userID
+	 * @param newEmailAddress
+	 */
+	public void updatEmail(String newEmailAddress) {
 		checkLogin();
-		//TODO verify password formats are correct
-		//TODO send action to userservice
+		if (!isUserLoggedIn()) {
+			return;
+		}
+			
+		if (FieldVerifier.isValidEmail(newEmailAddress) == FormatError.INVALID_FORMAT) {
+			dashboard.displayMessage(MessageType.ERROR, FieldVerifier.EMAIL_ADDRESS_ERROR);
+			return;
+		}
+		
+		AsyncCallback<UpdateEmailEvent> callback = new AsyncCallback<UpdateEmailEvent>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				dashboard.displayMessage(MessageType.ERROR, COMM_FAILURE_MESSAGE);
+			}
+
+			@Override
+			public void onSuccess(UpdateEmailEvent result) {
+				if (result.isSuccess()) {
+					onUpdateEmailSuccess(result);
+				} else {
+					onUpdateEmailFailure(result);
+				}
+			}
+
+        };
+
+		String userID = String.valueOf(user.getUserID());
+		service.updateEmail(userID, newEmailAddress, callback);
 	}
 	
+	/**
+	 * Method to perform when email update is a success, display the confirmaiton box
+	 * 
+	 * @param event
+	 */
+	public void onUpdateEmailSuccess(UpdateEmailEvent event) {
+		dashboard.displayEmailConfirmationPanel(true);
+	}
+	
+	/**
+	 * Method to perform when email update fails, display error
+	 * @param event
+	 */
+	public void onUpdateEmailFailure(UpdateEmailEvent event) {
+		dashboard.displayMessage(MessageType.INFO, "Email update failed!");
+	}
+	
+	
+	/**
+	 * Confirms the email update process using the supplied confirmation key
+	 * 
+	 * @param confirmationKey
+	 */
+	public void confirmEmail(String confirmationKey) {
+		checkLogin();
+		if (!isUserLoggedIn()) {
+			return;
+		}
+		
+		FormatError error = FieldVerifier.isValidPassword(confirmationKey);
+		if (error == FormatError.INVALID_CHARACTER || error == FormatError.LENGTH) {
+			dashboard.displayMessage(MessageType.ERROR, "Sorry, the confimation key you entered is not valid");
+			return;
+		}
+	
+		String userId = String.valueOf(user.getUserID());
+		AsyncCallback<ConfirmEmailEvent> callback = new AsyncCallback<ConfirmEmailEvent>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				dashboard.displayMessage(MessageType.ERROR, COMM_FAILURE_MESSAGE);
+			}
+
+			@Override
+			public void onSuccess(ConfirmEmailEvent result) {
+				if (result.isSuccess()) {
+					onConfirmEmailSuccess(result);
+				} else {
+					onConfirmEmailFailure(result);
+				}
+			}
+		};
+		
+	}
+	
+	/**
+	 * Method to perform when confirmation of email is a success, close the confirmation panel
+	 * @param result
+	 */
+	public void onConfirmEmailSuccess(ConfirmEmailEvent result) {
+		dashboard.displayMessage(MessageType.INFO, "Your email has been updated successfully");
+		dashboard.displayEmailConfirmationPanel(false);
+	}
+	
+	/**
+	 * Method to perform when confirmation of email fails, display error message
+	 * @param event
+	 */
+	public void onConfirmEmailFailure(ConfirmEmailEvent event) {
+		dashboard.displayMessage(MessageType.INFO, "Email update failed!");
+	}
+	
+	/**
+	 * Updates the password for the logged in user.
+	 * 
+	 * @param currentPassword the current password of the user
+	 * @param newPassword the new password to update the password with
+	 * @param confirmNewPassword the confirmed password that matches the new password
+	 */
+	public void updatePassword(String currentPassword, String newPassword, String confirmNewPassword) {
+		checkLogin();
+		if (!isUserLoggedIn()) {
+			return;
+		}
+		
+		if (!(newPassword.equals(confirmNewPassword))) {
+			dashboard.displayMessage(MessageType.ERROR, "The new passwords do not match");
+			return;
+		}
+		
+		if(FieldVerifier.isValidPassword(currentPassword) == FormatError.LENGTH 
+				|| FieldVerifier.isValidPassword(currentPassword) == FormatError.INVALID_CHARACTER) {
+			dashboard.displayMessage(MessageType.ERROR, "The current password is invalid");
+			return;
+		}
+		
+		if(FieldVerifier.isValidPassword(currentPassword) == FormatError.LENGTH) {
+			dashboard.displayMessage(MessageType.ERROR, FieldVerifier.PASSWORD_LENGTH_ERROR);
+			return;
+		}
+		
+		if (FieldVerifier.isValidPassword(currentPassword) == FormatError.INVALID_CHARACTER) {
+			dashboard.displayMessage(MessageType.ERROR, FieldVerifier.PASSWORD_REGEX_ERROR);
+		}
+		
+		String userID = String.valueOf(user.getUserID());
+		AsyncCallback callback = new AsyncCallback<UpdatePasswordEvent>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				dashboard.displayMessage(MessageType.ERROR, COMM_FAILURE_MESSAGE);
+			}
+
+			@Override
+			public void onSuccess(UpdatePasswordEvent result) {
+				if (result.isSuccess()) {
+					onUpdatePasswordSuccess(result);
+				} else {
+					onUpdatePasswordFailure(result);
+				}
+			}
+		};
+		
+		service.updatePassword(userID, currentPassword, confirmNewPassword, callback);
+	}
+	
+	/**
+	 * Method to perform when updating a password is a success, display success message
+	 * @param event
+	 */
 	public void onUpdatePasswordSuccess(UpdatePasswordEvent event) {
-		//TODO display success message
+		dashboard.displayMessage(MessageType.INFO, "Your password has been successfully updated!");
 	}
-	
+
+	/**
+	 * Method to perform when updating a password has failed, display an error message.
+	 * @param event
+	 */
 	public void onUpdatePasswordFailure(UpdatePasswordEvent event) {
-		//TODO display error message
+		//TODO display appropriate message
+		if (event.isWrongCurrentPassword()) {
+			dashboard.displayMessage(MessageType.ERROR, "The current password supplied is incorrect");
+		} else {
+			dashboard.displayMessage(MessageType.INFO, "Something went wrong when updating your password, "
+        		+ "please try again later");       
+		}
 	}
 	
 	/**

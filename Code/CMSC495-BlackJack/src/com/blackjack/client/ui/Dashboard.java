@@ -152,6 +152,10 @@ public class Dashboard extends SimplePanel {
 		this.loadView(loginForm);
 	}
 	
+	public void displayEmailConfirmationPanel(boolean display) {
+		//TODO display the email confirmation panel
+	}
+	
 	/**
 	 * Display the create account screen
 	 */

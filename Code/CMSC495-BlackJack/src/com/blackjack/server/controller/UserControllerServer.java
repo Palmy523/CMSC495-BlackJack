@@ -27,7 +27,6 @@ public class UserControllerServer {
 	 */
 	public static User login(String username, String password) {
 		password = MD5EncryptionService.encrypt(password);
-		
 		User user;
 		Connection conn = ConnectionService.getConnection();
 		PreparedStatement ps = null;
