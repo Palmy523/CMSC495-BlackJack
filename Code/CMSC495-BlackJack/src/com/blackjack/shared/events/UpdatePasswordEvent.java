@@ -9,6 +9,8 @@ public class UpdatePasswordEvent extends GwtEvent<UpdatePasswordHandler> impleme
 
 	public static Type<UpdatePasswordHandler> TYPE = new Type<UpdatePasswordHandler>();
 	
+	private boolean isSuccess;
+		
 	@Override
 	public com.google.gwt.event.shared.GwtEvent.Type<UpdatePasswordHandler> getAssociatedType() {
 		return TYPE;
@@ -18,5 +20,17 @@ public class UpdatePasswordEvent extends GwtEvent<UpdatePasswordHandler> impleme
 	protected void dispatch(UpdatePasswordHandler handler) {
 		handler.onUpdatePassword(this);
 	}
+
+	public boolean isSuccess()
+	{
+		return isSuccess;
+	}
+
+	public void setSuccess(boolean isSuccess)
+	{
+		this.isSuccess = isSuccess;
+	}
+	
+	
 
 }

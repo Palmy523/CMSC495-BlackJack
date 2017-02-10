@@ -82,8 +82,7 @@ public class UserServiceImpl extends RemoteServiceServlet implements UserService
 		if(UserControllerServer.userNameExists(username))
 		{
 			createAccountEvent.setUserNameInvalid(true);
-			//TODO improve error message
-			createAccountEvent.setErrorString(createAccountEvent.getErrorString() + " " + "userName exists" + "\r\n");
+			createAccountEvent.setErrorString(createAccountEvent.getErrorString() + " " + "This user name is already in use." + "\r\n");
 			createAccountEvent.setSuccess(false);
 		}
 			
@@ -110,8 +109,7 @@ public class UserServiceImpl extends RemoteServiceServlet implements UserService
 		if(UserControllerServer.emailExists(email))
 		{
 			createAccountEvent.setEmailInvalid(true);
-			//TODO improve error message
-			createAccountEvent.setErrorString(createAccountEvent.getErrorString() + " " + "duplicate email" + "\r\n");
+			createAccountEvent.setErrorString(createAccountEvent.getErrorString() + " " + "There is already an account that uses this email address." + "\r\n");
 			createAccountEvent.setSuccess(false);
 		}
 		
@@ -121,26 +119,26 @@ public class UserServiceImpl extends RemoteServiceServlet implements UserService
 		return createAccountEvent;	
 	}
 	
-	public UpdateChipEvent updateChipCount(String userID, int amount) {
-		//TODO verify the update???
-		
+	public UpdateChipEvent updateChipCount(String userID, int amount) 
+	{
 		UpdateChipEvent updateChipEvent = new UpdateChipEvent();
 		updateChipEvent.setSuccess(true);
 		
+		if(!UserControllerServer.userExists(userID))
+			updateChipEvent.setSuccess(false);
 		
 		if(updateChipEvent.isSuccess())
 			UserControllerServer.updateChipCount(userID, amount);
 		
-		return null;
+		return updateChipEvent;
 	}
 	
 	public ResetPasswordEvent resetPassword(String email) {
-		//TODO verify email format use Field Verifier
 		
 		ResetPasswordEvent resetPasswordEvent = new ResetPasswordEvent();
 		resetPasswordEvent.setSuccess(true);
 		
-		if(FieldVerifier.isValidEmail(email) != FormatError.INVALID_FORMAT)
+		if(FieldVerifier.isValidEmail(email) == FormatError.INVALID_FORMAT)
 		{
 			resetPasswordEvent.setEmailInvalid(true);
 			resetPasswordEvent.setErrorString(resetPasswordEvent.getErrorString() + " " + FieldVerifier.EMAIL_ADDRESS_ERROR + "\r\n");
@@ -149,40 +147,66 @@ public class UserServiceImpl extends RemoteServiceServlet implements UserService
 		
 		if(UserControllerServer.emailExists(email))
 		{
-			UserControllerServer.resetPassword(email);
+			if(!UserControllerServer.resetPassword(email))
+			{
+				resetPasswordEvent.setSuccess(false);
+			}
 		}
 		
-		//TODO send an email with temporary password to the email with EmailService
-		//resetPasswordEvent.setPasswordSendSuccess(true);
+		String tempPassword = UserControllerServer.createTemporaryPassword(email);
+		if (!EmailService.sendTemporaryPassword(email, tempPassword))
+		{
+			resetPasswordEvent.setPasswordSendSuccess(false);
+		}
 		
 		return resetPasswordEvent;
 	}
 	
 	public UpdateEmailEvent updateEmail(String userID, String newEmail) {
-		//TODO check that the user exists by userID
+				
+		UpdateEmailEvent updateEmailEvent = new UpdateEmailEvent();
+		updateEmailEvent.setSuccess(true);
 		
-		//TODO put the newEmail address as the temp email
+		if(!UserControllerServer.userExists(userID))
+			updateEmailEvent.setSuccess(false);
 		
-		//TODO create a temporary key and store in DB using controller
+		String confirmationKey = UserControllerServer.createTemporaryEmailUpdateKey(userID);
 		
-		//TODO send email with confirmation key
+		if(UserControllerServer.createTemporaryEmail(userID, newEmail))
+			updateEmailEvent.setSuccess(false);
+
+				
+		if(!EmailService.sendEmailUpdateKey(newEmail, confirmationKey))
+			updateEmailEvent.setSuccess(false);
 		
-		//TODO return the UpdateEMailEvent with proper data
-		return null;
+		if(!UserControllerServer.performEmailUpdate(userID))
+			updateEmailEvent.setSuccess(false);
+		
+		return updateEmailEvent;
 	}
 	
 	public ConfirmEmailEvent confirmEmail(String userID, String confirmationKey) {
-		//TODO check that user exists using controller
+				
+		ConfirmEmailEvent confirmEmailEvent = new ConfirmEmailEvent();
 		
-		//TODO check that the key matches the key in the DB for the userID using the controller
+		if(!UserControllerServer.userExists(userID))
+			confirmEmailEvent.setSuccess(false);
 		
-		//TODO perform the update if it does
 		
-		//TODO return ConfirmEmailEvent with proper data
-		return null;
+		if(!UserControllerServer.confirmationKeyMatches(confirmationKey))
+			confirmEmailEvent.setSuccess(false);
+		
+		if(!UserControllerServer.performEmailUpdate(userID))
+			confirmEmailEvent.setSuccess(false);
+		
+		return confirmEmailEvent;
 	}
 	
 	public UpdatePasswordEvent updatePassword(String userID, String currentPassword, String newPassword) {
+		
+		UpdatePasswordEvent updatePasswordEvent = new UpdatePasswordEvent();
+		updatePasswordEvent.setSuccess(true);
+				
 		//TODO Encrypt currentPassword and check existing value in DB
 		
 		//TODO IF matches encrypt new password and update DB using controller
