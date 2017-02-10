@@ -1,16 +1,14 @@
 package com.blackjack.client.ui;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PasswordTextBox;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextBox;
 
-public class LoginForm extends FormPanel {
+public class LoginForm extends SimplePanel {
 
 	private Label userNameLabel;
 	private TextBox userNameTextBox;
@@ -54,14 +52,6 @@ public class LoginForm extends FormPanel {
 		loginButton.setStyleName("button");
 		loginButton.addStyleDependentName("left");
 		loginButton.addStyleDependentName("green");
-		loginButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				submit();
-			}
-			
-		});
 		
 		forgotPasswordButton = new Button("Forgot Password?");
 		forgotPasswordButton.setStyleName("button");
@@ -88,8 +78,16 @@ public class LoginForm extends FormPanel {
 		this.add(wrapper);
 	}
 	
-	public void AddLoginHandler() {
-		
+	public TextBox getUsernameTextBox() {
+		return userNameTextBox;
+	}
+	
+	public PasswordTextBox getPasswordTextBox() {
+		return passwordTextBox;
+	}
+	
+	public Button getLoginButton() {
+		return loginButton;
 	}
 	
 	public Button getForgotPasswordButton() {

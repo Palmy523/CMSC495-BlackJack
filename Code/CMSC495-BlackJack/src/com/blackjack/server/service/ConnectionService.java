@@ -54,17 +54,19 @@ public class ConnectionService {
 	//Checks if the database exists on startup and creates it if not
 	//Then creates the schema
 	public static void initDB() {
-		System.out.println("-------------------Creating Database If None Exists------------------");
-		try {
-			if (!ConnectionService.DBExists(devDBName) && isDevelopmentMode()) {
-				createDB(devDBName);
-				createSchema();
-				System.out.println("-------------------------------Finished--------------------------");
-			}
-		} catch (SQLException e) {
-			// TODO log message appropriately
-			System.err.println("Error connecting to MySQL server");
-		}
+		//NOT WORKING BECAUSE OF SCRIPT ACCESS ERRORS
+		//System.out.println("-------------------Creating Database If None Exists------------------");
+		return;
+//		try {
+//			if (!ConnectionService.DBExists(devDBName) && isDevelopmentMode()) {
+//				createDB(devDBName);
+//				createSchema();
+//				System.out.println("-------------------------------Finished--------------------------");
+//			}
+//		} catch (SQLException e) {
+//			// TODO log message appropriately
+//			System.err.println("Error connecting to MySQL server");
+//		}
 	}
 	
 	/**

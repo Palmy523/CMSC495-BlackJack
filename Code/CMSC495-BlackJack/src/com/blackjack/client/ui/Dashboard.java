@@ -30,24 +30,20 @@ public class Dashboard extends SimplePanel {
 	 */
 	private int currentViewIndex = 0;
 	
-	private GameController gameController;
-	
-	private UserController userController;
-	
 	/**
 	 * A View for the login.
 	 */
-	private LoginForm loginForm = new LoginForm();
+	private LoginForm loginForm;
 	
 	/**
 	 * A view for the Forgot Password form.
 	 */
-	private ForgotPasswordForm forgotPasswordForm = new ForgotPasswordForm();
+	private ForgotPasswordForm forgotPasswordForm;
 	
 	/**
 	 * A view for the Create Account Form
 	 */
-	private CreateAccountForm createAccountForm = new CreateAccountForm();
+	private CreateAccountForm createAccountForm;
 	
 	/**
 	 * The view for the Room Selection Screen
@@ -57,7 +53,7 @@ public class Dashboard extends SimplePanel {
 	/**
 	 * A view for the BlackJack Game Screen.
 	 */
-	private BlackJackGamePanel gamePanel = new BlackJackGamePanel();
+	private BlackJackGamePanel gamePanel;
 	
 	/**
 	 * Widget used to display Chip Count and quick access to account
@@ -73,76 +69,17 @@ public class Dashboard extends SimplePanel {
 	/**
 	 * Form used for account actions.
 	 */
-	private AccountManagementForm accountManagementForm = new AccountManagementForm();
+	private AccountManagementForm accountManagementForm;
+	
+	private UserMessageBox messageBox = new UserMessageBox();
 	
 	/**
 	 * Default constructor
 	 */
 	public Dashboard() {
-		//Create the views
-		loginForm = new LoginForm();
-		final UserController controller = new UserController(this);
-		loginForm.getCreateAccountButton().addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				controller.createAccount("palmy523", "rice8023", "rice8023", "palmy523@msn.com");
-			}
-			
-		});
-		forgotPasswordForm = new ForgotPasswordForm();
-		createAccountForm = new CreateAccountForm();
-		
-		Room lowStakes = Room.createLowStakesRoom();
-		Room mediumStakes = Room.createMediumStakesRoom();
-		Room highStakes = Room.createHighStakesRoom();
-		
-		roomSelectionPanel = new RoomSelectionPanel(
-				new Room[] {
-							lowStakes, 
-							mediumStakes, 
-							highStakes
-							});
-		
-		gamePanel = new BlackJackGamePanel();
-		
-		//Add the views to the array
-		views = new Panel[] {loginForm, forgotPasswordForm, createAccountForm, roomSelectionPanel, gamePanel};
-		
-		//Force the dashboard to load the first page.
-		retreat();
-		
-		backAnchor.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				retreat();
-			}
-		});
-		
-		accountAnchor.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				loadView(accountManagementForm);
-			}
-			
-		});
+		messageBox.setVisible(false);
+		RootPanel.get().add(messageBox);
 	}
-	
-	//TODO Remove test
-	public void advance() {
-		currentViewIndex = (currentViewIndex >= views.length - 1) ? currentViewIndex : currentViewIndex + 1;
-		Panel view = views[currentViewIndex];
-		loadView(view);
-	}
-	
-	public void retreat() {
-		currentViewIndex = (currentViewIndex == 0) ? currentViewIndex : currentViewIndex - 1;
-		Panel view = views[currentViewIndex];
-		loadView(view);
-	}
-	//TODO end remove test
 	
 	/**
 	 * Loads a view as the current view to this dashboard.
@@ -204,7 +141,7 @@ public class Dashboard extends SimplePanel {
 	/**
 	 * Display the room selection screen as the current screen for the user.
 	 */
-	public void loadRoomSelectionScreen() {
+	public void displayRoomSelectionScreen() {
 		this.loadView(roomSelectionPanel);
 	}
 	
@@ -221,7 +158,10 @@ public class Dashboard extends SimplePanel {
 	 * @param message the message to display
 	 */
 	public void displayMessage(MessageType type, String message) {
-		//TODO display an error message on the screen overlaying the current view.
+		messageBox.setType(type);
+		messageBox.setMessage(message);
+		messageBox.setVisible(true);
+		messageBox.setFocus(true);
 	}
 
 	/**
@@ -321,6 +261,40 @@ public class Dashboard extends SimplePanel {
 	public void setGamePanel(BlackJackGamePanel gamePanel) {
 		this.gamePanel = gamePanel;
 	}
+
+	public AccountAnchor getAccountAnchor() {
+		return accountAnchor;
+	}
+
+	public void setAccountAnchor(AccountAnchor accountAnchor) {
+		this.accountAnchor = accountAnchor;
+	}
+
+	public BackAnchor getBackAnchor() {
+		return backAnchor;
+	}
+
+	public void setBackAnchor(BackAnchor backAnchor) {
+		this.backAnchor = backAnchor;
+	}
+
+	public AccountManagementForm getAccountManagementForm() {
+		return accountManagementForm;
+	}
+
+	public void setAccountManagementForm(AccountManagementForm accountManagementForm) {
+		this.accountManagementForm = accountManagementForm;
+	}
+
+	public UserMessageBox getMessageBox() {
+		return messageBox;
+	}
+
+	public void setMessageBox(UserMessageBox messageBox) {
+		this.messageBox = messageBox;
+	}
+	
+	
 	
 	
 	
