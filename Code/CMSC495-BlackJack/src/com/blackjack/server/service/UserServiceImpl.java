@@ -2,8 +2,6 @@ package com.blackjack.server.service;
 
 import com.blackjack.client.service.UserService;
 import com.blackjack.server.controller.UserControllerServer;
-import com.blackjack.shared.FieldVerifier;
-import com.blackjack.shared.FieldVerifier.FormatError;
 import com.blackjack.shared.events.ConfirmEmailEvent;
 import com.blackjack.shared.events.CreateAccountEvent;
 import com.blackjack.shared.events.LoginEvent;
@@ -26,33 +24,6 @@ public class UserServiceImpl extends RemoteServiceServlet implements UserService
 		LoginEvent loginEvent = new LoginEvent();
 		loginEvent.setSuccess(true);
 		
-		if(FieldVerifier.isValidUsername(username) == FormatError.LENGTH)
-		{			
-			loginEvent.setUsernameInvalid(true);
-			loginEvent.setErrorString(FieldVerifier.USER_LENGTH_ERROR + "\r\n");
-			loginEvent.setSuccess(false);
-		}
-		
-		if(FieldVerifier.isValidUsername(username) == FormatError.INVALID_CHARACTER)
-		{
-			loginEvent.setUsernameInvalid(true);
-			loginEvent.setErrorString(loginEvent.getErrorString() + " " + FieldVerifier.USER_REGEX_ERROR + "\r\n");
-			loginEvent.setSuccess(false);
-		}
-		
-		if(FieldVerifier.isValidPassword(password) != FormatError.LENGTH)
-		{
-			loginEvent.setPasswordInvalid(true);
-			loginEvent.setErrorString(loginEvent.getErrorString() + " " + FieldVerifier.PASSWORD_LENGTH_ERROR + "\r\n");
-			loginEvent.setSuccess(false);
-		}
-		
-		if(FieldVerifier.isValidPassword(password) != FormatError.INVALID_CHARACTER)
-		{
-			loginEvent.setPasswordInvalid(true);
-			loginEvent.setErrorString(loginEvent.getErrorString() + " " + FieldVerifier.PASSWORD_REGEX_ERROR);
-			loginEvent.setSuccess(false);
-		}
 		
 		if(loginEvent.isSuccess())
 			loginEvent.setUser(UserControllerServer.login(username, password));
@@ -66,46 +37,13 @@ public class UserServiceImpl extends RemoteServiceServlet implements UserService
 		CreateAccountEvent createAccountEvent = new CreateAccountEvent();
 		createAccountEvent.setSuccess(true);
 		
-		if(FieldVerifier.isValidUsername(username) == FormatError.LENGTH)
-		{			
-			createAccountEvent.setUserNameInvalid(true);
-			createAccountEvent.setErrorString(FieldVerifier.USER_LENGTH_ERROR + "\r\n");
-			createAccountEvent.setSuccess(false);
-		}
-		if(FieldVerifier.isValidUsername(username) == FormatError.INVALID_CHARACTER)
-		{			
-			createAccountEvent.setUserNameInvalid(true);
-			createAccountEvent.setErrorString(createAccountEvent.getErrorString() + " " + FieldVerifier.USER_REGEX_ERROR + "\r\n");
-			createAccountEvent.setSuccess(false);
-		}
-		
 		if(UserControllerServer.userNameExists(username))
 		{
 			createAccountEvent.setUserNameInvalid(true);
-			createAccountEvent.setErrorString(createAccountEvent.getErrorString() + " " + "This user name is already in use." + "\r\n");
+			createAccountEvent.setErrorString("This user name is already in use." + "\r\n");
 			createAccountEvent.setSuccess(false);
 		}
 			
-		if(FieldVerifier.isValidPassword(password) != FormatError.LENGTH)
-		{
-			createAccountEvent.setPasswordInvalid(true);
-			createAccountEvent.setErrorString(createAccountEvent.getErrorString() + " " + FieldVerifier.PASSWORD_LENGTH_ERROR + "\r\n");
-			createAccountEvent.setSuccess(false);
-		}
-		if(FieldVerifier.isValidPassword(password) != FormatError.INVALID_CHARACTER)
-		{
-			createAccountEvent.setPasswordInvalid(true);
-			createAccountEvent.setErrorString(createAccountEvent.getErrorString() + " " + FieldVerifier.PASSWORD_REGEX_ERROR + "\r\n");
-			createAccountEvent.setSuccess(false);
-		}
-		
-		if(FieldVerifier.isValidPassword(email) != FormatError.INVALID_FORMAT)
-		{
-			createAccountEvent.setEmailInvalid(true);
-			createAccountEvent.setErrorString(createAccountEvent.getErrorString() + " " + FieldVerifier.EMAIL_ADDRESS_ERROR + "\r\n");
-			createAccountEvent.setSuccess(false);
-		}
-		
 		if(UserControllerServer.emailExists(email))
 		{
 			createAccountEvent.setEmailInvalid(true);
@@ -138,22 +76,15 @@ public class UserServiceImpl extends RemoteServiceServlet implements UserService
 		ResetPasswordEvent resetPasswordEvent = new ResetPasswordEvent();
 		resetPasswordEvent.setSuccess(true);
 		
-		if(FieldVerifier.isValidEmail(email) == FormatError.INVALID_FORMAT)
+		if(!UserControllerServer.emailExists(email))
 		{
-			resetPasswordEvent.setEmailInvalid(true);
-			resetPasswordEvent.setErrorString(resetPasswordEvent.getErrorString() + " " + FieldVerifier.EMAIL_ADDRESS_ERROR + "\r\n");
-			resetPasswordEvent.setSuccess(false);
+			resetPasswordEvent.setSuccess(false);			
 		}
 		
-		if(UserControllerServer.emailExists(email))
-		{
-			if(!UserControllerServer.resetPassword(email))
-			{
-				resetPasswordEvent.setSuccess(false);
-			}
-		}
+		if(resetPasswordEvent.isSuccess())
+			UserControllerServer.resetPassword(email);
 		
-		String tempPassword = UserControllerServer.createTemporaryPassword(email);
+		String tempPassword = UserControllerServer.createRandomKey();
 		if (!EmailService.sendTemporaryPassword(email, tempPassword))
 		{
 			resetPasswordEvent.setPasswordSendSuccess(false);
