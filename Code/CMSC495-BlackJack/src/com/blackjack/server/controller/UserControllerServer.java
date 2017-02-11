@@ -1,28 +1,287 @@
 package com.blackjack.server.controller;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import com.blackjack.server.service.ConnectionService;
+import com.blackjack.server.service.MD5EncryptionService;
 import com.blackjack.shared.entities.User;
 
 public class UserControllerServer {
 
 	/**
-	 * Checks the database for proper credentials and returns a LoginEvent
+	 * Checks the database for proper credentials and returns a User
 	 * with proper fields based on the success or failure of the login.
 	 * 
-	 * @param username 
-	 * @param password
-	 * @return
+	 * @param username the username to check for in the DB
+	 * @param password the password of the user
+	 * @return a User object if a match was found with the specified username and password, 
+	 * false if username doesn't exist or password is invalid.
 	 */
 	public static User login(String username, String password) {
-		//TODO encrypt password using MD5EncryptionService, check encrypted value
-		//with database value and username
+		password = MD5EncryptionService.encrypt(password);
 		
-		//TODO return the User object if successful, or null if not
-		
+		Connection conn = ConnectionService.getConnection();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			ps = conn.prepareStatement("SELECT user_id FROM user WHERE user_name = ? && password = ? ");
+			ps.setString(1, username);
+			ps.setString(2, password);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				rs.first();
+				int userID = rs.getInt(1);
+				if (userID > 0) {
+					return getUserById(userID);
+				}
+			}
+		} catch(SQLException e) {
+			//TODO log exception appropriately
+			System.out.println("An error occurred getting the user by ID: "
+					+ e.getMessage());
+		} finally {
+			try {
+			if (rs != null) {
+				rs.close();
+			}
+			
+			if (ps != null) {
+				ps.close();
+			}
+			
+			if (conn != null) {
+				conn.close();
+			}
+			} catch (SQLException e) {
+				System.err.println(e.getMessage());
+			}
+		}
 		return null;
 	}
 	
+	/**
+	 * Gets a user from the database with the supplied userID and returns 
+	 * the User object.
+	 * @param userID the userID of the User to return
+	 * @return a User object that matches the data in the database with the supplied ID
+	 */
+	private static User getUserById(int userID) {
+		
+		if (!userExists(userID)) {
+			return null;
+		}
+		
+		int id = Integer.valueOf(userID);
+		User user = new User();
+		Connection conn = ConnectionService.getConnection();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			ps = conn.prepareStatement("SELECT * FROM user WHERE user_id = ?;");
+			ps.setInt(1, id);
+			rs = ps.executeQuery();
+			rs.first();
+			user.setUserID(rs.getInt(1));
+			user.setUsername(rs.getString(2));
+			user.setEmail(rs.getString(3));
+			return user;
+		} catch(SQLException e) {
+			//TODO log exception appropriately
+			System.out.println("An error occurred getting the user by ID: "
+					+ e.getMessage());
+		} finally {
+			try {
+			if (rs != null) {
+				rs.close();
+			}
+			
+			if (ps != null) {
+				ps.close();
+			}
+			
+			if (conn != null) {
+				conn.close();
+			}
+			} catch (SQLException e) {
+				System.err.println(e.getMessage());
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Get a user by their email address.
+	 * @param email the email address of the user to get
+	 * @return the User that matches the email supplied
+	 */
+	private static User getUserByEmail(String email) {
+		if (!emailExists(email)) {
+			return null;
+		}
+		
+		User user = new User();
+		Connection conn = ConnectionService.getConnection();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			ps = conn.prepareStatement("SELECT * FROM user WHERE email = ?;");
+			ps.setString(1, email);
+			rs = ps.executeQuery();
+			rs.first();
+			user.setUserID(rs.getInt(1));
+			user.setUsername(rs.getString(2));
+			user.setEmail(rs.getString(3));
+			return user;
+		} catch(SQLException e) {
+			//TODO log exception appropriately
+			System.out.println("An error occurred getting the user by email: "
+					+ e.getMessage());
+		} finally {
+			try {
+			if (rs != null) {
+				rs.close();
+			}
+			
+			if (ps != null) {
+				ps.close();
+			}
+			
+			if (conn != null) {
+				conn.close();
+			}
+			} catch (SQLException e) {
+				System.err.println(e.getMessage());
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Gets a user by their username
+	 * @param username the username of the User to get
+	 * @return the User object populated with info from the db
+	 */
+	private static User getUserByUserName(String username) {
+		if (!userNameExists(username)) {
+			return null;
+		}
+		
+		User user = new User();
+		Connection conn = ConnectionService.getConnection();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			ps = conn.prepareStatement("SELECT * FROM user WHERE user_name = ?;");
+			ps.setString(1, username);
+			rs = ps.executeQuery();
+			rs.first();
+			user.setUserID(rs.getInt(1));
+			user.setUsername(rs.getString(2));
+			user.setEmail(rs.getString(3));
+			return user;
+		} catch(SQLException e) {
+			//TODO log exception appropriately
+			System.out.println("An error occurred getting the user by email: "
+					+ e.getMessage());
+		} finally {
+			try {
+			if (rs != null) {
+				rs.close();
+			}
+			
+			if (ps != null) {
+				ps.close();
+			}
+			
+			if (conn != null) {
+				conn.close();
+			}
+			} catch (SQLException e) {
+				System.err.println(e.getMessage());
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Gets the game data for the user and sets the fields in the user object
+	 * @param userID the user ID of the user to get the game data for
+	 * @param user the user to populate the game data with
+	 * @return the User with the game data populated
+	 */
+	private static User populateGameData(int userID, User user) {
+		if (!(user.getUserID() > 0)) {
+			return user;
+		}
+		
+		if (!userExists(user.getUserID())) {
+			return user;
+		}
+		
+		Connection conn = ConnectionService.getConnection();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			ps = conn.prepareStatement("SELECT * FROM game_data WHERE user_id = ?");
+			ps.setInt(1, user.getUserID());
+			rs = ps.executeQuery();
+			rs.first();
+			user.setEasyPlay(rs.getBoolean(1));
+			user.setMaxChips(rs.getFloat(2));
+			user.setBankAmount(rs.getFloat(3));
+			return user;
+		} catch(SQLException e) {
+			//TODO log exception appropriately
+			System.out.println("An error occurred getting the game data for the user with username: " 
+					+ user.getUsername()
+					+ e.getMessage());
+		} finally {
+			try {
+			if (rs != null) {
+				rs.close();
+			}
+			
+			if (ps != null) {
+				ps.close();
+			}
+			
+			if (conn != null) {
+				conn.close();
+			}
+			} catch (SQLException e) {
+				System.err.println(e.getMessage());
+			}
+		}
+		return user;
+	}
+	
 	public static User createAccount(String username, String password, String email) {
-		//TODO check current database usernames and emails to ensure no duplicates
+		
+		User user = null;
+		Connection conn = ConnectionService.getConnection();
+		PreparedStatement ps;
+		try {
+			ps = conn.prepareStatement("INSERT INTO user "
+					+ "(user_name, email, password)  " 
+					+ "VALUES(?, ?, ?); ");
+			ps.setString(1, username);
+			ps.setString(2, email);
+			ps.setString(3, password);
+			if (ps.executeUpdate() > 0) {
+				user = getUserByUserName(username);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Log message appropriately
+			System.err.println(e.getMessage());
+		} finally {
+		}
+		
+		
+
 		
 		//TODO encrypt the password value using MD5EncryptionService
 		
@@ -48,22 +307,129 @@ public class UserControllerServer {
 		return false;
 	}
 	
+	/**
+	 * Checks to see if the user exists in the database.
+	 * @param userID the userID of the user to check for.
+	 * @return true if the user exists, false if otherwise.
+	 */
+	public static boolean userExists(int userID) {
+		Connection conn = ConnectionService.getConnection();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			ps = conn.prepareStatement("SELECT COUNT(*) > 0 FROM user WHERE user_id = ?");
+			ps.setInt(1, userID);
+			rs = ps.executeQuery();
+			rs.first();
+			int value = rs.getInt(1);
+			return value > 0;
+		} catch (SQLException e) {
+			//TODO log exception appropriately
+			System.out.println("An error occurred checking if the user exists in the database: "
+					+ e.getMessage());
+		} finally {
+			try {
+				
+			if (rs != null) {
+				rs.close();
+			}
+			
+			if (ps != null) {
+				ps.close();
+			}
+			
+			if (conn != null) {
+				conn.close();
+			}
+			} catch (SQLException e) {
+				System.err.println(e.getMessage());
+			}
+		}
+		return false;
+	}
+	
 	public static boolean userExists(String userID) {
-		//TODO check if the user exists in the database
-		//TODO return success
-		return false;
+		return userExists(Integer.valueOf(userID));
 	}
 	
+	/**
+	 * Checks to see if the username exists in the database
+	 * @param username the username to check for
+	 * @return true if the username exists false if not
+	 */
 	public static boolean userNameExists(String username) {
-		//TODO check if the username exists in the database
-		//TODO return true if userNameExists false if not
+		Connection conn = ConnectionService.getConnection();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			ps = conn.prepareStatement("SELECT COUNT(*) > 0 FROM user WHERE user_name = ?");
+			ps.setString(1, username);
+			rs = ps.executeQuery();
+			rs.first();
+			int value = (int)rs.getLong(1);
+			return value > 0;
+		} catch (SQLException e) {
+			//TODO log exception appropriately
+			System.out.println("An error occurred checking if the username exists in the database: "
+					+ e.getMessage());
+		} finally {
+			try {
+				
+			if (rs != null) {
+				rs.close();
+			}
+			
+			if (ps != null) {
+				ps.close();
+			}
+			
+			if (conn != null) {
+				conn.close();
+			}
+			} catch (SQLException e) {
+				System.err.println(e.getMessage());
+			}
+		}
 		return false;
 	}
 	
+	/**
+	 * Checks if the emailAddress exists in the database
+	 * @param emailAddress the email address to check for
+	 * @return true if the email address already exists, false if otherwise
+	 */
 	public static boolean emailExists(String emailAddress) {
-		//TODO check if the email exists in the database
-		
-		//TODO return if it is or not.
+		Connection conn = ConnectionService.getConnection();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			ps = conn.prepareStatement("SELECT COUNT(*) > 0 FROM user WHERE email = ?");
+			ps.setString(1, emailAddress);
+			rs = ps.executeQuery();
+			int value = rs.getInt(1);
+			return value > 0;
+		} catch (SQLException e) {
+			//TODO log exception appropriately
+			System.out.println("An error occurred checking if the email exists in the database: "
+					+ e.getMessage());
+		} finally {
+			try {
+				
+			if (rs != null) {
+				rs.close();
+			}
+			
+			if (ps != null) {
+				ps.close();
+			}
+			
+			if (conn != null) {
+				conn.close();
+			}
+			} catch (SQLException e) {
+				System.err.println(e.getMessage());
+			}
+		}
 		return false;
 	}	
 	

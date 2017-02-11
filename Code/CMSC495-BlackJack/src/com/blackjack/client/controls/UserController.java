@@ -10,6 +10,7 @@ import com.blackjack.shared.FieldVerifier.FormatError;
 import com.blackjack.shared.entities.User;
 import com.blackjack.shared.events.ConfirmEmailEvent;
 import com.blackjack.shared.events.CreateAccountEvent;
+import com.blackjack.shared.events.LoginEvent;
 import com.blackjack.shared.events.ResetPasswordEvent;
 import com.blackjack.shared.events.UpdateEmailEvent;
 import com.blackjack.shared.events.UpdatePasswordEvent;
@@ -18,10 +19,62 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class UserController {
 
+	public static final String COMM_FAILURE_MESSAGE = "There was a communication failure with the server, please try again later";
+	
 	private Dashboard dashboard;
 	private User user;
 	
-	public UserController(Dashboard dashboard) {}
+	public UserController(Dashboard dashboard) {
+		this.dashboard = dashboard;
+	}
+	
+	/**
+	 * Performs a login.
+	 * 
+	 * @param username the username of a currently existing user
+	 * @param password the password for the user
+	 */
+	public void login(String username, String password) {
+		
+		//TODO verify username and password formats
+		
+		UserServiceAsync service = GWT.create(UserService.class);
+		AsyncCallback<LoginEvent> callback = new AsyncCallback<LoginEvent>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				dashboard.displayMessage(MessageType.ERROR, COMM_FAILURE_MESSAGE);
+			}
+
+			@Override
+			public void onSuccess(LoginEvent result) {
+				Events.eventBus.fireEvent(result);
+				if (result.isSuccess()) {
+					onLoginSuccess(result);
+				} else {
+					onLoginFailure(result);
+				}
+			}
+		};
+		
+		service.login(username, password, callback);
+	}
+	
+	public void onLoginSuccess(LoginEvent event) {
+		dashboard.displayRoomSelectionScreen();
+		user = event.getUser();
+	}
+	
+	public void onLoginFailure(LoginEvent event) {
+		String message = "";
+		if (event.isUsernameInvalid()) {
+			message = "The supplied username is invalid";
+		}
+		if (event.isPasswordInvalid()) {
+			message = "The password is invalid.";
+		}
+		dashboard.displayMessage(MessageType.ERROR, message);
+	}
 	
 	/**
 	 * Creates an account with the specified information.
@@ -61,8 +114,7 @@ public class UserController {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				dashboard.displayMessage(MessageType.ERROR, "Sorry, there was a communication problem with the "
-						+ "server. Please try again later.");
+				dashboard.displayMessage(MessageType.ERROR, COMM_FAILURE_MESSAGE);
 			}
 
 			@Override
@@ -79,13 +131,19 @@ public class UserController {
 		userService.createAccount(username, confirmPassword, email, callback);
 	}
 	
+	/**
+	 * Method to perform when login is a success.
+	 * 
+	 * @param event the loginEvent that prompted the login
+	 */
 	public void onCreateAccountSuccess(CreateAccountEvent event) {
-		//TODO Display Login Screen prompt user to re-enter their credentials
-		
+		dashboard.displayLoginScreen();
+		dashboard.displayMessage(MessageType.INFO, "Your account has been successfully create, "
+				+ "please Login to play.");
 	}
 	
 	public void onCreateAccountFailure(CreateAccountEvent event) {
-		//TODO Display error message to user with the appropriate message
+		dashboard.displayMessage(MessageType.ERROR, event.getErrorString());
 	}
 	
 	public void resetPassword(String emailAddress) {
