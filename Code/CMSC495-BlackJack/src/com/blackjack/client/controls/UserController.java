@@ -187,6 +187,7 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 
 			@Override
 			public void onSuccess(ResetPasswordEvent result) {
+				Events.eventBus.fireEvent(result);
 				if (result.isSuccess()) {
 					onResetPasswordSuccess(result);
 				} else {
@@ -205,8 +206,9 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 	 * @param event
 	 */
 	public void onResetPasswordSuccess(ResetPasswordEvent event) {
+		dashboard.displayLoginScreen();
 		dashboard.displayMessage(MessageType.INFO, "An email has been sent to the supplied email address with " 
-					+ "a temporary password.");
+				+ "a temporary password.");
 	}
 	
 	/**
@@ -217,6 +219,9 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 		if (event.isEmailInvalid()) {
 			dashboard.displayMessage(MessageType.INFO, "The email address you supplied is not in our system, "
 					+ "please provide a valid email address");
+		} else {
+			dashboard.displayMessage(MessageType.INFO, "Something went wrong "
+					+ "resetting your password, please try again later");
 		}
 	}
 	
@@ -245,6 +250,7 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 
 			@Override
 			public void onSuccess(UpdateEmailEvent result) {
+				Events.eventBus.fireEvent(result);
 				if (result.isSuccess()) {
 					onUpdateEmailSuccess(result);
 				} else {
@@ -264,7 +270,7 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 	 * @param event
 	 */
 	public void onUpdateEmailSuccess(UpdateEmailEvent event) {
-		dashboard.displayEmailConfirmationPanel(true);
+		dashboard.displayConfirmEmailForm();
 	}
 	
 	/**
@@ -272,7 +278,12 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 	 * @param event
 	 */
 	public void onUpdateEmailFailure(UpdateEmailEvent event) {
-		dashboard.displayMessage(MessageType.INFO, "Email update failed!");
+		if (event.isEmailInvalid()) {
+			dashboard.displayMessage(MessageType.ERROR, "Sorry, the email you gave is already in use, "
+					+ "please choose another email address.");
+		} else {
+			dashboard.displayMessage(MessageType.INFO, "Email update failed!");
+		}
 	}
 	
 	
@@ -303,6 +314,7 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 
 			@Override
 			public void onSuccess(ConfirmEmailEvent result) {
+				Events.eventBus.fireEvent(result);
 				if (result.isSuccess()) {
 					onConfirmEmailSuccess(result);
 				} else {
@@ -311,6 +323,7 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 			}
 		};
 		
+		service.confirmEmail(userId, confirmationKey, callback);
 	}
 	
 	/**
@@ -364,7 +377,7 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 		}
 		
 		String userID = String.valueOf(user.getUserID());
-		AsyncCallback callback = new AsyncCallback<UpdatePasswordEvent>() {
+		AsyncCallback<UpdatePasswordEvent> callback = new AsyncCallback<UpdatePasswordEvent>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -373,6 +386,7 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 
 			@Override
 			public void onSuccess(UpdatePasswordEvent result) {
+				Events.eventBus.fireEvent(result);
 				if (result.isSuccess()) {
 					onUpdatePasswordSuccess(result);
 				} else {

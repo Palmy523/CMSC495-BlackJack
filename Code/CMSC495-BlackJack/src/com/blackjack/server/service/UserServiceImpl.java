@@ -31,7 +31,8 @@ public class UserServiceImpl extends RemoteServiceServlet implements UserService
 		}
 		
 		User user = UserControllerServer.login(username, password);
-		if (loginEvent.getUser() == null) {
+		if (user == null) {
+			loginEvent.setPasswordInvalid(true);
 			return loginEvent;
 		}
 		
@@ -87,7 +88,9 @@ public class UserServiceImpl extends RemoteServiceServlet implements UserService
 		
 		if(!UserControllerServer.emailExists(email))
 		{
-			resetPasswordEvent.setSuccess(false);			
+			resetPasswordEvent.setSuccess(false);	
+			resetPasswordEvent.setEmailInvalid(true);
+			return resetPasswordEvent;
 		}
 		
 		String tempPassword = null;
@@ -116,16 +119,23 @@ public class UserServiceImpl extends RemoteServiceServlet implements UserService
 		if(!UserControllerServer.userExists(userID))
 			updateEmailEvent.setSuccess(false);
 		
+		if (UserControllerServer.emailExists(newEmail)) {
+			updateEmailEvent.setEmailInvalid(true);
+			updateEmailEvent.setSuccess(false);
+			return updateEmailEvent;
+		}
+		
 		String confirmationKey = UserControllerServer.createTemporaryEmailUpdateKey(userID);
+		if (confirmationKey == null) {
+			updateEmailEvent.setSuccess(false);
+			return updateEmailEvent;
+		}
 		
 		if(!UserControllerServer.createTemporaryEmail(userID, newEmail))
 			updateEmailEvent.setSuccess(false);
 
 				
 		if(!EmailService.sendEmailUpdateKey(newEmail, confirmationKey))
-			updateEmailEvent.setSuccess(false);
-		
-		if(!UserControllerServer.performEmailUpdate(userID))
 			updateEmailEvent.setSuccess(false);
 		
 		return updateEmailEvent;
@@ -152,13 +162,24 @@ public class UserServiceImpl extends RemoteServiceServlet implements UserService
 		
 		UpdatePasswordEvent updatePasswordEvent = new UpdatePasswordEvent();
 		updatePasswordEvent.setSuccess(true);
-				
-		//TODO Encrypt currentPassword and check existing value in DB
 		
-		//TODO IF matches encrypt new password and update DB using controller
+		//Make sure the user exists
+		if (!UserControllerServer.userExists(userID)) {
+			updatePasswordEvent.setSuccess(false);
+			return updatePasswordEvent;
+		}
 		
-		//TODO create the UpdatePasswordEvent with proper data and return 
-		return null;
+		//Check current password validity
+		if (!UserControllerServer.verifyPassword(userID, currentPassword)) {
+			updatePasswordEvent.setWrongCurrentPassword(true);
+			updatePasswordEvent.setSuccess(false);
+			return updatePasswordEvent;
+		}
+		
+		updatePasswordEvent.setSuccess(
+				UserControllerServer.updatePassword(userID, newPassword));
+		
+		return updatePasswordEvent;
 	}
 
 	@Override

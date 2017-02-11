@@ -28,7 +28,7 @@ public class ConnectionService {
 	/**
 	 * The username for the development server database
 	 */
-	private static final String devuserName = "root";
+	private static final String devuserName = "21Dev";
 	
 	/**
 	 * The password for the development server database

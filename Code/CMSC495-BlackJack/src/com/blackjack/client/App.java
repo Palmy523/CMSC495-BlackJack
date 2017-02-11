@@ -5,6 +5,8 @@ import com.blackjack.client.controls.UserController;
 import com.blackjack.client.event.Events;
 import com.blackjack.client.ui.AccountAnchor;
 import com.blackjack.client.ui.AccountManagementForm;
+import com.blackjack.client.ui.BackAnchor;
+import com.blackjack.client.ui.ConfirmEmailForm;
 import com.blackjack.client.ui.CreateAccountForm;
 import com.blackjack.client.ui.Dashboard;
 import com.blackjack.client.ui.ForgotPasswordForm;
@@ -12,12 +14,20 @@ import com.blackjack.client.ui.LoginForm;
 import com.blackjack.client.ui.RoomSelectionPanel;
 import com.blackjack.shared.entities.Room;
 import com.blackjack.shared.entities.User;
+import com.blackjack.shared.events.ConfirmEmailEvent;
 import com.blackjack.shared.events.CreateAccountEvent;
 import com.blackjack.shared.events.LoginEvent;
+import com.blackjack.shared.events.ResetPasswordEvent;
 import com.blackjack.shared.events.UpdateChipEvent;
+import com.blackjack.shared.events.UpdateEmailEvent;
+import com.blackjack.shared.events.UpdatePasswordEvent;
+import com.blackjack.shared.handlers.ConfirmEmailHandler;
 import com.blackjack.shared.handlers.CreateAccountHandler;
 import com.blackjack.shared.handlers.LoginHandler;
+import com.blackjack.shared.handlers.ResetPasswordHandler;
 import com.blackjack.shared.handlers.UpdateChipHandler;
+import com.blackjack.shared.handlers.UpdateEmailHandler;
+import com.blackjack.shared.handlers.UpdatePasswordHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -35,7 +45,10 @@ public class App {
 	private ForgotPasswordForm forgotPasswordForm;
 	private RoomSelectionPanel roomSelectionPanel;
 	private AccountAnchor accountAnchor;
+	private BackAnchor backAnchor;
 	private AccountManagementForm accountManagementForm;
+	private ConfirmEmailForm confirmEmailForm;
+	
 	
 	/**
 	 * Call start in CMSC495_BlackJack to load the app
@@ -64,15 +77,23 @@ public class App {
 		accountAnchor = new AccountAnchor();
 		setupAccountAnchor();
 		
+		backAnchor = new BackAnchor();
+		setupBackAnchor();
+		
 		accountManagementForm = new AccountManagementForm();
 		setupAccountManagementForm();
+		
+		confirmEmailForm = new ConfirmEmailForm();
+		setupConfirmEmailForm();
 		
 		dashboard.setLoginForm(loginForm);
 		dashboard.setCreateAccountForm(createAccountForm);
 		dashboard.setForgotPasswordForm(forgotPasswordForm);
 		dashboard.setRoomSelectionPanel(roomSelectionPanel);
 		dashboard.setAccountAnchor(accountAnchor);
+		dashboard.setBackAnchor(backAnchor);
 		dashboard.setAccountManagementForm(accountManagementForm);
+		dashboard.setConfirmEmailForm(confirmEmailForm);
 		
 		dashboard.displayLoginScreen();
 		RootPanel.get().add(dashboard);
@@ -118,6 +139,15 @@ public class App {
 			@Override
 			public void onClick(ClickEvent event) {
 				dashboard.displayCreateAccountScreen();
+			}
+			
+		});
+		
+		loginForm.getForgotPasswordButton().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				dashboard.displayForgotPasswordForm();
 			}
 			
 		});
@@ -198,6 +228,18 @@ public class App {
 				userController.resetPassword(email);
 			}
 		});
+		
+		ResetPasswordHandler handler = new ResetPasswordHandler() {
+
+			@Override
+			public void onResetPassword(ResetPasswordEvent event) {
+				if (event.isSuccess()) {
+					forgotPasswordForm.getEmailTextBox().setText("");
+				}
+			}
+			
+		};
+		Events.eventBus.addHandler(ResetPasswordEvent.TYPE, handler);
 	}
 	
 	/**
@@ -242,17 +284,106 @@ public class App {
 	}
 	
 	/**
+	 * Sets up the back anchor form handlers
+	 */
+	private void setupBackAnchor() {
+		backAnchor.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				dashboard.loadPreviousScreen();
+			}
+			
+		});
+	}
+	
+	/**
 	 * Sets up the account management form handlers
 	 */
 	private void setupAccountManagementForm() {
-		//TODO
+		accountManagementForm.getUpdatePasswordButton().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				String currentPassword = accountManagementForm.getCurrentPasswordTextBox().getText();
+				String newPassword = accountManagementForm.getNewPasswordTextBox().getText();
+				String confirmPassword = accountManagementForm.getConfirmPasswordTextBox().getText();
+				userController.updatePassword(currentPassword, newPassword, confirmPassword);
+			}
+		});
+		
+		accountManagementForm.getUpdateEmailButton().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				String newEmail = accountManagementForm.getNewEmailTextBox().getText();
+				userController.updatEmail(newEmail);
+			}
+			
+		});
+		
+		UpdatePasswordHandler passwordHandler = new UpdatePasswordHandler() {
+
+			@Override
+			public void onUpdatePassword(UpdatePasswordEvent event) {
+				if (event.isSuccess()) {
+					accountManagementForm.clearPasswords();
+				}
+			}
+			
+		};
+		Events.eventBus.addHandler(UpdatePasswordEvent.TYPE, passwordHandler);
+		
+		UpdateEmailHandler emailHandler = new UpdateEmailHandler() {
+
+			@Override
+			public void onUpdateEmail(UpdateEmailEvent event) {
+				if (event.isSuccess()) {
+					accountManagementForm.clearEmail();
+				}
+			}
+			
+		};
+		Events.eventBus.addHandler(UpdateEmailEvent.TYPE, emailHandler);
+		
+	}
+	
+	private void setupConfirmEmailForm() {
+		confirmEmailForm.getSubmitButton().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				String key = confirmEmailForm.getConfirmKeyTextBox().getText();
+				userController.confirmEmail(key);
+			}
+		});
+		
+		ConfirmEmailHandler handler = new ConfirmEmailHandler() {
+
+			@Override
+			public void onConfirmEmail(ConfirmEmailEvent event) {
+				if (event.isSuccess()) {
+					confirmEmailForm.getConfirmKeyTextBox().setText("");
+				}
+			}
+		};
+		Events.eventBus.addHandler(ConfirmEmailEvent.TYPE, handler);
+		
+		confirmEmailForm.getCancelButton().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				confirmEmailForm.getConfirmKeyTextBox().setText("");
+				dashboard.displayAccountManagementScreen();
+			}
+		});
 	}
 	
 	/**
 	 * Sets up the Room Selection Panel handlers
 	 */
 	private void setupRoomSelectionPanel() {
-		//TODO
+		//TODO Phase II
 	}
 	
 	

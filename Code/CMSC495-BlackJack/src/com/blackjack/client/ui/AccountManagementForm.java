@@ -10,6 +10,13 @@ import com.google.gwt.user.client.ui.TextBox;
 
 public class AccountManagementForm extends SimplePanel {
 	
+	private PasswordTextBox currentPasswordTextBox;
+	private PasswordTextBox newPasswordTextBox;
+	private PasswordTextBox confirmPasswordTextBox;
+	private Button updatePasswordButton;
+	private TextBox newEmailTextBox;
+	private Button updateEmailButton;
+	
 	public AccountManagementForm() {
 		this.setStylePrimaryName("modal");
 		this.addStyleName("centered");
@@ -33,7 +40,7 @@ public class AccountManagementForm extends SimplePanel {
 		currentPasswordLabel.addStyleDependentName("long");
 
 		
-		PasswordTextBox currentPasswordTextBox = new PasswordTextBox();
+		currentPasswordTextBox = new PasswordTextBox();
 		currentPasswordTextBox.setStylePrimaryName("textbox");
 		
 		
@@ -44,7 +51,7 @@ public class AccountManagementForm extends SimplePanel {
 		newPasswordLabel.addStyleDependentName("long");
 
 		
-		PasswordTextBox newPasswordTextBox = new PasswordTextBox();
+		newPasswordTextBox = new PasswordTextBox();
 		newPasswordTextBox.setStylePrimaryName("textbox");
 		
 		Label confirmPasswordLabel = new Label("Confirm Password:");
@@ -53,13 +60,13 @@ public class AccountManagementForm extends SimplePanel {
 		confirmPasswordLabel.addStyleDependentName("form");
 		confirmPasswordLabel.addStyleDependentName("long");
 		
-		PasswordTextBox confirmPasswordTextBox = new PasswordTextBox();
+		confirmPasswordTextBox = new PasswordTextBox();
 		confirmPasswordTextBox.setStylePrimaryName("textbox");
 		
-		Button resetButton = new Button("Update Password");
-		resetButton.setWidth("321px");
-		resetButton.setStylePrimaryName("button");
-		resetButton.addStyleDependentName("red");
+		updatePasswordButton = new Button("Update Password");
+		updatePasswordButton.setWidth("321px");
+		updatePasswordButton.setStylePrimaryName("button");
+		updatePasswordButton.addStyleDependentName("red");
 		
 		Label updateEmailLabel = new Label("Update Email");
 		updateEmailLabel.setWidth("100%");
@@ -74,10 +81,10 @@ public class AccountManagementForm extends SimplePanel {
 		newEmailAddressLabel.addStyleDependentName("form");
 		newEmailAddressLabel.addStyleDependentName("long");
 		
-		TextBox newEmailTextBox = new TextBox();
+		newEmailTextBox = new TextBox();
 		newEmailTextBox.setStylePrimaryName("textbox");
 		
-		Button updateEmailButton = new Button("Update Email");
+		updateEmailButton = new Button("Update Email");
 		updateEmailButton.setWidth("321px");
 		updateEmailButton.setStylePrimaryName("button");
 		updateEmailButton.addStyleDependentName("red");
@@ -94,7 +101,7 @@ public class AccountManagementForm extends SimplePanel {
 		content.add(confirmPasswordLabel);
 		content.add(confirmPasswordTextBox);
 		content.add(new HTML("<br/>"));
-		content.add(resetButton);
+		content.add(updatePasswordButton);
 		content.add(new HTML("<br/>"));
 		content.add(updateEmailLabel);
 		content.add(new HTML("<br/>"));
@@ -103,11 +110,64 @@ public class AccountManagementForm extends SimplePanel {
 		content.add(new HTML("<br/>"));
 		content.add(updateEmailButton);
 		
-		
-		
-		
 		this.add(content);
 	}
 	
+	public void clearPasswords() {
+		currentPasswordTextBox.setText("");
+		newPasswordTextBox.setText("");
+		confirmPasswordTextBox.setText("");
+	}
+	
+	public void clearEmail() {
+		newEmailTextBox.setText("");
+	}
 
+	public PasswordTextBox getCurrentPasswordTextBox() {
+		return currentPasswordTextBox;
+	}
+
+	public void setCurrentPasswordTextBox(PasswordTextBox currentPasswordTextBox) {
+		this.currentPasswordTextBox = currentPasswordTextBox;
+	}
+
+	public PasswordTextBox getNewPasswordTextBox() {
+		return newPasswordTextBox;
+	}
+
+	public void setNewPasswordTextBox(PasswordTextBox newPasswordTextBox) {
+		this.newPasswordTextBox = newPasswordTextBox;
+	}
+
+	public PasswordTextBox getConfirmPasswordTextBox() {
+		return confirmPasswordTextBox;
+	}
+
+	public void setConfirmPasswordTextBox(PasswordTextBox confirmPasswordTextBox) {
+		this.confirmPasswordTextBox = confirmPasswordTextBox;
+	}
+
+	public Button getUpdatePasswordButton() {
+		return updatePasswordButton;
+	}
+
+	public void setUpdatePasswordButton(Button updatePasswordButton) {
+		this.updatePasswordButton = updatePasswordButton;
+	}
+
+	public TextBox getNewEmailTextBox() {
+		return newEmailTextBox;
+	}
+
+	public void setNewEmailTextBox(TextBox newEmailTextBox) {
+		this.newEmailTextBox = newEmailTextBox;
+	}
+
+	public Button getUpdateEmailButton() {
+		return updateEmailButton;
+	}
+
+	public void setUpdateEmailButton(Button updateEmailButton) {
+		this.updateEmailButton = updateEmailButton;
+	}
 }

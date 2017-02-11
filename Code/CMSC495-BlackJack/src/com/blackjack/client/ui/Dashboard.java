@@ -1,11 +1,9 @@
 package com.blackjack.client.ui;
 
-import com.blackjack.client.controls.GameController;
-import com.blackjack.client.controls.UserController;
 import com.blackjack.client.ui.UserMessageBox.MessageType;
-import com.blackjack.shared.entities.Room;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -64,15 +62,18 @@ public class Dashboard extends SimplePanel {
 	/**
 	 * Widget user for navigation.
 	 */
-	private BackAnchor backAnchor = new BackAnchor();
+	private BackAnchor backAnchor;
 	
 	/**
 	 * Form used for account actions.
 	 */
 	private AccountManagementForm accountManagementForm;
 	
+	private ConfirmEmailForm confirmEmailForm;
+	
 	private UserMessageBox messageBox = new UserMessageBox();
 	
+	private String[] place = new String[2];
 	/**
 	 * Default constructor
 	 */
@@ -100,6 +101,50 @@ public class Dashboard extends SimplePanel {
 		this.displayBackAnchor(displayBackAnchor);
 		this.clear();
 		this.add(view);
+		
+		History.addValueChangeHandler(new ValueChangeHandler<String>() {
+
+			@Override
+			public void onValueChange(ValueChangeEvent<String> event) {
+				loadHistoryItem(event.getValue());
+			}
+		});
+	}
+	
+	private void loadHistoryItem(String name) {
+		if (!place[0].equals(name)) {
+			String last = place[0];
+			place[0] = name;
+			place[1] = last;
+		}
+		
+		switch (name) {
+		case "login":
+			displayLoginScreen();
+			break;
+		case "rooms":
+			displayRoomSelectionScreen();
+			break;
+		case "createAccount":
+			displayCreateAccountScreen();
+			break;
+		case "accountManagement":
+			displayAccountManagementScreen();
+			break;
+		case "forgotPassword" :
+			displayForgotPasswordForm();
+			break;
+		case "confirmEmail" :
+			displayConfirmEmailForm();
+			break;
+		}
+	}
+	
+	/**
+	 * Loads the previous screen, useful for the back button.
+	 */
+	public void loadPreviousScreen() {
+		loadHistoryItem(place[1]);
 	}
 	
 	/**
@@ -143,6 +188,7 @@ public class Dashboard extends SimplePanel {
 	 */
 	public void displayRoomSelectionScreen() {
 		this.loadView(roomSelectionPanel);
+		History.newItem("rooms");
 	}
 	
 	/**
@@ -150,6 +196,12 @@ public class Dashboard extends SimplePanel {
 	 */
 	public void displayLoginScreen() {
 		this.loadView(loginForm);
+		History.newItem("login");
+	}
+	
+	public void displayForgotPasswordForm() {
+		this.loadView(forgotPasswordForm);
+		History.newItem("forgotPassword");
 	}
 	
 	public void displayEmailConfirmationPanel(boolean display) {
@@ -161,12 +213,20 @@ public class Dashboard extends SimplePanel {
 	 */
 	public void displayCreateAccountScreen() {
 		this.loadView(createAccountForm);
+		History.newItem("createAccount");
 	}
 	
 	
 	public void displayAccountManagementScreen() {
 		this.loadView(accountManagementForm);
+		History.newItem("accountManagement");
 	}
+	
+	public void displayConfirmEmailForm() {
+		this.loadView(confirmEmailForm);
+		History.newItem("confirmEmail");
+	}
+	
 	/**
 	 * Displays a message to the user of the application
 	 * @param type the type of message to display
@@ -178,7 +238,7 @@ public class Dashboard extends SimplePanel {
 		messageBox.setVisible(true);
 		messageBox.setFocus(true);
 	}
-
+	
 	/**
 	 * @return the views
 	 */
@@ -307,6 +367,14 @@ public class Dashboard extends SimplePanel {
 
 	public void setMessageBox(UserMessageBox messageBox) {
 		this.messageBox = messageBox;
+	}
+
+	public ConfirmEmailForm getConfirmEmailForm() {
+		return confirmEmailForm;
+	}
+
+	public void setConfirmEmailForm(ConfirmEmailForm confirmEmailForm) {
+		this.confirmEmailForm = confirmEmailForm;
 	}
 	
 	

@@ -1,7 +1,3 @@
-DROP TABLE game_data;
-
-DROP TABLE user;
-
 CREATE TABLE game_data
 (
     easy_play            boolean NOT NULL,
@@ -16,9 +12,9 @@ CREATE TABLE user
     user_name            VARCHAR(16) NOT NULL UNIQUE,
     email                VARCHAR(40) NOT NULL UNIQUE,
     temp_email		     VARCHAR(40) NULL,
-    password             VARCHAR(16) NOT NULL,
+    password             VARCHAR(41) NOT NULL,
     temp_password        boolean     NULL,
-    email_key            VARCHAR(16) NULL
+    email_key            VARCHAR(41) NULL
 );
 
 ALTER TABLE game_data

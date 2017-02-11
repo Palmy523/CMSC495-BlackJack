@@ -85,6 +85,7 @@ public class UserControllerServer {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
+			System.out.println(id);
 			ps = conn.prepareStatement("SELECT * FROM user WHERE user_id = ?;");
 			ps.setInt(1, id);
 			rs = ps.executeQuery();
@@ -264,6 +265,13 @@ public class UserControllerServer {
 		return user;
 	}
 	
+	/**
+	 * Creates a new account and initializes their game data
+	 * @param username the username of the user account to create
+	 * @param password the password of the user account to create
+	 * @param email the email of the user account to create
+	 * @return the newly created User object that represents the user
+	 */
 	public static User createAccount(String username, String password, String email) {
 		if (userNameExists(username)) {
 			return null;
@@ -274,7 +282,6 @@ public class UserControllerServer {
 		}
 		
 		password = MD5EncryptionService.encrypt(password);
-
 		User user = null;
 		Connection conn = ConnectionService.getConnection();
 		PreparedStatement ps = null;
@@ -320,14 +327,7 @@ public class UserControllerServer {
 		
 		return user;
 	}
-	
-	public static float updateChipCount(String userID, int amount) {
-		//TODO update the database with the new amount using controller
-		
-		//TODO return the amount if update was successful, else return the old amount
-		// or return -1 if any db actions were unsuccessful
-		return -1;
-	}
+
 	
 	/**
 	 * Creates a random password and updates the database with the new password
@@ -346,7 +346,7 @@ public class UserControllerServer {
 		PreparedStatement ps = null;
 		try {
 			ps = conn.prepareStatement("UPDATE user "
-					+ "password = ?"
+					+ "SET password = ? "
 					+ "WHERE email = ?;");
 			ps.setString(1, newPasswordEncrypted);
 			ps.setString(2, emailAddress);
@@ -498,54 +498,296 @@ public class UserControllerServer {
 			}
 		}
 		return false;
-	}	
-	
-	/**
-	 * Creates a temporary email update key in the DB
-	 * @param userID the userID of the account to create the key for 
-	 * to update
-	 * @return the confirmationKey that was created to confim the update
-	 */
-	public static String createTemporaryEmailUpdateKey(String userID) {
-		//TODO create a key
-		//TODO store in database
-		//TODO return the created key
-		return null;
 	}
 	
+	/**
+	 * Creates and returns a temporary email update key and stores it in the 
+	 * database to await for a user to confirm the email update.
+	 * @param userID the userID to create the key for
+	 * @return the newly created key unencrypted
+	 */
+	public static String createTemporaryEmailUpdateKey(String userID) {
+		String tempKey = createRandomKey();
+		String tempKeyEncrypted = MD5EncryptionService.encrypt(tempKey);
+		int userIDInt = Integer.valueOf(userID);
+		Connection conn = ConnectionService.getConnection();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			ps = conn.prepareStatement("UPDATE user "
+					+ "SET email_key = ? "
+					+ "WHERE user_id = ? ;");
+			ps.setString(1, tempKeyEncrypted);
+			ps.setInt(2, userIDInt);
+			int value = ps.executeUpdate();
+			if (value < 1) {
+				tempKey = null;
+			}
+		} catch(SQLException e) {
+			//TODO log exception appropriately
+			System.out.println("An error occurred getting the user by ID: "
+					+ e.getMessage());
+		} finally {
+			try {
+			if (rs != null) {
+				rs.close();
+			}
+			
+			if (ps != null) {
+				ps.close();
+			}
+			
+			if (conn != null) {
+				conn.close();
+			}
+			} catch (SQLException e) {
+				System.err.println(e.getMessage());
+			}
+		}
+		return tempKey;
+	}
+	
+	/**
+	 * Sets a temporary email for a user while waiting to confirm their email
+	 * update with a confirmation key.
+	 * @param userID the userID of the User to create the temporary email for
+	 * @param email the email to set as the temp
+	 * @return true if the operation was successful, false if otherwise
+	 */
 	public static boolean createTemporaryEmail(String userID, String email) {
-		//TODO set the tempEmail for the userID in the DB
-		//TODO return success or not
-		return false;
+		int userIDInt = Integer.valueOf(userID);
+		boolean success = false;
+		
+		Connection conn = ConnectionService.getConnection();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			ps = conn.prepareStatement("UPDATE user "
+					+ "SET temp_email = ? "
+					+ "WHERE user_id = ? ;");
+			ps.setString(1, email);
+			ps.setInt(2, userIDInt);
+			
+			int value = ps.executeUpdate();
+			if (value > 0) {
+				success = true;
+			}
+		} catch(SQLException e) {
+			//TODO log exception appropriately
+			System.out.println("An error occurred getting the user by ID: "
+					+ e.getMessage());
+		} finally {
+			try {
+			if (rs != null) {
+				rs.close();
+			}
+			
+			if (ps != null) {
+				ps.close();
+			}
+			
+			if (conn != null) {
+				conn.close();
+			}
+			} catch (SQLException e) {
+				System.err.println(e.getMessage());
+			}
+		}
+		return success;
 	}
 	
 	public static boolean performEmailUpdate(String userID) {
-		//TODO make the tempEmail the primary email.
-		//TODO return success or not
-		return false;
+		int userIDInt = Integer.valueOf(userID);
+		boolean success = false;
+		
+		Connection conn = ConnectionService.getConnection();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			ps = conn.prepareStatement("SELECT temp_email "
+					+ "FROM user "
+					+ "WHERE user_id = ? ;");
+			ps.setInt(1, userIDInt);
+			
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				rs.first();
+				String email = rs.getString(1);
+				ps.close();
+				
+				ps = conn.prepareStatement("UPDATE user "
+						+ "SET email = ? "
+						+ "WHERE user_id = ? ;");
+				ps.setString(1, email);
+				ps.setInt(2, userIDInt);
+				int value = ps.executeUpdate();
+				if (value > 0) {
+					success = true;
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Log message appropriately
+			System.err.println(e.getMessage());
+		} finally {
+			try {			
+			if (ps != null) {
+				ps.close();
+			}
+			
+			if (conn != null) {
+				conn.close();
+			}
+			} catch (SQLException e) {
+				System.err.println(e.getMessage());
+			}
+		}
+		
+		return success;
 	}
 	
 	public static boolean confirmationKeyMatches(String confirmationKey) {
-		//TODO check that the confirmationKey in the DB matches the supplies
-		//return success or not
-		return false;
-	}
-	
-	public static boolean verifyPassword(String userID, String password) {
-		//TODO check that the password passed in matches the password in the DB (this is POST encryption)
-		//TODO return success
-		return false;
-	}
-	
-	public static boolean updatePassword(String userID, String newPassword) {
-		//TODO update the DB with the newPassword (POST ENCRYPTION)
-		//TODO return success
-		return false;
+		confirmationKey = MD5EncryptionService.encrypt(confirmationKey);
+		boolean isValid = false;
+		
+		Connection conn = ConnectionService.getConnection();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			ps = conn.prepareStatement("SELECT Count(user_id) "
+					+ "FROM user "
+					+ "WHERE email_key = ? ;");
+			ps.setString(1, confirmationKey);
+			
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				rs.first();
+				if (rs.getInt(1) > 0) {
+					isValid = true;
+				}
+			}
+		} catch(SQLException e) {
+			//TODO log exception appropriately
+			System.out.println("An error occurred getting the user by ID: "
+					+ e.getMessage());
+		} finally {
+			try {
+			if (rs != null) {
+				rs.close();
+			}
+			
+			if (ps != null) {
+				ps.close();
+			}
+			
+			if (conn != null) {
+				conn.close();
+			}
+			} catch (SQLException e) {
+				System.err.println(e.getMessage());
+			}
+		}
+		return isValid;
 	}
 	
 	/**
-	 * Creates a random key
-	 * @return
+	 * Verifies that the password is correct for a user.
+	 * @param userID the user to check the password for
+	 * @param password the password to check
+	 * @return true if the password supplied matches the password stored in the DB,
+	 * false if otherwise
+	 */
+	public static boolean verifyPassword(String userID, String password) {
+		
+		int userIDInt = Integer.valueOf(userID);
+		password = MD5EncryptionService.encrypt(password);
+		boolean isValid = false;
+		
+		Connection conn = ConnectionService.getConnection();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			ps = conn.prepareStatement("SELECT Count(user_id) FROM user WHERE user_id = ? && password = ? ");
+			ps.setInt(1, userIDInt);
+			ps.setString(2, password);
+			
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				rs.first();
+				if (rs.getInt(1) > 0) {
+					isValid = true;
+				}
+			}
+		} catch(SQLException e) {
+			//TODO log exception appropriately
+			System.out.println("An error occurred getting the user by ID: "
+					+ e.getMessage());
+		} finally {
+			try {
+			if (rs != null) {
+				rs.close();
+			}
+			
+			if (ps != null) {
+				ps.close();
+			}
+			
+			if (conn != null) {
+				conn.close();
+			}
+			} catch (SQLException e) {
+				System.err.println(e.getMessage());
+			}
+		}
+		return isValid;
+	}
+	
+	/**
+	 * Updates the current password in the DB with the new Password
+	 * @param userID the userID of the user to set the new password for
+	 * @param newPassword the password to set
+	 * @return true if the operation was a success, false if otherwise
+	 */
+	public static boolean updatePassword(String userID, String newPassword) {
+		
+		int userIDInt = Integer.valueOf(userID);
+		newPassword = MD5EncryptionService.encrypt(newPassword);
+		boolean success = false;
+		
+		Connection conn = ConnectionService.getConnection();
+		PreparedStatement ps = null;
+		try {
+			ps = conn.prepareStatement("UPDATE user "
+					+ "SET password = ? "
+					+ "WHERE user_id = ? ;");
+			ps.setString(1, newPassword);
+			ps.setInt(2, userIDInt);
+			if (ps.executeUpdate() > 0) {
+				success = true;
+			}
+		} catch (SQLException e) {
+			// TODO Log message appropriately
+			System.err.println(e.getMessage());
+		} finally {
+			try {			
+			if (ps != null) {
+				ps.close();
+			}
+			
+			if (conn != null) {
+				conn.close();
+			}
+			} catch (SQLException e) {
+				System.err.println(e.getMessage());
+			}
+		}
+		
+		return success;
+	}
+	
+	/**
+	 * Creates a random key for use in email confirmation key generation and reset
+	 * password generation
+	 * @return a randomized string of 16 characters in length
 	 */
 	public static String createRandomKey() {
 		String charsAllowed = new String("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
@@ -560,8 +802,14 @@ public class UserControllerServer {
 		}
 		
 		return sb.toString();
+	}
+	
+	
+	public static float updateChipCount(String userID, int amount) {
+		//TODO update the database with the new amount using controller
 		
-		
-		
+		//TODO return the amount if update was successful, else return the old amount
+		// or return -1 if any db actions were unsuccessful
+		return -1;
 	}
 }
