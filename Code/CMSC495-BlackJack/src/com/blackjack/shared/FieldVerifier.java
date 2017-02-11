@@ -40,29 +40,35 @@ public class FieldVerifier {
 	public static RegExp emailRegex = RegExp.compile("/\\S+@\\S+\\.\\S+/");
 	
 	public static FormatError isValidUsername(String name) {
-		if (name.length() < 3 || name.length() > 16) {
-			return FormatError.LENGTH;
-		}
-		if (usernameRegex.test(name)) {
-			return FormatError.INVALID_CHARACTER;
-		}
+		//TODO make sure these work
 		return FormatError.NONE;
+//		if (name.length() < 3 || name.length() > 16) {
+//			return FormatError.LENGTH;
+//		}
+//		if (usernameRegex.test(name)) {
+//			return FormatError.INVALID_CHARACTER;
+//		}
+//		return FormatError.NONE;
 	}
 	
 	public static FormatError isValidPassword(String password) {
-		if (password.length() < 8 || password.length() > 16) {
-			return FormatError.LENGTH;
-		}
-		if (!passwordRegex.test(password)) {
-			return FormatError.INVALID_CHARACTER;
-		}
+		//TODO make sure these work
 		return FormatError.NONE;
+//		if (password.length() < 8 || password.length() > 16) {
+//			return FormatError.LENGTH;
+//		}
+//		if (!passwordRegex.test(password)) {
+//			return FormatError.INVALID_CHARACTER;
+//		}
+//		return FormatError.NONE;
 	}
 	
 	public static FormatError isValidEmail(String email) {
-		if (!emailRegex.test(email)) {
-			return FormatError.INVALID_FORMAT;
-		}
+		//TODO make sure these work
 		return FormatError.NONE;
+//		if (!emailRegex.test(email)) {
+//			return FormatError.INVALID_FORMAT;
+//		}
+//		return FormatError.NONE;
 	}
 }
