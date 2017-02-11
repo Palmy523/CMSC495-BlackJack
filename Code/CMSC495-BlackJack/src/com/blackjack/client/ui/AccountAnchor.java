@@ -9,12 +9,13 @@ import com.google.gwt.user.client.ui.Label;
 public class AccountAnchor extends FocusPanel {
 
 	private FlowPanel content;
+	private Label chipCountLabel;
 	
 	public AccountAnchor() {
 		this.setStylePrimaryName("account-anchor");
 		
 		content = new FlowPanel();
-		Label chipCountLabel = new Label("$15,000");
+		chipCountLabel = new Label("$15,000");
 		chipCountLabel.setStyleName("chipcount");
 		
 		Label icon = new Label();
@@ -25,6 +26,11 @@ public class AccountAnchor extends FocusPanel {
 		content.add(chipCountLabel);
 		
 		this.add(content);
+	}
+	
+	public void updateChipCount(float amount) {
+		String countString = String.valueOf(amount);
+		chipCountLabel.setText("$" + countString);
 	}
 	
 }

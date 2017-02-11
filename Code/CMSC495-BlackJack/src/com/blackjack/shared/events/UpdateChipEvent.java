@@ -8,7 +8,7 @@ import com.google.gwt.event.shared.GwtEvent;
 public class UpdateChipEvent extends GwtEvent<UpdateChipHandler> implements Serializable{
 
 	private boolean isSuccess;
-	private boolean newAmount;
+	private float newAmount;
 	
 	public static Type<UpdateChipHandler> TYPE = new Type<UpdateChipHandler>();
 	@Override
@@ -38,14 +38,14 @@ public class UpdateChipEvent extends GwtEvent<UpdateChipHandler> implements Seri
 	/**
 	 * @return the newAmount
 	 */
-	public boolean isNewAmount() {
+	public float getNewAmount() {
 		return newAmount;
 	}
 
 	/**
 	 * @param newAmount the newAmount to set
 	 */
-	public void setNewAmount(boolean newAmount) {
+	public void setNewAmount(float newAmount) {
 		this.newAmount = newAmount;
 	}
 

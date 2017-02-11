@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Random;
 
 import com.blackjack.server.service.ConnectionService;
 import com.blackjack.server.service.MD5EncryptionService;
@@ -11,6 +12,10 @@ import com.blackjack.shared.entities.User;
 
 public class UserControllerServer {
 
+	public static final boolean isEasyPlayDefault = true;
+	public static final float startChipCount = 250;
+	public static final float startMaxChipCount = startChipCount;
+	
 	/**
 	 * Checks the database for proper credentials and returns a User
 	 * with proper fields based on the success or failure of the login.
@@ -23,6 +28,7 @@ public class UserControllerServer {
 	public static User login(String username, String password) {
 		password = MD5EncryptionService.encrypt(password);
 		
+		User user;
 		Connection conn = ConnectionService.getConnection();
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -87,6 +93,7 @@ public class UserControllerServer {
 			user.setUserID(rs.getInt(1));
 			user.setUsername(rs.getString(2));
 			user.setEmail(rs.getString(3));
+			user = populateGameData(user.getUserID(), user);
 			return user;
 		} catch(SQLException e) {
 			//TODO log exception appropriately
@@ -259,10 +266,19 @@ public class UserControllerServer {
 	}
 	
 	public static User createAccount(String username, String password, String email) {
+		if (userNameExists(username)) {
+			return null;
+		}
 		
+		if (emailExists(email)) {
+			return null;
+		}
+		
+		password = MD5EncryptionService.encrypt(password);
+
 		User user = null;
 		Connection conn = ConnectionService.getConnection();
-		PreparedStatement ps;
+		PreparedStatement ps = null;
 		try {
 			ps = conn.prepareStatement("INSERT INTO user "
 					+ "(user_name, email, password)  " 
@@ -271,28 +287,42 @@ public class UserControllerServer {
 			ps.setString(2, email);
 			ps.setString(3, password);
 			if (ps.executeUpdate() > 0) {
+				ps.close();
 				user = getUserByUserName(username);
+				ps = conn.prepareStatement("INSERT INTO game_data (easy_play, max_chips, bank_amt, user_id) " 
+						+ "VALUES (?, ?, ?, ?);");
+				ps.setBoolean(1, isEasyPlayDefault);
+				ps.setFloat(2, startMaxChipCount);
+				ps.setFloat(3, startChipCount);
+				ps.setInt(4, user.getUserID());
+				if (ps.executeUpdate() > 0) {
+					user.setEasyPlay(isEasyPlayDefault);
+					user.setMaxChips(startMaxChipCount);
+					user.setBankAmount(startChipCount);
+				}
 			}
 			
 		} catch (SQLException e) {
 			// TODO Log message appropriately
 			System.err.println(e.getMessage());
 		} finally {
+			try {			
+			if (ps != null) {
+				ps.close();
+			}
+			
+			if (conn != null) {
+				conn.close();
+			}
+			} catch (SQLException e) {
+				System.err.println(e.getMessage());
+			}
 		}
 		
-		
-
-		
-		//TODO encrypt the password value using MD5EncryptionService
-		
-		//TODO create the account and User object
-		
-		//TODO return the created User if successful, null if not
-		
-		return null;
+		return user;
 	}
 	
-	public static int updateChipCount(String userID, int amount) {
+	public static float updateChipCount(String userID, int amount) {
 		//TODO update the database with the new amount using controller
 		
 		//TODO return the amount if update was successful, else return the old amount
@@ -300,11 +330,48 @@ public class UserControllerServer {
 		return -1;
 	}
 	
-	public static boolean resetPassword(String emailAddress) {
-		//TODO create a temporary password for the account with the email address
+	/**
+	 * Creates a random password and updates the database with the new password
+	 * @param emailAddress the email address of the user to perform the update on
+	 * @return the new password if the update was successful, else null
+	 */
+	public static String resetPassword(String emailAddress) {
+		String newPassword = createRandomKey();
+		String newPasswordEncrypted = MD5EncryptionService.encrypt(createRandomKey());
+
+		if (!emailExists(emailAddress)) {
+			return null;
+		}
 		
-		//TODO return success
-		return false;
+		Connection conn = ConnectionService.getConnection();
+		PreparedStatement ps = null;
+		try {
+			ps = conn.prepareStatement("UPDATE user "
+					+ "password = ?"
+					+ "WHERE email = ?;");
+			ps.setString(1, newPasswordEncrypted);
+			ps.setString(2, emailAddress);
+			if (ps.executeUpdate() > 0) {
+				return newPassword;
+			}
+		} catch (SQLException e) {
+			// TODO Log message appropriately
+			System.err.println(e.getMessage());
+		} finally {
+			try {			
+			if (ps != null) {
+				ps.close();
+			}
+			
+			if (conn != null) {
+				conn.close();
+			}
+			} catch (SQLException e) {
+				System.err.println(e.getMessage());
+			}
+		}
+		
+		return null;
 	}
 	
 	/**
@@ -406,6 +473,7 @@ public class UserControllerServer {
 			ps = conn.prepareStatement("SELECT COUNT(*) > 0 FROM user WHERE email = ?");
 			ps.setString(1, emailAddress);
 			rs = ps.executeQuery();
+			rs.first();
 			int value = rs.getInt(1);
 			return value > 0;
 		} catch (SQLException e) {
@@ -474,5 +542,27 @@ public class UserControllerServer {
 		//TODO update the DB with the newPassword (POST ENCRYPTION)
 		//TODO return success
 		return false;
+	}
+	
+	/**
+	 * Creates a random key
+	 * @return
+	 */
+	public static String createRandomKey() {
+		String charsAllowed = new String("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+				+ "1234567890!@#$%^&*()");
+		int length = 16;
+		StringBuilder sb = new StringBuilder();
+		Random rnd = new Random();
+		
+		for (int i = 0; i < length; i++){
+			int index = rnd.nextInt(charsAllowed.length());
+			sb.append(charsAllowed.charAt(index));
+		}
+		
+		return sb.toString();
+		
+		
+		
 	}
 }

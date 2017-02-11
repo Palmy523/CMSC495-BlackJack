@@ -89,7 +89,7 @@ public class UserMessageBox extends FocusPanel {
 		case INFO :
 			label.removeStyleName("label");
 			label.setStylePrimaryName("label");
-			label.addStyleDependentName("black");
+			label.addStyleDependentName("white");
 			label.addStyleDependentName("centered");
 			this.setStylePrimaryName("modal");
 			this.addStyleDependentName("gray");

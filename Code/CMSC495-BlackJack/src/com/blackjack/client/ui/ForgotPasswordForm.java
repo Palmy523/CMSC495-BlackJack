@@ -48,4 +48,12 @@ public class ForgotPasswordForm extends FormPanel {
 		wrapper.add(resetPasswordButton);
 		this.add(wrapper);
 	}
+	
+	public Button getResetPasswordButton() {
+		return resetPasswordButton;
+	}
+	
+	public TextBox getEmailTextBox() {
+		return emailTextBox;
+	}
 }

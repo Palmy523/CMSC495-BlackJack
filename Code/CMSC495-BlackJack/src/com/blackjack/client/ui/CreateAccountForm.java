@@ -72,15 +72,6 @@ public class CreateAccountForm extends FormPanel {
 		createAccountButton.addStyleDependentName("green");
 		createAccountButton.setWidth("311px");
 		
-		createAccountButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				submit();
-			}
-			
-		});
-		
 		cancelButton = new Button("Cancel");
 		cancelButton.setStylePrimaryName("button");
 		cancelButton.addStyleDependentName("red");
@@ -105,6 +96,13 @@ public class CreateAccountForm extends FormPanel {
 		this.add(panel);
 	}
 	
+	public void clearValues() {
+		userNameTextBox.setText("");
+		emailTextBox.setText("");
+		passwordTextBox.setText("");
+		confirmPasswordTextBox.setText("");
+	}
+	
 	public TextBox getUserNameTextBox() {
 		return userNameTextBox;
 	}
@@ -113,8 +111,16 @@ public class CreateAccountForm extends FormPanel {
 		return emailTextBox;
 	}
 	
+	public TextBox getPasswordTextBox() {
+		return passwordTextBox;
+	}
+	
 	public TextBox getConfirmPasswordTextBox() {
 		return confirmPasswordTextBox;
+	}
+	
+	public Button getCreateAccountButton() {
+		return createAccountButton;
 	}
 	
 	public Button getCancelButton() {

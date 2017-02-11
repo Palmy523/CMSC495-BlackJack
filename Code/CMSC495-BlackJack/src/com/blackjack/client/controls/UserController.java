@@ -19,10 +19,11 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class UserController {
 
-	public static final String COMM_FAILURE_MESSAGE = "There was a communication failure with the server, please try again later";
+	public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred, please try again later";
 	
 	private Dashboard dashboard;
 	private User user;
+	private UserServiceAsync service = GWT.create(UserService.class);
 	
 	public UserController(Dashboard dashboard) {
 		this.dashboard = dashboard;
@@ -38,7 +39,6 @@ public class UserController {
 		
 		//TODO verify username and password formats
 		
-		UserServiceAsync service = GWT.create(UserService.class);
 		AsyncCallback<LoginEvent> callback = new AsyncCallback<LoginEvent>() {
 
 			@Override
@@ -106,10 +106,10 @@ public class UserController {
 		}
 		
 		if (!password.equals(confirmPassword)) {
-			//dashboard.displayMessage(MessageType.INFO, "Sorry, the passwords you provided do not match.");
+			dashboard.displayMessage(MessageType.INFO, "Sorry, the passwords you provided do not match.");
+			return;
 		}
 		
-		UserServiceAsync userService = GWT.create(UserService.class);
 		AsyncCallback<CreateAccountEvent> callback = new AsyncCallback<CreateAccountEvent>() {
 
 			@Override
@@ -128,7 +128,7 @@ public class UserController {
 			}
 		};
 		
-		userService.createAccount(username, confirmPassword, email, callback);
+		service.createAccount(username, confirmPassword, email, callback);
 	}
 	
 	/**
@@ -138,28 +138,61 @@ public class UserController {
 	 */
 	public void onCreateAccountSuccess(CreateAccountEvent event) {
 		dashboard.displayLoginScreen();
-		dashboard.displayMessage(MessageType.INFO, "Your account has been successfully create, "
+		dashboard.displayMessage(MessageType.INFO, "Your account has been successfully created, "
 				+ "please Login to play.");
 	}
 	
 	public void onCreateAccountFailure(CreateAccountEvent event) {
-		dashboard.displayMessage(MessageType.ERROR, event.getErrorString());
+		String errorMessage = "An error occurred";
+		if (event.isUserNameTaken()) {
+			errorMessage = "Sorry, that user name is already taken.";
+		} else if (event.isEmailTaken()) {
+			errorMessage = "Sorry, that email is already in use.";
+		}
+		dashboard.displayMessage(MessageType.INFO, errorMessage);
 	}
 	
 	public void resetPassword(String emailAddress) {
-		//TODO verify user is logged in
-		//TODO verify email address format is correct
+		
+		if (FieldVerifier.isValidEmail(emailAddress) == FormatError.INVALID_FORMAT) {
+			dashboard.displayMessage(MessageType.ERROR, FieldVerifier.EMAIL_ADDRESS_ERROR);
+			return;
+		}
+		
+		AsyncCallback<ResetPasswordEvent> callback = new AsyncCallback<ResetPasswordEvent>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				dashboard.displayMessage(MessageType.ERROR, COMM_FAILURE_MESSAGE);
+			}
+
+			@Override
+			public void onSuccess(ResetPasswordEvent result) {
+				if (result.isSuccess()) {
+					onResetPasswordSuccess(result);
+				} else {
+					onResetPasswordFailure(result);
+				}
+				
+			}
+			
+		};
+		service.resetPassword(emailAddress, callback);
 		
 		//Call the UserService to reset the password
 		
 	}
 	
-	public void onResetPasswordSuccess() {
-		//TODO Display success message
+	public void onResetPasswordSuccess(ResetPasswordEvent event) {
+		dashboard.displayMessage(MessageType.INFO, "An email has been sent to the supplied email address with " 
+					+ "a temporary password.");
 	}
 	
 	public void onResetPasswordFailure(ResetPasswordEvent event) {
-		//TODO Display error message
+		if (event.isEmailInvalid()) {
+			dashboard.displayMessage(MessageType.INFO, "The email address you supplied is not in our system, "
+					+ "please provide a valid email address");
+		}
 	}
 	
 	public void updatEmail(String userID, String newEmailAddress) {

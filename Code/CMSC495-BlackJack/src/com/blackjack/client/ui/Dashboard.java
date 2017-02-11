@@ -153,6 +153,17 @@ public class Dashboard extends SimplePanel {
 	}
 	
 	/**
+	 * Display the create account screen
+	 */
+	public void displayCreateAccountScreen() {
+		this.loadView(createAccountForm);
+	}
+	
+	
+	public void displayAccountManagementScreen() {
+		this.loadView(accountManagementForm);
+	}
+	/**
 	 * Displays a message to the user of the application
 	 * @param type the type of message to display
 	 * @param message the message to display
