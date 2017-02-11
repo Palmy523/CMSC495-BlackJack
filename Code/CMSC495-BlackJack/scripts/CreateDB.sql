@@ -13,7 +13,6 @@ CREATE TABLE user
     email                VARCHAR(40) NOT NULL UNIQUE,
     temp_email		     VARCHAR(40) NULL,
     password             VARCHAR(41) NOT NULL,
-    temp_password        boolean     NULL,
     email_key            VARCHAR(41) NULL
 );
 

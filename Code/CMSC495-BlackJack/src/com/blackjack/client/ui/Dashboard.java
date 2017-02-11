@@ -134,9 +134,6 @@ public class Dashboard extends SimplePanel {
 		case "forgotPassword" :
 			displayForgotPasswordForm();
 			break;
-		case "confirmEmail" :
-			displayConfirmEmailForm();
-			break;
 		}
 	}
 	
@@ -224,7 +221,6 @@ public class Dashboard extends SimplePanel {
 	
 	public void displayConfirmEmailForm() {
 		this.loadView(confirmEmailForm);
-		History.newItem("confirmEmail");
 	}
 	
 	/**
