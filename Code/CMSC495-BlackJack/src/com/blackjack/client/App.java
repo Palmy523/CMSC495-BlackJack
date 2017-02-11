@@ -2,13 +2,19 @@ package com.blackjack.client;
 
 import com.blackjack.client.controls.GameController;
 import com.blackjack.client.controls.UserController;
+import com.blackjack.client.event.Events;
 import com.blackjack.client.ui.AccountAnchor;
 import com.blackjack.client.ui.Dashboard;
 import com.blackjack.client.ui.LoginForm;
 import com.blackjack.client.ui.RoomSelectionPanel;
 import com.blackjack.shared.entities.Room;
+import com.blackjack.shared.events.LoginEvent;
+import com.blackjack.shared.handlers.LoginHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.ui.RootPanel;
 
 public class App {
@@ -55,6 +61,51 @@ public class App {
 				userController.login(userName, password);
 			}
 		});
+		
+		loginForm.getUsernameTextBox().addKeyPressHandler(new KeyPressHandler() {
+
+			@Override
+			public void onKeyPress(KeyPressEvent event) {
+				if ((int)event.getCharCode() == KeyCodes.KEY_ENTER) {
+					loginForm.getLoginButton().click();
+				}
+			}
+		});
+		
+		loginForm.getPasswordTextBox().addKeyPressHandler(new KeyPressHandler() {
+
+			@Override
+			public void onKeyPress(KeyPressEvent event) {
+				if ((int)event.getCharCode() == KeyCodes.KEY_ENTER) {
+					loginForm.getLoginButton().click();
+				}
+			}
+		});
+		
+		
+		LoginHandler handler = new LoginHandler() {
+
+			@Override
+			public void OnLogin(LoginEvent event) {
+				if (event.isSuccess()) {
+					loginForm.getUsernameTextBox().setText("");
+					loginForm.getPasswordTextBox().setText("");
+				} else {
+					if (event.isUsernameInvalid()) {
+						loginForm.getUsernameTextBox().setText("");
+						loginForm.getPasswordTextBox().setText("");
+						loginForm.getUsernameTextBox().setFocus(true);
+						return;
+					}
+					if (event.isPasswordInvalid()) {
+						loginForm.getPasswordTextBox().setText("");
+						loginForm.getPasswordTextBox().setFocus(true);
+					}
+				}
+			}
+		};
+		
+		Events.eventBus.addHandler(LoginEvent.TYPE, handler);
 	}
 	
 	private void setupRoomSelectionPanel() {

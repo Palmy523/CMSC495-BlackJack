@@ -161,6 +161,7 @@ public class Dashboard extends SimplePanel {
 		messageBox.setType(type);
 		messageBox.setMessage(message);
 		messageBox.setVisible(true);
+		messageBox.setFocus(true);
 	}
 
 	/**

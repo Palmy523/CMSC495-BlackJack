@@ -2,13 +2,18 @@ package com.blackjack.client.ui;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.SimplePanel;
 
-public class UserMessageBox extends SimplePanel {
+public class UserMessageBox extends FocusPanel {
 
 	public enum MessageType {ERROR, INFO, WARN}
 	private String message;
@@ -38,6 +43,29 @@ public class UserMessageBox extends SimplePanel {
 			}
 			
 		});
+		
+		this.addKeyPressHandler(new KeyPressHandler() {
+
+			@Override
+			public void onKeyPress(KeyPressEvent event) {
+				int keyCode = event.getCharCode();
+				if (keyCode == KeyCodes.KEY_ENTER) {
+					button.click();
+				}
+			}
+		});
+		
+		this.addKeyDownHandler(new KeyDownHandler() {
+
+			@Override
+			public void onKeyDown(KeyDownEvent event) {
+				int keyCode = event.getNativeKeyCode();
+				if (keyCode == KeyCodes.KEY_ESCAPE) {
+					button.click();
+				}
+			}
+		});
+		
 		panel.add(label);
 		panel.add(new HTML("<br />"));
 		panel.add(button);
