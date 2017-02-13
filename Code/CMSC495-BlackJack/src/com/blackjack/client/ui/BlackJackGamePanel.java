@@ -1,5 +1,6 @@
 package com.blackjack.client.ui;
 
+import com.blackjack.client.entities.Card;
 import com.blackjack.client.entities.Hand.HandType;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
@@ -8,6 +9,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 
 public class BlackJackGamePanel extends SimplePanel {
 
+	private int betAmount;
 	private FlowPanel content;
 	private GameButton insuranceButton;
 	private GameButton doubleDownButton;
@@ -85,5 +87,40 @@ public class BlackJackGamePanel extends SimplePanel {
 		content.add(chipPanel);
 		
 		this.add(content);
+	}
+	
+	public void hitPlayerHand() {
+		//TODO
+	}
+	
+	public void hitDealerHand() {
+		
+	}
+	
+	public void playerStand() {
+		
+	}
+	
+	public void dealerStand() {
+		
+	}
+	
+	public void dealPlayerCard(Card card) {
+		
+	}
+	
+	public void dealDealerCard(Card card) {
+		
+	}
+	
+	/**
+	 * Updates the UI with the appropriate bet amount, this is not
+	 * the amount to set, but the amount to decrease or increase the current
+	 * bet by. Use negative values for bet decreasing.
+	 *  
+	 * @param amount the amount to increase or decrease the current bet amount by
+	 */
+	public void bet(int amount) {
+		
 	}
 }

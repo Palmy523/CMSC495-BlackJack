@@ -1,6 +1,7 @@
 package com.blackjack.client.controls;
 
 import com.blackjack.client.action.GameAction;
+import com.blackjack.client.entities.GameState;
 import com.blackjack.client.entities.Hand;
 import com.blackjack.client.ui.Dashboard;
 import com.blackjack.shared.entities.Room;
@@ -10,10 +11,11 @@ public class GameController {
 	
 	private Dashboard dashboard;
 	private GameActionQueueProcessor actionProcessor;
+	private GameState gameState;
 	
-	
-	public GameController(Dashboard dashboard) {
+	public GameController(Dashboard dashboard, GameState gameState) {
 		this.dashboard = dashboard;
+		this.gameState = gameState;
 	}
 	
 	/**
@@ -151,6 +153,14 @@ public class GameController {
 		//TODO send the updated chip amount to the server to update the db and update the UI
 		//with the return value
 		return false;
+	}
+
+	public GameState getGameState() {
+		return gameState;
+	}
+
+	public void setGameState(GameState gameState) {
+		this.gameState = gameState;
 	}
 	
 	
