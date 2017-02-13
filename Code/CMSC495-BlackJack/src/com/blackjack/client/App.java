@@ -56,7 +56,6 @@ public class App {
 	public void start() {
 		dashboard = new Dashboard();
 		userController = new UserController(dashboard);
-		gameController = new GameController(dashboard);
 		
 		loginForm = new LoginForm();
 		setupLogin();
