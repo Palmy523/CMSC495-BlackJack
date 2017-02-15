@@ -1,8 +1,10 @@
 package com.blackjack.client.ui;
 
 import com.blackjack.client.entities.Card;
+import com.blackjack.client.entities.Hand;
 import com.blackjack.client.entities.Hand.HandType;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
 
 /**
  * The HandUI represents a hand of blackjack cards for a person in 
@@ -15,14 +17,29 @@ import com.google.gwt.user.client.ui.FlowPanel;
 public class HandUI extends FlowPanel {
 	
 	/**
-	 * UI for the primary hand
+	 * Determines the Offset to position each successive card in the hand
 	 */
-	private HandPanel primaryHandPanel;
+	private final static int CARD_OFFSET = 20;
 	
 	/**
-	 * UI for the split hand
+	 * The hand is a representation of all the cards in the hand
 	 */
-	private HandPanel splitHandPanel;
+	private Hand hand = new Hand();
+	
+	/**
+	 * An array of CardUI objects in this HandUI
+	 */
+	private CardUI[] cardUIs = new CardUI[Hand.MAX_CARDS];
+	
+	/**
+	 * The number of CardUIs in this HandUI
+	 */
+	private int numCardUIs = 0;
+	
+	/**
+	 * Determines if the Hand is a Dealer's or Player's hand
+	 */
+	private HandType type;
 	
 	/**
 	 * Construct with type to determine if it is a Player or Dealer hand,
@@ -30,18 +47,27 @@ public class HandUI extends FlowPanel {
 	 * @param type the type of Hand
 	 */
 	public HandUI(HandType type) {
-		primaryHandPanel = new HandPanel(type);
-		splitHandPanel = new HandPanel(type);
+		hand = new Hand();	
 		
-		//TODO add styles and position appropriately.
+		this.type = type;
 		
+		this.setStylePrimaryName("hand-panel");
+		this.addStyleName("centeredHorizontal");
 		
-		this.add(primaryHandPanel);
-		this.add(splitHandPanel);
+		Label label = new Label();
+		label.setStylePrimaryName("label");
+		label.addStyleDependentName("white");
+		label.addStyleDependentName("centered");
 		
-		//Hide the splitHandPanel until the hand is split.
-		splitHandPanel.setVisible(false);
-		
+		switch(type) {
+			case DEALER :
+				label.setText("Dealer Hand");
+				this.addStyleDependentName("dealer");
+				break;
+			case PLAYER :
+				label.setText("Player Hand");
+				this.addStyleDependentName("player");
+		}
 	}
 	
 	/**
@@ -49,43 +75,36 @@ public class HandUI extends FlowPanel {
 	 * @param card the card to be dealt
 	 */
 	public void hit(Card card) {
-		this.primaryHandPanel.hit(card);
+		CardUI cardUI = new CardUI(card);
+		cardUIs[numCardUIs] = cardUI;
+		
+		//TODO update positioning and styles
+		
+		this.add(cardUI);
 	}
 	
 	/**
-	 * Causes a card to be dealt to the split hand and updates the UI
-	 * @param card the card to be dealt
-	 */
-	public void hitSplit(Card card) {
-		this.splitHandPanel.hit(card);
-	}
-	
-	/**
-	 * Perfoms a split if card number is == 2 and the card 
+	 * Perfoms a split and returns a HandUI object to display as 
+	 * the split hand in the HandPanel
 	 * rank is of the same type.
 	 */
-	public void splitHand() {
-		//TODO update the UI to show two cards splits and 
-		//update the card arrays
-	}
-	
-	public void unSplit() {
-		//TODO update the UI to show the primary hand go back
-		//to the start position and hide the splitHand.
+	public HandUI splitHand() {
+		Card card = hand.split();
+		HandUI handUI = null;
+		if (card != null) {
+			handUI = new HandUI(type);
+			handUI.hit(card);
+		}
+		return handUI;
 	}
 	
 	/**
 	 * Resets the hand to empty.
 	 */
 	public void reset() {
-		//TODO perform any actions to clear this hand of 
-		//its current state and reset with an empty hand.
+		this.clear();
+		hand.clear();
 		
-		
+		//TODO if this HandUI is split, reset it to it's original position
 	}
-	
-	public void clearHands() {
-		//TODO clear the HandPanels of their cards
-	}
-
 }

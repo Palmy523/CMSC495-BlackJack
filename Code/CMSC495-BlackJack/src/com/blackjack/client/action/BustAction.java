@@ -9,7 +9,7 @@ import com.blackjack.client.ui.BlackJackGamePanel;
 public class BustAction extends GameAction {
 
 	public BustAction(int delay, BlackJackGamePanel panel) {
-		super(delay, panel);
+		super(panel);
 		// TODO Auto-generated constructor stub
 	}
 

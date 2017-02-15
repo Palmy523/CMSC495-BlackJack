@@ -134,6 +134,9 @@ public class Dashboard extends SimplePanel {
 		case "forgotPassword" :
 			displayForgotPasswordForm();
 			break;
+		case "gamePanel" :
+			displayGamePanel();
+			break;
 		}
 	}
 	
@@ -221,6 +224,11 @@ public class Dashboard extends SimplePanel {
 	
 	public void displayConfirmEmailForm() {
 		this.loadView(confirmEmailForm);
+	}
+	
+	public void displayGamePanel() {
+		this.loadView(gamePanel);
+		History.newItem("gamePanel");
 	}
 	
 	/**

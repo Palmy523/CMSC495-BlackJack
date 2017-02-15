@@ -8,29 +8,19 @@ import com.google.gwt.user.client.ui.Label;
 
 public class HandPanel extends FlowPanel {
 
-	private Hand hand;
+	private HandUI primaryHandUI;
+	private HandUI splitHandUI;
+	private HandType type;
 	
 	public HandPanel(HandType type) {
-		this.hand = new Hand();
-		this.setStylePrimaryName("hand-panel");
-		this.addStyleName("centeredHorizontal");
-
-		Label label = new Label();
-		label.setStylePrimaryName("label");
-		label.addStyleDependentName("white");
-		label.addStyleDependentName("centered");
+		this.type = type;
+		primaryHandUI = new HandUI(type);
+		splitHandUI = new HandUI(type);
 		
-		switch(type) {
-			case DEALER :
-				label.setText("Dealer Hand");
-				this.addStyleDependentName("dealer");
-				break;
-			case PLAYER :
-				label.setText("Player Hand");
-				this.addStyleDependentName("player");
-		}
+		splitHandUI.setVisible(false);
 		
-		this.add(label);
+		this.add(primaryHandUI);
+		this.add(splitHandUI);
 	}
 	
 	/**
@@ -38,7 +28,25 @@ public class HandPanel extends FlowPanel {
 	 * @param card the card to be dealt
 	 */
 	public void hit(Card card) {
-		//TODO Add a Card to this Hand and update the UI
+		primaryHandUI.hit(card);
 	}
 	
+	/**
+	 * Creates a new card UI and calls the hit function of the 
+	 * split hand.
+	 * 
+	 * @param card the card to display in the split hand
+	 */
+	public void hitSplit(Card card) {
+		splitHandUI.hit(card);
+	}
+	
+	/**
+	 * Displays the split hand by taking the duplicate card from the 
+	 * primary and displaying it in the splitHand. Additionally, updates
+	 * the position of the primary and split hands appropriately
+	 */
+	public void split() {
+		//TODO see comments above
+	}
 }

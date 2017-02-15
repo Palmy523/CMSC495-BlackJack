@@ -1,5 +1,8 @@
 package com.blackjack.client.action;
 
+import java.util.concurrent.Delayed;
+import java.util.concurrent.TimeUnit;
+
 import com.blackjack.client.entities.GameState;
 import com.blackjack.client.event.Events;
 import com.blackjack.client.event.GameEvent;
@@ -9,8 +12,8 @@ public class BetAction extends GameAction {
 
 	private int betAmount;
 	
-	public BetAction(int delay, BlackJackGamePanel panel, int betAmount) {
-		super(delay, panel);
+	public BetAction(BlackJackGamePanel panel, int betAmount) {
+		super(panel);
 		this.betAmount = betAmount;
 	}
 
@@ -25,8 +28,7 @@ public class BetAction extends GameAction {
 		//state.getDeck()
 		//state.getTurn()
 		
-		//TODO Cause a bet increase on the GameState by the specified amountin the constructor
-		//THIS should do nothing if the GameState is in a state that does not allow a bet
+		//TODO Cause a bet increase on the GameState by the specified amount in the constructor
 		//NOTE: NEGATIVE integer values will be passed in for betMinus, and Positive for betPlus
 		
 		//TODO Play sounds using the SoundManager.play(SoundName) static method!!!!! See SoundManager to create
@@ -40,5 +42,4 @@ public class BetAction extends GameAction {
 		event.setActionType(ActionType.BET);
 		Events.eventBus.fireEvent(event);
 	}
-
 }

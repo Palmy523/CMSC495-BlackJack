@@ -9,7 +9,7 @@ import com.blackjack.client.ui.BlackJackGamePanel;
 public class DealAction extends GameAction {
 
 	public DealAction(int delay, BlackJackGamePanel panel) {
-		super(delay, panel);
+		super(panel);
 	}
 
 	@Override
@@ -23,7 +23,7 @@ public class DealAction extends GameAction {
 		//state.getDeck()
 		//state.getTurn()
 		
-		//TODO DEAL A SINGLE CARD to a player hand or dealer hand from the deck IF the state allows
+		//TODO DEAL A SINGLE CARD to a player hand or dealer hand from the deck
 		//based on the getTurn() state. This will be called multiple times from the controller
 		//to properly deal all the required cards.
 		

@@ -23,6 +23,8 @@ public class BlackJackGamePanel extends SimplePanel {
 	private ChipButton chip25;
 	private ChipButton chip50;
 	private ChipButton chip100;
+	private HandPanel playerHandPanel;
+	private HandPanel dealerHandPanel;
 	
 	
 	public BlackJackGamePanel() {
@@ -50,8 +52,8 @@ public class BlackJackGamePanel extends SimplePanel {
 		buttonPanel.add(hitButton);
 		buttonPanel.add(standButton);
 		
-		FlowPanel playerHandPanel = new HandPanel(HandType.PLAYER);
-		FlowPanel dealerHandPanel = new HandPanel(HandType.DEALER);
+		playerHandPanel = new HandPanel(HandType.PLAYER);
+		dealerHandPanel = new HandPanel(HandType.DEALER);
 		
 		FlowPanel chipPanel = new FlowPanel();
 		chipPanel.setStylePrimaryName("chipPanel");
@@ -89,28 +91,31 @@ public class BlackJackGamePanel extends SimplePanel {
 		this.add(content);
 	}
 	
-	public void hitPlayerHand() {
-		//TODO
+	/**
+	 * Causes the UI to update
+	 */
+	public void hitPlayerHand(Card card) {
+		playerHandPanel.hit(card);
 	}
 	
-	public void hitDealerHand() {
-		
+	public void hitDealerHand(Card card) {
+		dealerHandPanel.hit(card);
 	}
 	
 	public void playerStand() {
-		
+		//TODO implement stand for HandPanel, HandUI, and Hand and call
 	}
 	
 	public void dealerStand() {
-		
+		//TODO implement stand for HandPanel, HandUI, and Hand and call
 	}
 	
 	public void dealPlayerCard(Card card) {
-		
+		//TODO may just be able to call hit? Maybe something else should happen with a deal?
 	}
 	
 	public void dealDealerCard(Card card) {
-		
+		//TODO may just be able to call hit? Maybe something else should happen with a deal?
 	}
 	
 	/**
@@ -121,6 +126,136 @@ public class BlackJackGamePanel extends SimplePanel {
 	 * @param amount the amount to increase or decrease the current bet amount by
 	 */
 	public void bet(int amount) {
-		
+		//TODO implement a current bet label and increase/decrease bet
 	}
+
+	public int getBetAmount() {
+		return betAmount;
+	}
+
+	public void setBetAmount(int betAmount) {
+		this.betAmount = betAmount;
+	}
+
+	public FlowPanel getContent() {
+		return content;
+	}
+
+	public void setContent(FlowPanel content) {
+		this.content = content;
+	}
+
+	public GameButton getInsuranceButton() {
+		return insuranceButton;
+	}
+
+	public void setInsuranceButton(GameButton insuranceButton) {
+		this.insuranceButton = insuranceButton;
+	}
+
+	public GameButton getDoubleDownButton() {
+		return doubleDownButton;
+	}
+
+	public void setDoubleDownButton(GameButton doubleDownButton) {
+		this.doubleDownButton = doubleDownButton;
+	}
+
+	public GameButton getHitButton() {
+		return hitButton;
+	}
+
+	public void setHitButton(GameButton hitButton) {
+		this.hitButton = hitButton;
+	}
+
+	public GameButton getStandButton() {
+		return standButton;
+	}
+
+	public void setStandButton(GameButton standButton) {
+		this.standButton = standButton;
+	}
+
+	public GameButton getSplitButton() {
+		return splitButton;
+	}
+
+	public void setSplitButton(GameButton splitButton) {
+		this.splitButton = splitButton;
+	}
+
+	public GameButton getSurrenderButton() {
+		return surrenderButton;
+	}
+
+	public void setSurrenderButton(GameButton surrenderButton) {
+		this.surrenderButton = surrenderButton;
+	}
+
+	public ChipButton getChip1() {
+		return chip1;
+	}
+
+	public void setChip1(ChipButton chip1) {
+		this.chip1 = chip1;
+	}
+
+	public ChipButton getChip5() {
+		return chip5;
+	}
+
+	public void setChip5(ChipButton chip5) {
+		this.chip5 = chip5;
+	}
+
+	public ChipButton getChip10() {
+		return chip10;
+	}
+
+	public void setChip10(ChipButton chip10) {
+		this.chip10 = chip10;
+	}
+
+	public ChipButton getChip25() {
+		return chip25;
+	}
+
+	public void setChip25(ChipButton chip25) {
+		this.chip25 = chip25;
+	}
+
+	public ChipButton getChip50() {
+		return chip50;
+	}
+
+	public void setChip50(ChipButton chip50) {
+		this.chip50 = chip50;
+	}
+
+	public ChipButton getChip100() {
+		return chip100;
+	}
+
+	public void setChip100(ChipButton chip100) {
+		this.chip100 = chip100;
+	}
+
+	public HandPanel getPlayerHandPanel() {
+		return playerHandPanel;
+	}
+
+	public void setPlayerHandPanel(HandPanel playerHandPanel) {
+		this.playerHandPanel = playerHandPanel;
+	}
+
+	public HandPanel getDealerHandPanel() {
+		return dealerHandPanel;
+	}
+
+	public void setDealerHandPanel(HandPanel dealerHandPanel) {
+		this.dealerHandPanel = dealerHandPanel;
+	}
+	
+	
 }

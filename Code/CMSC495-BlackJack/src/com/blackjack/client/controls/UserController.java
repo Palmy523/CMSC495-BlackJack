@@ -22,7 +22,7 @@ public class UserController {
 public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred, please try again later";
 	
 	private Dashboard dashboard;
-	private User user;
+	private static User user;
 	private UserServiceAsync service = GWT.create(UserService.class);
 	
 	public UserController(Dashboard dashboard) {
@@ -439,5 +439,14 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 					"You have been logged out, please log back in.");
 		}
 	}
+
+	public static User getUser() {
+		return user;
+	}
+
+	public static void setUser(User user) {
+		UserController.user = user;
+	}
+	
 	
 }

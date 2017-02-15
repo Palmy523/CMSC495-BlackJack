@@ -9,7 +9,7 @@ import com.blackjack.client.ui.BlackJackGamePanel;
 public class HitAction extends GameAction {
 
 	public HitAction(int delay, BlackJackGamePanel panel) {
-		super(delay, panel);
+		super(panel);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -24,8 +24,7 @@ public class HitAction extends GameAction {
 		//state.getDeck()
 		//state.getTurn()
 		
-		//TODO Depending on state deal a card to the appropriate hand, should do nothing if 
-		//state does not allow a hit
+		//TODO Depending on state deal a card to the appropriate hand
 		
 		//TODO Play sounds using the SoundManager.play(SoundName) static method!!!!! See SoundManager to create
 		//the sounds you need. Just follow the same setup that FAN1 uses, add an enum name
@@ -33,7 +32,6 @@ public class HitAction extends GameAction {
 		//FAN1 but reference the sound from the war/sounds directory that you want.
 		
 		//TODO update the GameState by setting the proper turn, or other data
-		
 		
 		//TODO Check if the new hand value causes a bust, if so, call a new BustAction and pass in
 		//the event

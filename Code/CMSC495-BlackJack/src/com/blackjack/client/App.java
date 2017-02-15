@@ -2,15 +2,22 @@ package com.blackjack.client;
 
 import com.blackjack.client.controls.GameController;
 import com.blackjack.client.controls.UserController;
+import com.blackjack.client.entities.Card.Set;
+import com.blackjack.client.entities.GameState.TurnState;
+import com.blackjack.client.entities.Deck;
+import com.blackjack.client.entities.GameState;
+import com.blackjack.client.entities.Hand;
 import com.blackjack.client.event.Events;
 import com.blackjack.client.ui.AccountAnchor;
 import com.blackjack.client.ui.AccountManagementForm;
 import com.blackjack.client.ui.BackAnchor;
+import com.blackjack.client.ui.BlackJackGamePanel;
 import com.blackjack.client.ui.ConfirmEmailForm;
 import com.blackjack.client.ui.CreateAccountForm;
 import com.blackjack.client.ui.Dashboard;
 import com.blackjack.client.ui.ForgotPasswordForm;
 import com.blackjack.client.ui.LoginForm;
+import com.blackjack.client.ui.RoomPanel;
 import com.blackjack.client.ui.RoomSelectionPanel;
 import com.blackjack.shared.entities.Room;
 import com.blackjack.shared.entities.User;
@@ -48,43 +55,46 @@ public class App {
 	private BackAnchor backAnchor;
 	private AccountManagementForm accountManagementForm;
 	private ConfirmEmailForm confirmEmailForm;
-	
-	
+	private BlackJackGamePanel gamePanel;
+
 	/**
 	 * Call start in CMSC495_BlackJack to load the app
 	 */
 	public void start() {
 		dashboard = new Dashboard();
 		userController = new UserController(dashboard);
-		
+
 		loginForm = new LoginForm();
 		setupLogin();
-		
+
 		createAccountForm = new CreateAccountForm();
 		setupCreateAccount();
-		
+
 		forgotPasswordForm = new ForgotPasswordForm();
 		setupForgotPasswordForm();
-		
+
 		Room room1 = Room.createLowStakesRoom();
 		Room room2 = Room.createMediumStakesRoom();
 		Room room3 = Room.createHighStakesRoom();
-		Room[] rooms = new Room[] {room1, room2, room3};
+		Room[] rooms = new Room[] { room1, room2, room3 };
 		roomSelectionPanel = new RoomSelectionPanel(rooms);
 		setupRoomSelectionPanel();
 
 		accountAnchor = new AccountAnchor();
 		setupAccountAnchor();
-		
+
 		backAnchor = new BackAnchor();
 		setupBackAnchor();
-		
+
 		accountManagementForm = new AccountManagementForm();
 		setupAccountManagementForm();
-		
+
 		confirmEmailForm = new ConfirmEmailForm();
 		setupConfirmEmailForm();
-		
+
+		gamePanel = new BlackJackGamePanel();
+		setupGamePanel();
+
 		dashboard.setLoginForm(loginForm);
 		dashboard.setCreateAccountForm(createAccountForm);
 		dashboard.setForgotPasswordForm(forgotPasswordForm);
@@ -93,11 +103,12 @@ public class App {
 		dashboard.setBackAnchor(backAnchor);
 		dashboard.setAccountManagementForm(accountManagementForm);
 		dashboard.setConfirmEmailForm(confirmEmailForm);
-		
+		dashboard.setGamePanel(gamePanel);
+
 		dashboard.displayLoginScreen();
 		RootPanel.get().add(dashboard);
 	}
-	
+
 	/**
 	 * Sets up the login screen handlers
 	 */
@@ -111,47 +122,48 @@ public class App {
 				userController.login(userName, password);
 			}
 		});
-		
+
 		loginForm.getUsernameTextBox().addKeyPressHandler(new KeyPressHandler() {
 
 			@Override
 			public void onKeyPress(KeyPressEvent event) {
-				if ((int)event.getCharCode() == KeyCodes.KEY_ENTER) {
+				if ((int) event.getCharCode() == KeyCodes.KEY_ENTER) {
 					loginForm.getLoginButton().click();
 				}
 			}
 		});
-		
+
 		loginForm.getPasswordTextBox().addKeyPressHandler(new KeyPressHandler() {
 
 			@Override
 			public void onKeyPress(KeyPressEvent event) {
-				if ((int)event.getCharCode() == KeyCodes.KEY_ENTER) {
+				if ((int) event.getCharCode() == KeyCodes.KEY_ENTER) {
 					loginForm.getLoginButton().click();
 				}
 			}
 		});
-		
-		//Action for opening the CreateAccount screen
+
+		// Action for opening the CreateAccount screen
 		loginForm.getCreateAccountButton().addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				dashboard.displayCreateAccountScreen();
 			}
-			
+
 		});
-		
+
 		loginForm.getForgotPasswordButton().addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				dashboard.displayForgotPasswordForm();
 			}
-			
+
 		});
-		
-		//Add a Login Handler to clear form values depending on success of the event
+
+		// Add a Login Handler to clear form values depending on success of the
+		// event
 		LoginHandler handler = new LoginHandler() {
 
 			@Override
@@ -173,10 +185,10 @@ public class App {
 				}
 			}
 		};
-		
+
 		Events.eventBus.addHandler(LoginEvent.TYPE, handler);
 	}
-	
+
 	/**
 	 * Sets up the create account handlers
 	 */
@@ -191,9 +203,9 @@ public class App {
 				String confirmPassword = createAccountForm.getConfirmPasswordTextBox().getText();
 				userController.createAccount(username, password, confirmPassword, email);
 			}
-			
+
 		});
-		
+
 		createAccountForm.getCancelButton().addClickHandler(new ClickHandler() {
 
 			@Override
@@ -201,7 +213,7 @@ public class App {
 				dashboard.displayLoginScreen();
 			}
 		});
-		
+
 		CreateAccountHandler handler = new CreateAccountHandler() {
 
 			@Override
@@ -210,11 +222,11 @@ public class App {
 					createAccountForm.clearValues();
 				}
 			}
-			
+
 		};
 		Events.eventBus.addHandler(CreateAccountEvent.TYPE, handler);
 	}
-	
+
 	/**
 	 * Sets up the Forgot Passowrd Form handlers
 	 */
@@ -227,7 +239,7 @@ public class App {
 				userController.resetPassword(email);
 			}
 		});
-		
+
 		ResetPasswordHandler handler = new ResetPasswordHandler() {
 
 			@Override
@@ -236,11 +248,11 @@ public class App {
 					forgotPasswordForm.getEmailTextBox().setText("");
 				}
 			}
-			
+
 		};
 		Events.eventBus.addHandler(ResetPasswordEvent.TYPE, handler);
 	}
-	
+
 	/**
 	 * Sets up the Account Anchor handlers
 	 */
@@ -254,34 +266,34 @@ public class App {
 					accountAnchor.updateChipCount(user.getBankAmount());
 				}
 			}
-			
+
 		};
-		
+
 		Events.eventBus.addHandler(LoginEvent.TYPE, loginHandler);
-		
+
 		UpdateChipHandler chipUpdateHandler = new UpdateChipHandler() {
 
 			@Override
 			public void processUpdateChipEvent(UpdateChipEvent event) {
-				if(event.isSuccess()) {
+				if (event.isSuccess()) {
 					accountAnchor.updateChipCount(event.getNewAmount());
 				}
 			}
-			
+
 		};
-		
+
 		Events.eventBus.addHandler(UpdateChipEvent.TYPE, chipUpdateHandler);
-		
+
 		accountAnchor.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				dashboard.displayAccountManagementScreen();
 			}
-			
+
 		});
 	}
-	
+
 	/**
 	 * Sets up the back anchor form handlers
 	 */
@@ -292,10 +304,10 @@ public class App {
 			public void onClick(ClickEvent event) {
 				dashboard.loadPreviousScreen();
 			}
-			
+
 		});
 	}
-	
+
 	/**
 	 * Sets up the account management form handlers
 	 */
@@ -310,7 +322,7 @@ public class App {
 				userController.updatePassword(currentPassword, newPassword, confirmPassword);
 			}
 		});
-		
+
 		accountManagementForm.getUpdateEmailButton().addClickHandler(new ClickHandler() {
 
 			@Override
@@ -318,9 +330,9 @@ public class App {
 				String newEmail = accountManagementForm.getNewEmailTextBox().getText();
 				userController.updatEmail(newEmail);
 			}
-			
+
 		});
-		
+
 		UpdatePasswordHandler passwordHandler = new UpdatePasswordHandler() {
 
 			@Override
@@ -329,10 +341,10 @@ public class App {
 					accountManagementForm.clearPasswords();
 				}
 			}
-			
+
 		};
 		Events.eventBus.addHandler(UpdatePasswordEvent.TYPE, passwordHandler);
-		
+
 		UpdateEmailHandler emailHandler = new UpdateEmailHandler() {
 
 			@Override
@@ -341,12 +353,12 @@ public class App {
 					accountManagementForm.clearEmail();
 				}
 			}
-			
+
 		};
 		Events.eventBus.addHandler(UpdateEmailEvent.TYPE, emailHandler);
-		
+
 	}
-	
+
 	private void setupConfirmEmailForm() {
 		confirmEmailForm.getSubmitButton().addClickHandler(new ClickHandler() {
 
@@ -356,7 +368,7 @@ public class App {
 				userController.confirmEmail(key);
 			}
 		});
-		
+
 		ConfirmEmailHandler handler = new ConfirmEmailHandler() {
 
 			@Override
@@ -367,7 +379,7 @@ public class App {
 			}
 		};
 		Events.eventBus.addHandler(ConfirmEmailEvent.TYPE, handler);
-		
+
 		confirmEmailForm.getCancelButton().addClickHandler(new ClickHandler() {
 
 			@Override
@@ -377,13 +389,49 @@ public class App {
 			}
 		});
 	}
-	
+
 	/**
 	 * Sets up the Room Selection Panel handlers
 	 */
 	private void setupRoomSelectionPanel() {
-		//TODO Phase II
+		for (RoomPanel roomPanel : roomSelectionPanel.getRoomPanels()) {
+			final Room room = roomPanel.getRoom();
+			roomPanel.addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					GameState state = new GameState();
+					state.setBetAmount(0);
+					state.setDealerHand(new Hand());
+					state.setPlayerHand(new Hand());
+					state.setDeck(new Deck(Set.ONE, 1, true));
+					state.setTurn(TurnState.PLAYER_TURN);
+					state.setRoom(room);
+					state.setUser(UserController.getUser());
+					gameController = new GameController(dashboard, state);
+					gameController.startGame();
+				}
+
+			});
+		}
 	}
-	
-	
+
+	private void setupGamePanel() {
+		gamePanel.getHitButton().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				gameController.playerHit();
+			}
+		});
+
+		gamePanel.getStandButton().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				gameController.playerStand();
+			}
+		});
+	}
+
 }

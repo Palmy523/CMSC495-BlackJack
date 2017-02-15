@@ -1,5 +1,8 @@
 package com.blackjack.client.entities;
 
+import com.blackjack.shared.entities.Room;
+import com.blackjack.shared.entities.User;
+
 public class GameState {
 
 	public enum TurnState {PLAYER_TURN, DEALER_TURN, AWAITING_BET, AWAITING_DEAL}
@@ -9,6 +12,8 @@ public class GameState {
 	private static Hand dealerHand;
 	private static Deck deck;
 	private static int betAmount;
+	private static Room room;
+	private static User user;
 	
 	/**
 	 * @return the turn
@@ -79,4 +84,22 @@ public class GameState {
 	public static void setBetAmount(int betAmount) {
 		betAmount = betAmount;
 	}
+
+	public static Room getRoom() {
+		return room;
+	}
+
+	public static void setRoom(Room room) {
+		GameState.room = room;
+	}
+
+	public static User getUser() {
+		return user;
+	}
+
+	public static void setUser(User user) {
+		GameState.user = user;
+	}
+	
+	
 }

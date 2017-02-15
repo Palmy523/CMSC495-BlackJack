@@ -1,14 +1,12 @@
 package com.blackjack.client.ui;
 
 import com.blackjack.shared.entities.Room;
-import com.blackjack.shared.entities.Stakes;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.blackjack.shared.entities.Stakes;
 
-public class RoomPanel extends SimplePanel {
+public class RoomPanel extends FocusPanel {
 
 	private Label difficultyLabel;
 	private Label requiredChipsLabel;
@@ -108,4 +106,14 @@ public class RoomPanel extends SimplePanel {
 		this.getElement().setAttribute("disabled", enabled);
 		this.setTitle("Requirements not met");
 	}
+
+	public Room getRoom() {
+		return room;
+	}
+
+	public void setRoom(Room room) {
+		this.room = room;
+	}
+	
+	
 }

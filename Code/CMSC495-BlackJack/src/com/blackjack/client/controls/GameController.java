@@ -1,20 +1,23 @@
 package com.blackjack.client.controls;
 
 import com.blackjack.client.action.GameAction;
+import com.blackjack.client.action.HitAction;
 import com.blackjack.client.entities.GameState;
 import com.blackjack.client.entities.Hand;
+import com.blackjack.client.entities.Hand.HandType;
+import com.blackjack.client.event.GameEvent;
+import com.blackjack.client.ui.BlackJackGamePanel;
 import com.blackjack.client.ui.Dashboard;
-import com.blackjack.shared.entities.Room;
 
 public class GameController {
 
-	
 	private Dashboard dashboard;
-	private GameActionQueueProcessor actionProcessor;
+	private BlackJackGamePanel gamePanel;
 	private GameState gameState;
 	
 	public GameController(Dashboard dashboard, GameState gameState) {
 		this.dashboard = dashboard;
+		gamePanel = dashboard.getGamePanel();
 		this.gameState = gameState;
 	}
 	
@@ -23,15 +26,8 @@ public class GameController {
 	 * @param room
 	 * @param isEasyPlay
 	 */
-	public void startGame(Room room, boolean isEasyPlay){
-		//TODO from the after a Room is selected pass the 
-		//options to this method, load the BlackJackGamePanel,
-		//and start the game
-	}
-	
-	private boolean queueAction(GameAction action) {
-		//TODO send this action to the queueProcessor
-		return false;
+	public void startGame() {
+		dashboard.displayGamePanel();
 	}
 	
 	public void quitGame() {
@@ -47,12 +43,18 @@ public class GameController {
 		return false;
 	}
 	
-	public void hit(Hand hand) {
-		//TODO hit the specified Hand with the top card on the deck
+	public void hit(HandType type) {
+		if (type == HandType.PLAYER) {
+			playerHit();
+		} else {
+			dealerHit();
+		}
 	}
 	
 	public void playerHit() {
-		//TODO hit the player hand with the top card on the deck
+		GameEvent event = new GameEvent(gameState);
+		HitAction action = new HitAction(100, gamePanel);
+		action.processAction(event);
 	}
 	
 	public boolean canPlayerHit() {

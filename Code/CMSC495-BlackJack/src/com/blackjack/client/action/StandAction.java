@@ -9,7 +9,7 @@ import com.blackjack.client.ui.BlackJackGamePanel;
 public class StandAction extends GameAction {
 
 	public StandAction(int delay, BlackJackGamePanel panel) {
-		super(delay, panel);
+		super(panel);
 	}
 
 	@Override
@@ -24,7 +24,6 @@ public class StandAction extends GameAction {
 		//state.getTurn()
 		
 		//TODO Cause the hand to stand based on state.getTurn() (PLAYER OR DEALER STAND)
-		//This should check to see if it is allowed before performing
 		
 		//TODO Play sounds using the SoundManager.play(SoundName) static method!!!!! See SoundManager to create
 		//the sounds you need. Just follow the same setup that FAN1 uses, add an enum name
