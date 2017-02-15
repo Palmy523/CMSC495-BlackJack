@@ -2,6 +2,7 @@ package com.blackjack.client.ui;
 
 import com.blackjack.client.entities.Card;
 import com.blackjack.client.entities.Hand.HandType;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
@@ -25,6 +26,7 @@ public class BlackJackGamePanel extends SimplePanel {
 	private ChipButton chip100;
 	private HandPanel playerHandPanel;
 	private HandPanel dealerHandPanel;
+	private Button dealButton;
 	
 	
 	public BlackJackGamePanel() {
@@ -38,12 +40,16 @@ public class BlackJackGamePanel extends SimplePanel {
 		FlowPanel buttonPanel = new FlowPanel();
 		buttonPanel.setStylePrimaryName("gameButtonPanel");
 		
-		GameButton insuranceButton = new GameButton(GameButton.GameButtonType.INSURANCE);
-		GameButton doubleDownButton = new GameButton(GameButton.GameButtonType.DOUBLE_DOWN);
-		GameButton hitButton = new GameButton(GameButton.GameButtonType.HIT);
-		GameButton standButton = new GameButton(GameButton.GameButtonType.STAND);
-		GameButton splitButton = new GameButton(GameButton.GameButtonType.SPLIT);
-		GameButton surrenderButton = new GameButton(GameButton.GameButtonType.SURRENDER);
+		insuranceButton = new GameButton(GameButton.GameButtonType.INSURANCE);
+		doubleDownButton = new GameButton(GameButton.GameButtonType.DOUBLE_DOWN);
+		hitButton = new GameButton(GameButton.GameButtonType.HIT);
+		standButton = new GameButton(GameButton.GameButtonType.STAND);
+		splitButton = new GameButton(GameButton.GameButtonType.SPLIT);
+		surrenderButton = new GameButton(GameButton.GameButtonType.SURRENDER);
+		
+		dealButton = new Button("Deal");
+		dealButton.setStylePrimaryName("button");
+		dealButton.addStyleDependentName("deal");
 		
 		buttonPanel.add(surrenderButton);
 		buttonPanel.add(insuranceButton);
@@ -87,6 +93,7 @@ public class BlackJackGamePanel extends SimplePanel {
 		content.add(playerHandPanel);
 		content.add(dealerHandPanel);
 		content.add(chipPanel);
+		content.add(dealButton);
 		
 		this.add(content);
 	}

@@ -1,5 +1,6 @@
 package com.blackjack.client.controls;
 
+import com.blackjack.client.Config;
 import com.blackjack.client.event.Events;
 import com.blackjack.client.service.UserService;
 import com.blackjack.client.service.UserServiceAsync;
@@ -12,10 +13,13 @@ import com.blackjack.shared.events.ConfirmEmailEvent;
 import com.blackjack.shared.events.CreateAccountEvent;
 import com.blackjack.shared.events.LoginEvent;
 import com.blackjack.shared.events.ResetPasswordEvent;
+import com.blackjack.shared.events.UpdateChipEvent;
 import com.blackjack.shared.events.UpdateEmailEvent;
 import com.blackjack.shared.events.UpdatePasswordEvent;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+
+import javafx.event.Event;
 
 public class UserController {
 
@@ -27,6 +31,17 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 	
 	public UserController(Dashboard dashboard) {
 		this.dashboard = dashboard;
+		
+		//TODO remove testing info
+		if (Config.IS_TESTING) {
+			user = new User();
+			user.setBankAmount(10000.50f);
+			user.setEasyPlay(false);
+			user.setEmail("iTestThings@email.com");
+			user.setMaxChips(25000f);
+			user.setUserID(1);
+			user.setUsername("TestsTheBest");
+		}
 	}
 	
 	/**
@@ -36,6 +51,19 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 	 * @param password the password for the user
 	 */
 	public void login(String username, String password) {
+		
+		if (Config.IS_TESTING) {
+			dashboard.displayRoomSelectionScreen();
+			UpdateChipEvent event = new UpdateChipEvent();
+			event.setNewAmount(10455.50f);
+			event.setSuccess(true);
+			Events.eventBus.fireEvent(event);
+			LoginEvent loginEvent = new LoginEvent();
+			loginEvent.setUser(user);
+			loginEvent.setSuccess(true);
+			Events.eventBus.fireEvent(loginEvent);
+			return;
+		}
 		
 		//TODO verify username and password formats
 		

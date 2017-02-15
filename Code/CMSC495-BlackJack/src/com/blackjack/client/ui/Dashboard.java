@@ -80,6 +80,14 @@ public class Dashboard extends SimplePanel {
 	public Dashboard() {
 		messageBox.setVisible(false);
 		RootPanel.get().add(messageBox);
+		
+		History.addValueChangeHandler(new ValueChangeHandler<String>() {
+
+			@Override
+			public void onValueChange(ValueChangeEvent<String> event) {
+				loadHistoryItem(event.getValue());
+			}
+		});
 	}
 	
 	/**
@@ -102,13 +110,7 @@ public class Dashboard extends SimplePanel {
 		this.clear();
 		this.add(view);
 		
-		History.addValueChangeHandler(new ValueChangeHandler<String>() {
 
-			@Override
-			public void onValueChange(ValueChangeEvent<String> event) {
-				loadHistoryItem(event.getValue());
-			}
-		});
 	}
 	
 	private void loadHistoryItem(String name) {
@@ -133,9 +135,6 @@ public class Dashboard extends SimplePanel {
 			break;
 		case "forgotPassword" :
 			displayForgotPasswordForm();
-			break;
-		case "gamePanel" :
-			displayGamePanel();
 			break;
 		}
 	}
@@ -228,7 +227,6 @@ public class Dashboard extends SimplePanel {
 	
 	public void displayGamePanel() {
 		this.loadView(gamePanel);
-		History.newItem("gamePanel");
 	}
 	
 	/**
