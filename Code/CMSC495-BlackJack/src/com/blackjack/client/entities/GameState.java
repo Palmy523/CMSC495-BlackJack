@@ -5,7 +5,7 @@ import com.blackjack.shared.entities.User;
 
 public class GameState {
 
-	public enum TurnState {PLAYER_TURN, DEALER_TURN, AWAITING_BET, AWAITING_DEAL}
+	public enum TurnState {PLAYER_TURN, DEALER_TURN, AWAITING_BET, AWAITING_DEAL, HAND_END}
 	
 	private static TurnState turn;
 	private static Hand playerHand;

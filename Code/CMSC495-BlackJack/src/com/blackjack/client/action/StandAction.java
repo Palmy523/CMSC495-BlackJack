@@ -2,6 +2,7 @@ package com.blackjack.client.action;
 
 import com.blackjack.client.action.GameAction.ActionType;
 import com.blackjack.client.entities.GameState;
+import com.blackjack.client.entities.GameState.TurnState;
 import com.blackjack.client.event.Events;
 import com.blackjack.client.event.GameEvent;
 import com.blackjack.client.ui.BlackJackGamePanel;
@@ -9,7 +10,7 @@ import com.blackjack.client.ui.BlackJackGamePanel;
 public class StandAction extends GameAction {
 
 	public StandAction(int delay, BlackJackGamePanel panel) {
-		super(panel);
+		super(panel);		
 	}
 
 	@Override
@@ -24,7 +25,22 @@ public class StandAction extends GameAction {
 		//state.getTurn()
 		
 		//TODO Cause the hand to stand based on state.getTurn() (PLAYER OR DEALER STAND)
-		
+		panel.disableAllButtons();
+		switch(state.getTurn()){		
+			case PLAYER_TURN:
+				state.setTurn(TurnState.DEALER_TURN);				
+				DealerTurnAction dAction = new DealerTurnAction(100, panel);
+				dAction.processAction(event);
+				//TODO implement DealerTurnAction								
+				break;
+			case DEALER_TURN:				
+				state.setTurn(TurnState.HAND_END);
+				HandEndAction hAction = new HandEndAction(100, panel);
+				hAction.processAction(event);
+				//TODO create HandEndAction
+				//TODO implement and end action
+				break;		
+		}
 		//TODO Play sounds using the SoundManager.play(SoundName) static method!!!!! See SoundManager to create
 		//the sounds you need. Just follow the same setup that FAN1 uses, add an enum name
 		//then add a new sound that follows the creation in the loadResources method that matches 

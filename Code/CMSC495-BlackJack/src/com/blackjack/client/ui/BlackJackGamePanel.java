@@ -264,5 +264,46 @@ public class BlackJackGamePanel extends SimplePanel {
 		this.dealerHandPanel = dealerHandPanel;
 	}
 	
+	public void disableButton(GameButton.GameButtonType button){
+		switch(button){
+			case INSURANCE:
+				insuranceButton.setEnabled(false);
+				break;
+			case DOUBLE_DOWN:
+				doubleDownButton.setEnabled(false);
+				break;
+			case HIT:				
+				hitButton.setEnabled(false);
+				break;
+			case STAND:				
+				standButton.setEnabled(false);
+				break;
+			case SPLIT:
+				splitButton.setEnabled(false);
+				break;
+			case SURRENDER:
+				surrenderButton.setEnabled(false);
+				break;
+			case DEAL:
+				dealButton.setEnabled(false);
+				break;			
+		}
+	}
+	
+	public void disableAllButtons(){
+		insuranceButton.setEnabled(false);
+		doubleDownButton.setEnabled(false);
+		hitButton.setEnabled(false);
+		standButton.setEnabled(false);
+		splitButton.setEnabled(false);
+		surrenderButton.setEnabled(false);
+		dealButton.setEnabled(false);
+		chip1.setEnabled(false);
+		chip5.setEnabled(false);		
+		chip25.setEnabled(false);
+		chip50.setEnabled(false);
+		chip100.setEnabled(false);		
+	}
+	
 	
 }

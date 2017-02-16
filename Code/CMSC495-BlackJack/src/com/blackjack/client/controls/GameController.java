@@ -2,6 +2,7 @@ package com.blackjack.client.controls;
 
 import com.blackjack.client.action.GameAction;
 import com.blackjack.client.action.HitAction;
+import com.blackjack.client.action.StandAction;
 import com.blackjack.client.entities.GameState;
 import com.blackjack.client.entities.Hand;
 import com.blackjack.client.entities.GameState.TurnState;
@@ -79,12 +80,24 @@ public class GameController {
 		return false;
 	}
 	
-	public void stand(Hand hand) {
+	/*public void stand(Hand hand) {
 		//TODO perform a stand action for the specified hand
+	}*/
+	public void stand(HandType type) {
+		if(type == HandType.PLAYER){
+			playerStand();
+		}else{
+			dealerStand();
+		}
 	}
 	
 	public void playerStand() {
 		//TODO cause a player hand to stand
+		if(canPlayerStand()){
+			GameEvent event= new GameEvent(gameState);
+			StandAction action = new StandAction(100, gamePanel);
+			action.processAction(event);			
+		}
 	}
 	
 	public boolean canPlayerStand() {
@@ -93,6 +106,11 @@ public class GameController {
 	}
 	
 	public void dealerStand() {
+		if(canDealerStand()){
+			GameEvent event= new GameEvent(gameState);
+			StandAction action = new StandAction(100, gamePanel);
+			action.processAction(event);			
+		}
 		//TODO cause the dealer hand to stand
 	}
 	
