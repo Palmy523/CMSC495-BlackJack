@@ -1,8 +1,10 @@
 package com.blackjack.client.controls;
 
+import com.blackjack.client.action.GameAction;
 import com.blackjack.client.action.HitAction;
 import com.blackjack.client.entities.GameState;
 import com.blackjack.client.entities.Hand;
+import com.blackjack.client.entities.GameState.TurnState;
 import com.blackjack.client.entities.Hand.HandType;
 import com.blackjack.client.event.GameEvent;
 import com.blackjack.client.ui.BlackJackGamePanel;
@@ -27,6 +29,7 @@ public class GameController {
 	 */
 	public void startGame() {
 		dashboard.displayGamePanel();
+		
 	}
 	
 	public void quitGame() {
@@ -51,9 +54,11 @@ public class GameController {
 	}
 	
 	public void playerHit() {
-		GameEvent event = new GameEvent(gameState);
-		HitAction action = new HitAction(100, gamePanel);
-		action.processAction(event);
+		if (canPlayerHit()) {
+			GameEvent event = new GameEvent(gameState);
+			HitAction action = new HitAction(100, gamePanel);
+			action.processAction(event);
+		}
 	}
 	
 	public boolean canPlayerHit() {
@@ -62,7 +67,11 @@ public class GameController {
 	}
 	
 	public void dealerHit() {
-		//TODO hit the dealer hand with the top card on the deck
+		if (canDealerHit()) {
+			GameEvent event = new GameEvent(gameState);
+			HitAction action = new HitAction(100, gamePanel);
+			action.processAction(event);
+		}
 	}
 	
 	public boolean canDealerHit() {

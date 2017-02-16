@@ -411,7 +411,6 @@ public class App {
 					gameController = new GameController(dashboard, state);
 					gameController.startGame();
 				}
-
 			});
 		}
 	}

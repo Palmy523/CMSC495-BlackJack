@@ -23,9 +23,9 @@ public class DealAction extends GameAction {
 		//state.getDeck()
 		//state.getTurn()
 		
-		//TODO DEAL A SINGLE CARD to a player hand or dealer hand from the deck
-		//based on the getTurn() state. This will be called multiple times from the controller
-		//to properly deal all the required cards.
+		//TODO DEAL the cards to a player hand and dealer hand. In order to make this smoother
+		//The GWT Timer can be used to deal cards at certain intervals until all cards
+		//are dealt, see http://www.gwtproject.org/javadoc/latest/com/google/gwt/user/client/Timer.html
 		
 		//TODO Play sounds using the SoundManager.play(SoundName) static method!!!!! See SoundManager to create
 		//the sounds you need. Just follow the same setup that FAN1 uses, add an enum name
