@@ -136,14 +136,40 @@ public class Dashboard extends SimplePanel {
 		case "forgotPassword" :
 			displayForgotPasswordForm();
 			break;
+		case "game" :
+			displayGamePanel();
+			break;
 		}
 	}
 	
 	/**
 	 * Loads the previous screen, useful for the back button.
+	 * Abby's edits: Each screen can only go back to one other screen
+	 * (eg game room only goes back to room selection screen,
+	 * room selection only goes back to login, etc). Except for account management
+	 * (accessible from game room and room selection screen, tracked by 
+	 * loadHistoryItem) 
 	 */
-	public void loadPreviousScreen() {
-		loadHistoryItem(place[1]);
+	public void loadPreviousScreen() {		
+		switch (place[0]) {
+		case "rooms":
+			displayLoginScreen();
+			break;
+		case "game":
+			displayRoomSelectionScreen();
+			break;
+		case "createAccount":
+			displayLoginScreen();
+			break;
+		case "accountManagement":
+			loadHistoryItem(place[1]);
+			break;
+		case "forgotPassword" :
+			displayLoginScreen();
+			break;	
+		}
+		
+		
 	}
 	
 	/**
@@ -227,6 +253,8 @@ public class Dashboard extends SimplePanel {
 	
 	public void displayGamePanel() {
 		this.loadView(gamePanel);
+		//Abby
+		History.newItem("game");
 	}
 	
 	/**
