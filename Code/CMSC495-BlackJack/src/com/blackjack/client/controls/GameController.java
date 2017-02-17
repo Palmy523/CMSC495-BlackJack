@@ -3,6 +3,7 @@ package com.blackjack.client.controls;
 import com.blackjack.client.action.GameAction;
 import com.blackjack.client.action.HitAction;
 import com.blackjack.client.action.StandAction;
+import com.blackjack.client.action.DealAction;
 import com.blackjack.client.entities.GameState;
 import com.blackjack.client.entities.Hand;
 import com.blackjack.client.entities.GameState.TurnState;
@@ -37,12 +38,24 @@ public class GameController {
 		//TODO quit the game and return to the RoomSelectionScreen
 	}
 	
-	public void deal() {
-		//TODO initiate a deal
+	public void deal() {		
+		
+		if(canDeal()){
+			//Set the GameState.TurnState to PLAYER_TURN
+			gameState.setTurn(TurnState.DEALER_TURN);
+			//Create a GameEvent with the current GameState.
+			GameEvent event = new GameEvent(gameState);		
+			//Create a new DealAction
+			DealAction action = new DealAction(100, gamePanel);
+			//Invoke the processAction method of the DealAction
+			action.processAction(event);
+		}		
 	}
 	
 	public boolean canDeal() {
-		//TODO determine if game is in a state that allows a deal
+		//Determine if game is in a state that allows a deal
+		if(gameState.getTurn() == TurnState.AWAITING_DEAL)
+			return true;
 		return false;
 	}
 	
