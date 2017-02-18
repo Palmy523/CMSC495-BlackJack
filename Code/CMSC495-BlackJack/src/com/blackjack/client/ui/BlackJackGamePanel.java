@@ -118,6 +118,16 @@ public class BlackJackGamePanel extends SimplePanel {
 		dealerHandPanel.stand();
 	}
 	
+	public void playerBust() {
+		//TODO implement stand for HandPanel, HandUI, and Hand and call
+		playerHandPanel.bust();
+	}
+	
+	public void dealerBust() {
+		//TODO implement stand for HandPanel, HandUI, and Hand and call
+		dealerHandPanel.bust();
+	}
+ 	
 	/**
 	 * Deals a card to the player, will not allow more than 
 	 * two cards 

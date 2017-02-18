@@ -48,6 +48,7 @@ public class BustAction extends GameAction {
 		//TODO fix static access to turn states
 		if (turn == TurnState.PLAYER_TURN) {
 			//TODO UI displays Player Busts
+			panel.playerBust();
 			
 			//player busts set player turn to dealer
 			state.setTurn(TurnState.DEALER_TURN); //TODO needs a corresponding label case
@@ -55,6 +56,7 @@ public class BustAction extends GameAction {
 			dAction.processAction(event);
 		} else if (turn == TurnState.DEALER_TURN) {
 			//TODO UI displays Dealer Busts
+			panel.dealerBust();
 			
 			//dealer busts set state to end dealer's turn
 			state.setTurn(TurnState.HAND_END); //TODO needs a corresponding label case
