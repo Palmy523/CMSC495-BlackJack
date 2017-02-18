@@ -431,8 +431,7 @@ public class App {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				//gameController.playerStand();
-				gamePanel.playerStand();
+				gameController.playerStand();
 			}
 		});
 		
@@ -442,7 +441,6 @@ public class App {
 			public void onClick(ClickEvent event) {
 				gameController.deal();
 			}
-			
 		});
 		
 		gamePanel.getChip1().addClickHandler(new ClickHandler() {
