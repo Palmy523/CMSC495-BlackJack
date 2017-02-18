@@ -14,12 +14,10 @@ import com.google.gwt.user.client.Timer;
 
 public class DealerAI {
 
-	private GameController controller;
 	private BlackJackGamePanel gamePanel;
 	private Timer timer;
 
-	public DealerAI(GameController controller, BlackJackGamePanel panel) {
-		this.controller = controller;
+	public DealerAI(BlackJackGamePanel panel) {
 		this.gamePanel = panel;
 	}
 
@@ -37,50 +35,26 @@ public class DealerAI {
 		timer.scheduleRepeating(1000);
 	}
 
-	@SuppressWarnings("static-access")
 	public void processTurn(GameEvent event) {
 
-		GameState state = event.getGameState();
-		
-		// TODO set to actual hand value from Jeffs update
-		int dealerHandValue = state.getDealerHand().getHandValue();
+		int dealerHandValue = GameState.getDealerHand().getHandValue();
 
 		boolean hit = shouldHit(dealerHandValue);
 
 		// dealer hit or stand actions
+		//No hand action or bust actions here, those 
+		//should get called by the Stand and Hit actions
 		if (hit) {
 			HitAction action = new HitAction(gamePanel);
-			action.processAction(event);
 			event.setActionType(ActionType.HIT);
+			action.processAction(event);
 		} else {
 			timer.cancel();
 			StandAction action = new StandAction(gamePanel);
-			action.processAction(event);
 			event.setActionType(ActionType.STAND);
-
-			// dealerHandValue should be > 0
-			// if dealer did not bust
-			if (dealerHandValue < 22) {
-				HandEndAction endHand = new HandEndAction(gamePanel);
-				endHand.processAction(event);
-			}
-		}
-
-		// dealer busts after hit
-		if (dealerHandValue > 21) {
-			timer.cancel();
-			// TODO UI indicate dealer busted
-			state.setTurn(TurnState.HAND_END);
-
-			BustAction action = new BustAction(100, gamePanel);
 			action.processAction(event);
-
-			// Fire the event so the rest of the UI knows that the action
-			// occurred
-			event.setActionType(ActionType.BUST);
 		}
 
-		// Fire the event so the rest of the UI knows that the action occurred
 		Events.eventBus.fireEvent(event);
 	}
 
@@ -92,12 +66,7 @@ public class DealerAI {
 	 * @return boolean hit or no hit
 	 */
 	private boolean shouldHit(int dealerHandValue) {
-		if (dealerHandValue < 17) {
-			// TODO under review, adding medium stakes dealer always hits on a
-			// soft 17
-			return true;
-		}
-		return false;
+		return (dealerHandValue < 17);
 	}
 
 }
