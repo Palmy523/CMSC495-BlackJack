@@ -41,6 +41,9 @@ public class HandPanel extends FlowPanel {
 		splitHandUI.hit(card);
 	}
 	
+	public void stand(){
+		
+	}
 	/**
 	 * Displays the split hand by taking the duplicate card from the 
 	 * primary and displaying it in the splitHand. Additionally, updates

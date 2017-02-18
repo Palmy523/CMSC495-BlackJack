@@ -77,6 +77,9 @@ public class GameController {
 	
 	public boolean canPlayerHit() {
 		//TODO determine if the game is in a state that allows the player to hit
+		if(gameState.getTurn() == TurnState.PLAYER_TURN){
+			return true;
+		}
 		return false;
 	}
 	
@@ -90,6 +93,9 @@ public class GameController {
 	
 	public boolean canDealerHit() {
 		//TODO determine if the game is in a state that allows the dealer to hit
+		if(gameState.getTurn() == TurnState.DEALER_TURN){
+			return true;
+		}
 		return false;
 	}
 	
@@ -115,6 +121,9 @@ public class GameController {
 	
 	public boolean canPlayerStand() {
 		//TODO determine if the game is in a state that allows the player to Stand.
+		if(gameState.getTurn() == TurnState.PLAYER_TURN){
+			return true;
+		}
 		return false;
 	}
 	
@@ -129,6 +138,9 @@ public class GameController {
 	
 	public boolean canDealerStand() {
 		//TODO determine if the game is in a state that allows the dealer to stand
+		if(gameState.getTurn() == TurnState.DEALER_TURN){
+			return true;
+		}
 		return false;
 	}
 	
@@ -166,6 +178,9 @@ public class GameController {
 	
 	public boolean canSurrender() {
 		//TODO determine if the game is in a state that allows a surrender
+		if(gameState.getTurn() == TurnState.PLAYER_TURN){
+			return true;
+		}
 		return false;
 	}
 	

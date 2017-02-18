@@ -111,10 +111,12 @@ public class BlackJackGamePanel extends SimplePanel {
 	
 	public void playerStand() {
 		//TODO implement stand for HandPanel, HandUI, and Hand and call
+		playerHandPanel.stand();
 	}
 	
 	public void dealerStand() {
 		//TODO implement stand for HandPanel, HandUI, and Hand and call
+		dealerHandPanel.stand();
 	}
 	
 	public void dealPlayerCard(Card card) {
