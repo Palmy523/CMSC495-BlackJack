@@ -25,6 +25,7 @@ public class DealAction extends GameAction {
 		Deck deck = state.getDeck();
 		Hand playerHand = new Hand();
 		Hand dealerHand = new Hand();
+		panel.resetHands();
 		//Update panel based on state, see accessors below 
 		//for potentially required state objects
 		//state.getBetAmount()
@@ -36,8 +37,7 @@ public class DealAction extends GameAction {
 		if(state.getTurn() == TurnState.AWAITING_DEAL && betAmount >= state.getRoom().getMinBet() && betAmount <= state.getRoom().getMaxBet()) {
 			
 			//TODO GWT Timer can be used to deal cards at certain intervals until all cards
-			//are dealt, see http://www.gwtproject.org/javadoc/latest/com/google/gwt/user/client/Timer.html
-			
+			//are dealt, see http://www.gwtproject.org/javadoc/latest/com/google/gwt/user/client/Timer.html			
 			Card card = deck.draw();			
 			SoundManager.play(SoundName.PLACE1);
 			panel.dealPlayerCard(card);
@@ -82,7 +82,10 @@ public class DealAction extends GameAction {
 			panel.enableButton(GameButtonType.DOUBLE_DOWN, true);
 			
 			if(dealerHand.showingAce())
+			{
+				panel.displayInstruction("Want Insurance?");
 				panel.enableButton(GameButtonType.INSURANCE, true);
+			}
 			
 			if(playerHand.canSplit())
 				panel.enableButton(GameButtonType.SPLIT, true);

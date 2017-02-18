@@ -156,7 +156,7 @@ public class BlackJackGamePanel extends SimplePanel {
 	public void dealDealerCard(Card card) {
 		int numCards = dealerHandPanel.getNumberPrimaryCards();
 		if (numCards < 2) {
-			if (numCards == 1) {
+			if (numCards == 0) {
 				dealerHandPanel.hitFaceDown(card);
 			} else {
 				dealerHandPanel.hit(card);

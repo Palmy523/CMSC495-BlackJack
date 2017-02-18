@@ -172,8 +172,8 @@ public class HandUI extends FlowPanel {
 	}
 	
 	public void showDealerCard() {
-		if (cardUIs[1] != null) {
-			cardUIs[1].setFaceUp(true);
+		if (cardUIs[0] != null) {
+			cardUIs[0].setFaceUp(true);
 		}
 	}
 
