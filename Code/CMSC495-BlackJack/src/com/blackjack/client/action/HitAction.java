@@ -20,6 +20,7 @@ public class HitAction extends GameAction {
 	public void processAction(GameEvent event) {
 		GameState state = event.getGameState();
 		Deck deck = state.getDeck();
+		int score;
 		//Update panel based on state, see accessors below 
 		//for potentially required state objects
 		//state.getBetAmount()
@@ -28,21 +29,24 @@ public class HitAction extends GameAction {
 		//state.getDeck()
 		//state.getTurn()
 		
-		//TODO Depending on state deal a card to the appropriate hand
-		
 		//TODO Play sounds using the SoundManager.play(SoundName) static method!!!!! See SoundManager to create
 		//the sounds you need. Just follow the same setup that FAN1 uses, add an enum name
 		//then add a new sound that follows the creation in the loadResources method that matches 
 		//FAN1 but reference the sound from the war/sounds directory that you want.
-		
-		//TODO update the GameState by setting the proper turn, or other data		
+			
 		if(state.getTurn() == TurnState.PLAYER_TURN){
 			Hand hand = state.getPlayerHand();	
 			Card drawn = deck.draw();
 			panel.hitPlayerHand(drawn);
 			hand.hit(drawn);
 			state.setPlayerHand(hand);
-			//TODO check if player busts
+			score = hand.getHandValue();
+			if(score> 21){
+				hand.busts();
+				state.setTurn(TurnState.DEALER_TURN);
+				event.setActionType(ActionType.BUST);
+				Events.eventBus.fireEvent(event);
+			}			
 		}
 		else if(state.getTurn() == TurnState.DEALER_TURN){
 			Hand hand = state.getDealerHand();					
@@ -50,7 +54,13 @@ public class HitAction extends GameAction {
 			panel.hitDealerHand(drawn);
 			hand.hit(drawn);
 			state.setDealerHand(hand);
-			//TODO check if dealer busts
+			score = hand.getHandValue();
+			if(score> 21){
+				hand.busts();
+				state.setTurn(TurnState.HAND_END);
+				event.setActionType(ActionType.BUST);
+				Events.eventBus.fireEvent(event);
+			}			
 		}
 		
 		//TODO Check if the new hand value causes a bust, if so, call a new BustAction and pass in

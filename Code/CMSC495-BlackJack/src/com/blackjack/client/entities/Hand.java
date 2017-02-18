@@ -15,6 +15,7 @@ public class Hand {
 	public static final int MAX_CARDS = 21;
 	private Card[] cards;
 	private int numCards = 0;
+	private boolean hasBusted = false;
 	
 	/**
 	 * A hand always starts empty.
@@ -97,5 +98,13 @@ public class Hand {
 		if(cards[0] == cards[1])
 			return true;
 		return false;
+	}
+	
+	public void busts(){
+		hasBusted = true;
+	}
+	
+	public boolean getBustStatus(){
+		return hasBusted;
 	}
 }
