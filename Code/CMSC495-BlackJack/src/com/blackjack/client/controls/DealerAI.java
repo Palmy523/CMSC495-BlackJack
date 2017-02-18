@@ -46,7 +46,7 @@ public class DealerAI {
 		//TODO set to actual hand value from Jeffs update
 		int dealerHandValue = state.getDealerHand().getHandValue();
 		
-		boolean hit = shouldHit(playerHandValue, dealerHandValue);
+		boolean hit = shouldHit(dealerHandValue);
 		
 		if (hit) {
 			HitAction action = new HitAction(gamePanel);
@@ -75,22 +75,17 @@ public class DealerAI {
 		
 	}
 	
-	private boolean shouldHit(int playerHandValue, int dealerHandValue) {
-		if (/*dealerHandValue == 21 ||*/ dealerHandValue > playerHandValue) {
-			//STAND = return false
-			return false;
-		}
-		
-		//HIT until dealer's hand value = 17
-		if (dealerHandValue < 17 && dealerHandValue < playerHandValue) {
+	/**
+	 * HIT until dealer's hand value = 17 regardless of a possible push, win,
+	 * or loss
+	 * @param dealerHandValue
+	 * @return boolean hit or no hit
+	 */
+	private boolean shouldHit(int dealerHandValue) {
+		if (dealerHandValue < 17) {
 			//TODO under review, adding medium stakes dealer always hits on a soft 17
 			return true;
 		}
-		
-		if (dealerHandValue == 16) {
-			return true;
-		}
-		
 		return false;
 	}
 
