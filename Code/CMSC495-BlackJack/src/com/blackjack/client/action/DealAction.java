@@ -10,6 +10,7 @@ import com.blackjack.client.event.GameEvent;
 import com.blackjack.client.sounds.SoundManager;
 import com.blackjack.client.sounds.SoundManager.SoundName;
 import com.blackjack.client.ui.BlackJackGamePanel;
+import com.blackjack.client.ui.GameButton.GameButtonType;
 
 public class DealAction extends GameAction {
 
@@ -62,10 +63,39 @@ public class DealAction extends GameAction {
 		else
 			return;
 		
-		//update the state by setting the proper turn
-		state.setTurn(TurnState.PLAYER_TURN);
-		state.setPlayerHand(playerHand);
-		state.setDealerHand(dealerHand);
+		if(playerHand.getHandValue() == 21 && dealerHand.getHandValue() == 21)
+		{
+			event.setActionType(ActionType.PUSH);
+			//TODO add call to dealerACtion?
+		}			
+		else if(playerHand.getHandValue() == 21)
+		{
+			event.setActionType(ActionType.BLACKJACK);
+			//TODO add call to dealerACtion?
+		}			
+		else 
+		else
+		{
+			panel.enabled(GameButtonType.DEAL, false);
+			panel.enabled(GameButtonType.HIT, true);
+			panel.enabled(GameButtonType.STAND, true);
+			panel.chipsEnabled(false);
+			panel.enabled(GameButtonType.SURRENDER, true);			
+			panel.enabled(GameButtonType.DOUBLE_DOWN, true);
+			
+			if(dealerHand.showingAce())
+				panel.enabled(GameButtonType.INSURANCE, true);
+			
+			if(playerHand.canSplit())
+				panel.enabled(GameButtonType.SPLIT, true);
+			
+		}
+			//TODO call DealerAction.processAction(gameEvent)
+			
+			//update the state by setting the proper turn
+			state.setTurn(TurnState.PLAYER_TURN);
+			state.setPlayerHand(playerHand);
+			state.setDealerHand(dealerHand);
 		
 		//Fire the event so the rest of the UI knows that the action occurred
 		event.setActionType(ActionType.DEAL);

@@ -1,5 +1,7 @@
 package com.blackjack.client.entities;
 
+import com.blackjack.client.entities.Card.Rank;
+
 /**
  * Entity class that represents the data behind a BlackJack hand
  * 
@@ -65,5 +67,17 @@ public class Hand {
 		}
 		
 		return total;
+	}
+	
+	public boolean showingAce() {
+		if(cards[1].getRank() == Rank.ACE)
+				return true;
+		return false;
+	}
+	
+	public boolean canSplit() {
+		if(cards[0] == cards[1])
+			return true;
+		return false;
 	}
 }

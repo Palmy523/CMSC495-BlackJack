@@ -324,6 +324,15 @@ public class BlackJackGamePanel extends SimplePanel {
 		}
 	}
 	
+	public void chipsEnabled(boolean enabled){
+		chip1.setEnabled(enabled);
+		chip5.setEnabled(enabled);		
+		chip25.setEnabled(enabled);
+		chip50.setEnabled(enabled);
+		chip100.setEnabled(enabled);	
+	}
+	
+	
 	/**
 	 * Disables all buttons for the user
 	 */
