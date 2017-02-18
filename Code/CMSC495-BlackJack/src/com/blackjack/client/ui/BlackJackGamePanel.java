@@ -2,6 +2,7 @@ package com.blackjack.client.ui;
 
 import com.blackjack.client.entities.Card;
 import com.blackjack.client.entities.Hand.HandType;
+import com.blackjack.client.ui.GameButton.GameButtonType;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
@@ -46,10 +47,7 @@ public class BlackJackGamePanel extends SimplePanel {
 		standButton = new GameButton(GameButton.GameButtonType.STAND);
 		splitButton = new GameButton(GameButton.GameButtonType.SPLIT);
 		surrenderButton = new GameButton(GameButton.GameButtonType.SURRENDER);
-		
-		dealButton = new Button("Deal");
-		dealButton.setStylePrimaryName("button");
-		dealButton.addStyleDependentName("deal");
+		dealButton = new GameButton(GameButtonType.DEAL);
 		
 		buttonPanel.add(surrenderButton);
 		buttonPanel.add(insuranceButton);
@@ -57,6 +55,7 @@ public class BlackJackGamePanel extends SimplePanel {
 		buttonPanel.add(splitButton);
 		buttonPanel.add(hitButton);
 		buttonPanel.add(standButton);
+		buttonPanel.add(dealButton);
 		
 		playerHandPanel = new HandPanel(HandType.PLAYER);
 		dealerHandPanel = new HandPanel(HandType.DEALER);
@@ -93,7 +92,6 @@ public class BlackJackGamePanel extends SimplePanel {
 		content.add(playerHandPanel);
 		content.add(dealerHandPanel);
 		content.add(chipPanel);
-		content.add(dealButton);
 		
 		this.add(content);
 	}

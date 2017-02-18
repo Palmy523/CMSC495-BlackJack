@@ -48,7 +48,7 @@ h1 {
 	padding: 0px;
 	margin: 0px;
 	min-height: 400px;
-	background: url("img/Test_Background.jpeg");
+	background: url("img/Test_Background.png");
 	background-size: contain;
 	background-repeat: no-repeat;
 	background-position: center center;
@@ -292,7 +292,7 @@ h1 {
     position: absolute;
     white-space: normal;
     width: 122px;
-    right: 0;
+    left: 10px;
     padding: 0;
 }
 
@@ -347,12 +347,20 @@ h1 {
 	box-shadow: inset 0px 0px 0px, 0px 2px 0px 0px lightgrey, 0px 3px 4px grey;
 }
 
+.button-game-deal {
+	background: linear-gradient(rgba(55, 168, 108, 1) rgba(168, 168, 168, .5));
+	box-shadow: inset 0px 0px 0px, 0px 2px 0px 0px rgba(55, 168, 108, 1), 0px 3px 4px grey;
+    border-radius: 80px;
+}
+
 .button-game-disabled {
 	color: white;
 	cursor: initial;
 	background: linear-gradient(rgba(196, 196, 196, 1), rgba(196, 196, 196, .5));
 	box-shadow: inset 0px 0px 0px, 0px 2px 0px 0px lightgrey, 0px 3px 4px grey;
 }
+
+
 
 .hand-panel {
     height: 117px;

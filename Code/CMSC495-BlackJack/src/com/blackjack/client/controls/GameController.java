@@ -31,6 +31,8 @@ public class GameController {
 	 */
 	public void startGame() {
 		dashboard.displayGamePanel();
+		gamePanel.disableAllButtons();
+		GameState.setTurn(TurnState.AWAITING_BET);
 	}
 	
 	public void quitGame() {
