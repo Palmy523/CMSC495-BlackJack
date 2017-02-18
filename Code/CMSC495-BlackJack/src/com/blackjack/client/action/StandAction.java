@@ -9,7 +9,7 @@ import com.blackjack.client.ui.BlackJackGamePanel;
 
 public class StandAction extends GameAction {
 
-	public StandAction(int delay, BlackJackGamePanel panel) {
+	public StandAction(BlackJackGamePanel panel) {
 		super(panel);		
 	}
 
@@ -35,7 +35,7 @@ public class StandAction extends GameAction {
 				//TODO implement DealerTurnAction							
 		else if(state.getTurn() == TurnState.DEALER_TURN){			
 				state.setTurn(TurnState.HAND_END);
-				HandEndAction action = new HandEndAction(100, panel);
+				HandEndAction action = new HandEndAction(panel);
 				action.processAction(event);
 				//TODO create HandEndAction
 				//TODO implement and end action

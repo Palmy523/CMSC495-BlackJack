@@ -3,6 +3,7 @@ package com.blackjack.client.ui;
 import com.blackjack.client.entities.Card;
 import com.blackjack.client.entities.Hand.HandType;
 import com.blackjack.client.ui.GameButton.GameButtonType;
+import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
@@ -155,7 +156,13 @@ public class BlackJackGamePanel extends SimplePanel {
 	 * @param amount the amount to increase or decrease the current bet amount by
 	 */
 	public void bet(int amount) {
-		betLabelValue.setText("$" + amount);
+		String value = NumberFormat.getDecimalFormat().format(amount);
+		if (value.contains(".")) {
+			if (value.substring(value.indexOf('.'), value.length()).length() < 3) {
+				value += "0";
+			}
+		}
+		betLabelValue.setText("$" + value);
 	}
 
 	public int getBetAmount() {

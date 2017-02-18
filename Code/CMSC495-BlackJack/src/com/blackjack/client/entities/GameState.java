@@ -54,7 +54,7 @@ public class GameState {
 	 * @param dealerHand the dealerHand to set
 	 */
 	public static void setDealerHand(Hand dealerHand) {
-		dealerHand = dealerHand;
+		GameState.dealerHand = dealerHand;
 	}
 
 	/**
@@ -68,7 +68,7 @@ public class GameState {
 	 * @param deck the deck to set
 	 */
 	public static void setDeck(Deck deck) {
-		deck = deck;
+		GameState.deck = deck;
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class GameState {
 	 * @param betAmount the betAmount to set
 	 */
 	public static void setBetAmount(int betAmount) {
-		betAmount = betAmount;
+		GameState.betAmount = betAmount;
 	}
 
 	public static Room getRoom() {

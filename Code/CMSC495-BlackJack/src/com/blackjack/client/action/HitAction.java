@@ -11,7 +11,7 @@ import com.blackjack.client.ui.BlackJackGamePanel;
 
 public class HitAction extends GameAction {
 
-	public HitAction(int delay, BlackJackGamePanel panel) {
+	public HitAction(BlackJackGamePanel panel) {
 		super(panel);
 		// TODO Auto-generated constructor stub
 	}
