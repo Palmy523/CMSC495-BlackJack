@@ -1,6 +1,6 @@
 package com.blackjack.client.action;
 
-import com.blackjack.client.action.GameAction.ActionType;
+import com.blackjack.client.entities.Card;
 import com.blackjack.client.entities.Deck;
 import com.blackjack.client.entities.GameState;
 import com.blackjack.client.entities.GameState.TurnState;
@@ -37,14 +37,18 @@ public class HitAction extends GameAction {
 		
 		//TODO update the GameState by setting the proper turn, or other data		
 		if(state.getTurn() == TurnState.PLAYER_TURN){
-			Hand hand = state.getPlayerHand();					
-			hand.hit(deck.draw());
+			Hand hand = state.getPlayerHand();	
+			Card drawn = deck.draw();
+			panel.hitPlayerHand(drawn);
+			hand.hit(drawn);
 			state.setPlayerHand(hand);
 			//TODO check if player busts
 		}
 		else if(state.getTurn() == TurnState.DEALER_TURN){
 			Hand hand = state.getDealerHand();					
-			hand.hit(deck.draw());
+			Card drawn = deck.draw();
+			panel.hitDealerHand(drawn);
+			hand.hit(drawn);
 			state.setPlayerHand(hand);
 			//TODO check if dealer busts
 		}
