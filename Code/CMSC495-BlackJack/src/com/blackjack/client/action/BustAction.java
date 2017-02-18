@@ -5,6 +5,7 @@ import com.blackjack.client.entities.GameState;
 import com.blackjack.client.event.Events;
 import com.blackjack.client.event.GameEvent;
 import com.blackjack.client.ui.BlackJackGamePanel;
+import com.blackjack.client.entities.GameState.TurnState;
 
 public class BustAction extends GameAction {
 
@@ -23,18 +24,34 @@ public class BustAction extends GameAction {
 		//state.getPlayerHand()
 		//state.getDeck()
 		//state.getTurn()
-		
+
 		//TODO Cause the panel bust action
+		panel.disableAllButtons();
+
+		TurnState turn = state.getTurn();
 		
-		//TODO Play sounds using the SoundManager.play(SoundName) static method!!!!! See SoundManager to create
-		//the sounds you need. Just follow the same setup that FAN1 uses, add an enum name
-		//then add a new sound that follows the creation in the loadResources method that matches 
-		//FAN1 but reference the sound from the war/sounds directory that you want.
-		//A good one for this would be wheel of fortune type (WAH WAH WAH [kidding])
+		//TODO fix static access to turn states
+		if (turn.compareTo(TurnState.PLAYER_TURN) == 0) {
+			//TODO UI displays Player Busts
+			
+			//player busts set player turn to dealer
+			state.setTurn(TurnState.DEALER_TURN); //TODO needs a corresponding label case
+			DealerTurnAction dAction = new DealerTurnAction(100, panel);
+			dAction.processAction(event);
+		} else if (turn.compareTo(TurnState.DEALER_TURN) == 0) {
+			//TODO UI displays Dealer Busts
+			
+			//dealer busts set state to end dealer's turn
+			state.setTurn(TurnState.HAND_END); //TODO needs a corresponding label case
+			HandEndAction endHand = new HandEndAction(100, panel);
+			endHand.processAction(event);
+		}
 		
-		//TODO update the GameState by setting the proper turn, or other data (If player busts set player turn to dealer)
-		// if dealer busts check gamestate to see who wins and ??? ask me later ???
-		
+		// Project Plan 2.4.10 Player Busts, the player does not lose their bet until the
+		// dealer ends their turn. Therefore no sound needed here.
+
+		//TODO if dealer busts check gamestate to see who wins and ??? ask me later ???
+
 		//Fire the event so the rest of the UI knows that the action occurred
 		event.setActionType(ActionType.BUST);
 		Events.eventBus.fireEvent(event);
