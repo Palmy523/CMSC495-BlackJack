@@ -1,11 +1,11 @@
 package com.blackjack.client.controls;
 
-import com.blackjack.client.action.GameAction;
+import com.blackjack.client.action.BetAction;
+import com.blackjack.client.action.DealAction;
+import com.blackjack.client.action.GameAction.ActionType;
 import com.blackjack.client.action.HitAction;
 import com.blackjack.client.action.StandAction;
-import com.blackjack.client.action.DealAction;
 import com.blackjack.client.entities.GameState;
-import com.blackjack.client.entities.Hand;
 import com.blackjack.client.entities.GameState.TurnState;
 import com.blackjack.client.entities.Hand.HandType;
 import com.blackjack.client.event.GameEvent;
@@ -31,7 +31,6 @@ public class GameController {
 	 */
 	public void startGame() {
 		dashboard.displayGamePanel();
-		
 	}
 	
 	public void quitGame() {
@@ -39,10 +38,9 @@ public class GameController {
 	}
 	
 	public void deal() {		
-		
 		if(canDeal()){
 			//Set the GameState.TurnState to PLAYER_TURN
-			gameState.setTurn(TurnState.DEALER_TURN);
+			GameState.setTurn(TurnState.DEALER_TURN);
 			//Create a GameEvent with the current GameState.
 			GameEvent event = new GameEvent(gameState);		
 			//Create a new DealAction
@@ -54,7 +52,7 @@ public class GameController {
 	
 	public boolean canDeal() {
 		//Determine if game is in a state that allows a deal
-		if(gameState.getTurn() == TurnState.AWAITING_DEAL)
+		if(GameState.getTurn() == TurnState.AWAITING_DEAL)
 			return true;
 		return false;
 	}
@@ -77,7 +75,7 @@ public class GameController {
 	
 	public boolean canPlayerHit() {
 		//TODO determine if the game is in a state that allows the player to hit
-		if(gameState.getTurn() == TurnState.PLAYER_TURN){
+		if(GameState.getTurn() == TurnState.PLAYER_TURN){
 			return true;
 		}
 		return false;
@@ -92,8 +90,7 @@ public class GameController {
 	}
 	
 	public boolean canDealerHit() {
-		//TODO determine if the game is in a state that allows the dealer to hit
-		if(gameState.getTurn() == TurnState.DEALER_TURN){
+		if(GameState.getTurn() == TurnState.DEALER_TURN){
 			return true;
 		}
 		return false;
@@ -137,11 +134,7 @@ public class GameController {
 	}
 	
 	public boolean canDealerStand() {
-		//TODO determine if the game is in a state that allows the dealer to stand
-		if(gameState.getTurn() == TurnState.DEALER_TURN){
-			return true;
-		}
-		return false;
+		return gameState.getTurn() == TurnState.DEALER_TURN;
 	}
 	
 	public void insurance() {
@@ -178,14 +171,19 @@ public class GameController {
 	
 	public boolean canSurrender() {
 		//TODO determine if the game is in a state that allows a surrender
-		if(gameState.getTurn() == TurnState.PLAYER_TURN){
+		if(GameState.getTurn() == TurnState.PLAYER_TURN){
 			return true;
 		}
 		return false;
 	}
 	
 	public void betPlus(int amount) {
-		//TODO increase the bet by the specified amount
+		if (canBet()) {
+			GameEvent event = new GameEvent(gameState);
+			event.setActionType(ActionType.BET);
+			BetAction action = new BetAction(gamePanel, amount);
+			action.processAction(event);
+		}
 	}
 	
 	public void betMinus(int amount) {
@@ -193,22 +191,7 @@ public class GameController {
 	}
 	
 	public boolean canBet() {
-		//TODO determine if the game is in a state that allows a bet
-		return false;
-	}
-	
-	public void dealerWin() {
-		//TODO end the hand with a dealer win
-	}
-	
-	public void playerWin() {
-		//TODO end the hand with a player win
-	}
-	
-	public boolean updateChipCount(String userID, int newAmount) {
-		//TODO send the updated chip amount to the server to update the db and update the UI
-		//with the return value
-		return false;
+		return GameState.getTurn() == TurnState.AWAITING_BET;
 	}
 
 	public GameState getGameState() {

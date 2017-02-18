@@ -55,6 +55,4 @@ public class Hand {
 		cards = new Card[MAX_CARDS];
 		numCards = 0;
 	}
-	
-	
 }

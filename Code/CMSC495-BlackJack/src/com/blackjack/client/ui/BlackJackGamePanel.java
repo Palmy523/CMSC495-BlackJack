@@ -20,13 +20,13 @@ public class BlackJackGamePanel extends SimplePanel {
 	private GameButton surrenderButton;
 	private ChipButton chip1;
 	private ChipButton chip5;
-	private ChipButton chip10;
 	private ChipButton chip25;
 	private ChipButton chip50;
 	private ChipButton chip100;
 	private HandPanel playerHandPanel;
 	private HandPanel dealerHandPanel;
 	private Button dealButton;
+	private Label betLabelValue;
 	
 	
 	public BlackJackGamePanel() {
@@ -69,15 +69,15 @@ public class BlackJackGamePanel extends SimplePanel {
 		betLabel.addStyleDependentName("goldFont");
 		betLabel.addStyleDependentName("underline");
 		
-		Label betLabelValue = new Label("$0");
+		betLabelValue = new Label("$0");
 		betLabelValue.setStylePrimaryName("label");
 		betLabelValue.addStyleDependentName("goldFont");
 		
-		ChipButton chip1 = new ChipButton(ChipButton.ChipValue.ONE);
-		ChipButton chip5 = new ChipButton(ChipButton.ChipValue.FIVE);
-		ChipButton chip25 = new ChipButton(ChipButton.ChipValue.TWENTY_FIVE);
-		ChipButton chip50 = new ChipButton(ChipButton.ChipValue.FIFTY);
-		ChipButton chip100 = new ChipButton(ChipButton.ChipValue.ONE_HUNDERED);
+		chip1 = new ChipButton(ChipButton.ChipValue.ONE);
+		chip5 = new ChipButton(ChipButton.ChipValue.FIVE);
+		chip25 = new ChipButton(ChipButton.ChipValue.TWENTY_FIVE);
+		chip50 = new ChipButton(ChipButton.ChipValue.FIFTY);
+		chip100 = new ChipButton(ChipButton.ChipValue.ONE_HUNDERED);
 		
 		chipPanel.add(betLabel);
 		chipPanel.add(new HTML("<br/>"));
@@ -119,12 +119,34 @@ public class BlackJackGamePanel extends SimplePanel {
 		dealerHandPanel.stand();
 	}
 	
+	/**
+	 * Deals a card to the player, will not allow more than 
+	 * two cards 
+	 * 
+	 * @param card the card to deal to the player
+	 */
 	public void dealPlayerCard(Card card) {
-		//TODO may just be able to call hit? Maybe something else should happen with a deal?
+		if (playerHandPanel.getNumberPrimaryCards() < 2) {
+			this.hitPlayerHand(card);
+		}
 	}
 	
+	/**
+	 * Deal a card to the dealer, will not allow more than two cards,
+	 * if the card is the second card, will set the UI to display the 
+	 * card face down.
+	 * 
+	 * @param card the card to deal to the dealer
+	 */
 	public void dealDealerCard(Card card) {
-		//TODO may just be able to call hit? Maybe something else should happen with a deal?
+		int numCards = dealerHandPanel.getNumberPrimaryCards();
+		if (numCards < 2) {
+			if (numCards == 1) {
+				dealerHandPanel.hitFaceDown(card);
+			} else {
+				dealerHandPanel.hit(card);
+			}
+		}
 	}
 	
 	/**
@@ -135,7 +157,7 @@ public class BlackJackGamePanel extends SimplePanel {
 	 * @param amount the amount to increase or decrease the current bet amount by
 	 */
 	public void bet(int amount) {
-		//TODO implement a current bet label and increase/decrease bet
+		betLabelValue.setText("$" + amount);
 	}
 
 	public int getBetAmount() {
@@ -218,14 +240,6 @@ public class BlackJackGamePanel extends SimplePanel {
 		this.chip5 = chip5;
 	}
 
-	public ChipButton getChip10() {
-		return chip10;
-	}
-
-	public void setChip10(ChipButton chip10) {
-		this.chip10 = chip10;
-	}
-
 	public ChipButton getChip25() {
 		return chip25;
 	}
@@ -265,33 +279,49 @@ public class BlackJackGamePanel extends SimplePanel {
 	public void setDealerHandPanel(HandPanel dealerHandPanel) {
 		this.dealerHandPanel = dealerHandPanel;
 	}
+
+	public Button getDealButton() {
+		return dealButton;
+	}
+
+	public void setDealButton(Button dealButton) {
+		this.dealButton = dealButton;
+	}
 	
-	public void disableButton(GameButton.GameButtonType button){
+	/**
+	 * Enables or disabled a button specified by the button type.
+	 * @param button the button to disable/enable
+	 * @param enabled if false will disable the button, if true will enable it
+	 */
+	public void enabled(GameButton.GameButtonType button, boolean enabled){
 		switch(button){
 			case INSURANCE:
-				insuranceButton.setEnabled(false);
+				insuranceButton.setEnabled(enabled);
 				break;
 			case DOUBLE_DOWN:
-				doubleDownButton.setEnabled(false);
+				doubleDownButton.setEnabled(enabled);
 				break;
 			case HIT:				
-				hitButton.setEnabled(false);
+				hitButton.setEnabled(enabled);
 				break;
 			case STAND:				
-				standButton.setEnabled(false);
+				standButton.setEnabled(enabled);
 				break;
 			case SPLIT:
-				splitButton.setEnabled(false);
+				splitButton.setEnabled(enabled);
 				break;
 			case SURRENDER:
-				surrenderButton.setEnabled(false);
+				surrenderButton.setEnabled(enabled);
 				break;
 			case DEAL:
-				dealButton.setEnabled(false);
+				dealButton.setEnabled(enabled);
 				break;			
 		}
 	}
 	
+	/**
+	 * Disables all buttons for the user
+	 */
 	public void disableAllButtons(){
 		insuranceButton.setEnabled(false);
 		doubleDownButton.setEnabled(false);
@@ -306,6 +336,7 @@ public class BlackJackGamePanel extends SimplePanel {
 		chip50.setEnabled(false);
 		chip100.setEnabled(false);		
 	}
+
 	
 	
 }

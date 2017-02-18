@@ -2,10 +2,13 @@ package com.blackjack.client;
 
 import com.blackjack.client.controls.GameController;
 import com.blackjack.client.controls.UserController;
+import com.blackjack.client.entities.Card;
+import com.blackjack.client.entities.Card.Rank;
 import com.blackjack.client.entities.Card.Set;
-import com.blackjack.client.entities.GameState.TurnState;
+import com.blackjack.client.entities.Card.Suit;
 import com.blackjack.client.entities.Deck;
 import com.blackjack.client.entities.GameState;
+import com.blackjack.client.entities.GameState.TurnState;
 import com.blackjack.client.entities.Hand;
 import com.blackjack.client.event.Events;
 import com.blackjack.client.ui.AccountAnchor;
@@ -428,8 +431,65 @@ public class App {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				gameController.playerStand();
+				//gameController.playerStand();
+				gamePanel.playerStand();
 			}
+		});
+		
+		gamePanel.getDealButton().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				//gameController.deal();
+				gamePanel.dealDealerCard(new Card(Set.ONE, Suit.CLUBS, Rank.ACE));
+			}
+			
+		});
+		
+		gamePanel.getChip1().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				//gameController.betPlus(1);
+				gamePanel.bet(1);
+			}
+			
+		});
+		
+		gamePanel.getChip5().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				gameController.betPlus(5);
+			}
+			
+		});
+		
+		gamePanel.getChip25().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				gameController.betPlus(25);
+			}
+			
+		});
+		
+		gamePanel.getChip50().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				gameController.betPlus(50);
+			}
+			
+		});
+		
+		gamePanel.getChip100().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				gameController.betPlus(100);
+			}
+			
 		});
 	}
 

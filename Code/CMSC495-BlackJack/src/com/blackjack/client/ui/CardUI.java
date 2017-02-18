@@ -27,7 +27,9 @@ public class CardUI extends SimplePanel{
 		return isFaceUp;
 	}
 	/**
-	 * @param isFaceUp the isFaceUp to set
+	 * Sets the card to display face up or face down
+	 * @param isFaceUp whether the card should be displayed face up
+	 * or face down
 	 */
 	public void setFaceUp(boolean isFaceUp) {
 		this.isFaceUp = isFaceUp;
@@ -36,7 +38,10 @@ public class CardUI extends SimplePanel{
 		}
 	}
 	/**
-	 * @param card the card to set
+	 * Sets the card as the card to this UI and applys 
+	 * the style for the card.
+	 * 
+	 * @param card the card to display in this UI
 	 */
 	public void setCard(Card card) {
 		this.card = card;

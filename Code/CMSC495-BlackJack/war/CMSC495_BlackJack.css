@@ -436,13 +436,19 @@ h1 {
     border: 3px solid white;
 }
 
-@keyframes coinFlip {
-	from {rotateX(0deg);},
-	to {rotateX(720deg);}
-}
-
-.coin-flip {
-	animation-name: coinFlip;
-	animation-duration: 1s;
-	animation-iteration-count: 1;
+.standLabel {
+	    z-index: 100;
+    color: black;
+    font-size: 26pt;
+    font-weight: bold;
+    font-stretch: expanded;
+    padding: 10px;
+    position: absolute;
+    border-radius: 6px;
+    background: rgba(255, 215, 0, 0.55);
+    box-shadow: 0 0 53px 3px black;
+    transform: skewX(-35deg);
+    line-height: 16px;
+    left: 17px;
+    top: 40px;
 }

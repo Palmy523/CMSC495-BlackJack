@@ -42,6 +42,11 @@ public class HandUI extends FlowPanel {
 	private HandType type;
 	
 	/**
+	 * The label to display on stand
+	 */
+	private Label standLabel;
+	
+	/**
 	 * Construct with type to determine if it is a Player or Dealer hand,
 	 * init UI and styles, hand always starts empty.
 	 * @param type the type of Hand
@@ -59,6 +64,9 @@ public class HandUI extends FlowPanel {
 		label.addStyleDependentName("white");
 		label.addStyleDependentName("centered");
 		
+		standLabel = new Label("Stand");
+		standLabel.setStylePrimaryName("standLabel");
+		
 		switch(type) {
 			case DEALER :
 				label.setText("Dealer Hand");
@@ -68,6 +76,8 @@ public class HandUI extends FlowPanel {
 				label.setText("Player Hand");
 				this.addStyleDependentName("player");
 		}
+		
+		this.add(label);
 	}
 	
 	/**
@@ -76,11 +86,37 @@ public class HandUI extends FlowPanel {
 	 */
 	public void hit(Card card) {
 		CardUI cardUI = new CardUI(card);
+		hit(cardUI);
+	}
+	
+	/**
+	 * Applies the face down attribute to the card so it displays facedown and
+	 * displays it in this hand.
+	 * 
+	 * @param card
+	 */
+	public void hitFaceDown(Card card) {
+		CardUI cardUI = new CardUI(card);
+		cardUI.setFaceUp(false);
+		hit(cardUI);
+	}
+	
+	/**
+	 * Hits this hand with the specified CardUI and adds the card 
+	 * to the Hand object
+	 * 
+	 * @param cardUI the card UI to display in this hand
+	 */
+	private void hit(CardUI cardUI) {
 		cardUIs[numCardUIs] = cardUI;
 		
-		//TODO update positioning and styles
+		//update positioning and styles
+		int left = (numCardUIs) * CARD_OFFSET; 
+		cardUI.getElement().setAttribute("style", "left: " + left + "px;");
 		
 		this.add(cardUI);
+		hand.hit(cardUI.getCard());
+		numCardUIs++;
 	}
 	
 	/**
@@ -98,13 +134,35 @@ public class HandUI extends FlowPanel {
 		return handUI;
 	}
 	
+	public void stand() {
+		this.add(standLabel);
+	}
+	
 	/**
-	 * Resets the hand to empty.
+	 * Resets the hand to empt by clearing the hand and UI
 	 */
 	public void reset() {
 		this.clear();
+		cardUIs = new CardUI[Hand.MAX_CARDS];
+		numCardUIs = 0;
 		hand.clear();
 		
 		//TODO if this HandUI is split, reset it to it's original position
+	}
+
+	public int getNumCardUIs() {
+		return numCardUIs;
+	}
+
+	public void setNumCardUIs(int numCardUIs) {
+		this.numCardUIs = numCardUIs;
+	}
+
+	public HandType getType() {
+		return type;
+	}
+
+	public void setType(HandType type) {
+		this.type = type;
 	}
 }
