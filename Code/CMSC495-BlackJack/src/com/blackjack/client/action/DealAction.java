@@ -75,18 +75,18 @@ public class DealAction extends GameAction {
 		}			
 		else
 		{
-			panel.enabled(GameButtonType.DEAL, false);
-			panel.enabled(GameButtonType.HIT, true);
-			panel.enabled(GameButtonType.STAND, true);
+			panel.enableButton(GameButtonType.DEAL, false);
+			panel.enableButton(GameButtonType.HIT, true);
+			panel.enableButton(GameButtonType.STAND, true);
 			panel.chipsEnabled(false);
-			panel.enabled(GameButtonType.SURRENDER, true);			
-			panel.enabled(GameButtonType.DOUBLE_DOWN, true);
+			panel.enableButton(GameButtonType.SURRENDER, true);			
+			panel.enableButton(GameButtonType.DOUBLE_DOWN, true);
 			
 			if(dealerHand.showingAce())
-				panel.enabled(GameButtonType.INSURANCE, true);
+				panel.enableButton(GameButtonType.INSURANCE, true);
 			
 			if(playerHand.canSplit())
-				panel.enabled(GameButtonType.SPLIT, true);
+				panel.enableButton(GameButtonType.SPLIT, true);
 			
 		}
 			//TODO call DealerAction.processAction(gameEvent)

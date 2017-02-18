@@ -298,7 +298,7 @@ public class BlackJackGamePanel extends SimplePanel {
 	 * @param button the button to disable/enable
 	 * @param enabled if false will disable the button, if true will enable it
 	 */
-	public void enabled(GameButton.GameButtonType button, boolean enabled){
+	public void enableButton(GameButton.GameButtonType button, boolean enabled){
 		switch(button){
 			case INSURANCE:
 				insuranceButton.setEnabled(enabled);
