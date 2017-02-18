@@ -35,10 +35,12 @@ public class DealerAI {
 	}
 	
 	public void processTurn(GameEvent event) {
+		
+		GameState state = event.getGameState();
 		//TODO set to actual hand value from Jeffs update
-		int playerHandValue = 0;
+		int playerHandValue = state.getPlayerHand().getHandValue();
 		//TODO set to actual hand value from Jeffs update
-		int dealerHandValue = 0;
+		int dealerHandValue = state.getDealerHand().getHandValue();
 		
 		boolean hit = shouldHit(playerHandValue, dealerHandValue);
 		
