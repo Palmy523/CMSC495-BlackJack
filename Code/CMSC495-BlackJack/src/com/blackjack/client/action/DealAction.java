@@ -73,7 +73,6 @@ public class DealAction extends GameAction {
 			event.setActionType(ActionType.BLACKJACK);
 			//TODO add call to dealerACtion?
 		}			
-		else 
 		else
 		{
 			panel.enabled(GameButtonType.DEAL, false);
