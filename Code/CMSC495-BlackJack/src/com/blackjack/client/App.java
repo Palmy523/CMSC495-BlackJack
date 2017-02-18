@@ -440,8 +440,7 @@ public class App {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				//gameController.deal();
-				gamePanel.dealDealerCard(new Card(Set.ONE, Suit.CLUBS, Rank.ACE));
+				gameController.deal();
 			}
 			
 		});
@@ -450,8 +449,7 @@ public class App {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				//gameController.betPlus(1);
-				gamePanel.bet(1);
+				gameController.betPlus(1);
 			}
 			
 		});
