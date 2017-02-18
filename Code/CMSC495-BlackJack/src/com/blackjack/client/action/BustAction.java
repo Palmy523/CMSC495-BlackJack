@@ -1,12 +1,16 @@
 package com.blackjack.client.action;
 
-import com.blackjack.client.action.GameAction.ActionType;
 import com.blackjack.client.entities.GameState;
 import com.blackjack.client.event.Events;
 import com.blackjack.client.event.GameEvent;
 import com.blackjack.client.ui.BlackJackGamePanel;
 import com.blackjack.client.entities.GameState.TurnState;
 
+/**
+ * 
+ * @author Lea
+ *
+ */
 public class BustAction extends GameAction {
 
 	public BustAction(int delay, BlackJackGamePanel panel) {
@@ -14,6 +18,17 @@ public class BustAction extends GameAction {
 		// TODO Auto-generated constructor stub
 	}
 
+	/**
+	 * determines if the current turn busted (dealer or player)
+	 * 
+	 * if player busted, ends player's turn and invokes DealerTurnAction 
+	 * 		processAction(event)
+	 * if dealer busted, ends dealer's turn and invokes HandEndAction
+	 * 		processAction(event)
+	 * 
+	 *  //TODO identify possible exceptions
+	 */
+	@SuppressWarnings("static-access")
 	@Override
 	public void processAction(GameEvent event) {
 		GameState state = event.getGameState();
@@ -31,14 +46,14 @@ public class BustAction extends GameAction {
 		TurnState turn = state.getTurn();
 		
 		//TODO fix static access to turn states
-		if (turn.compareTo(TurnState.PLAYER_TURN) == 0) {
+		if (turn == TurnState.PLAYER_TURN) {
 			//TODO UI displays Player Busts
 			
 			//player busts set player turn to dealer
 			state.setTurn(TurnState.DEALER_TURN); //TODO needs a corresponding label case
 			DealerTurnAction dAction = new DealerTurnAction(100, panel);
 			dAction.processAction(event);
-		} else if (turn.compareTo(TurnState.DEALER_TURN) == 0) {
+		} else if (turn == TurnState.DEALER_TURN) {
 			//TODO UI displays Dealer Busts
 			
 			//dealer busts set state to end dealer's turn
