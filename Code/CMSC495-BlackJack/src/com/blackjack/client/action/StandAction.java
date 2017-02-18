@@ -26,20 +26,19 @@ public class StandAction extends GameAction {
 		
 		//TODO Cause the hand to stand based on state.getTurn() (PLAYER OR DEALER STAND)
 		panel.disableAllButtons();
-		switch(state.getTurn()){		
-			case PLAYER_TURN:
+		
+		if(state.getTurn() == TurnState.PLAYER_TURN){
 				state.setTurn(TurnState.DEALER_TURN);				
-				DealerTurnAction dAction = new DealerTurnAction(100, panel);
-				dAction.processAction(event);
-				//TODO implement DealerTurnAction								
-				break;
-			case DEALER_TURN:				
+				DealerTurnAction action = new DealerTurnAction(100, panel);
+				action.processAction(event);
+		}
+				//TODO implement DealerTurnAction							
+		else if(state.getTurn() == TurnState.DEALER_TURN){			
 				state.setTurn(TurnState.HAND_END);
-				HandEndAction hAction = new HandEndAction(100, panel);
-				hAction.processAction(event);
+				HandEndAction action = new HandEndAction(100, panel);
+				action.processAction(event);
 				//TODO create HandEndAction
 				//TODO implement and end action
-				break;		
 		}
 		//TODO Play sounds using the SoundManager.play(SoundName) static method!!!!! See SoundManager to create
 		//the sounds you need. Just follow the same setup that FAN1 uses, add an enum name

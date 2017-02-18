@@ -1,7 +1,10 @@
 package com.blackjack.client.action;
 
 import com.blackjack.client.action.GameAction.ActionType;
+import com.blackjack.client.entities.Deck;
 import com.blackjack.client.entities.GameState;
+import com.blackjack.client.entities.GameState.TurnState;
+import com.blackjack.client.entities.Hand;
 import com.blackjack.client.event.Events;
 import com.blackjack.client.event.GameEvent;
 import com.blackjack.client.ui.BlackJackGamePanel;
@@ -16,6 +19,7 @@ public class HitAction extends GameAction {
 	@Override
 	public void processAction(GameEvent event) {
 		GameState state = event.getGameState();
+		Deck deck = state.getDeck();
 		//Update panel based on state, see accessors below 
 		//for potentially required state objects
 		//state.getBetAmount()
@@ -31,7 +35,19 @@ public class HitAction extends GameAction {
 		//then add a new sound that follows the creation in the loadResources method that matches 
 		//FAN1 but reference the sound from the war/sounds directory that you want.
 		
-		//TODO update the GameState by setting the proper turn, or other data
+		//TODO update the GameState by setting the proper turn, or other data		
+		if(state.getTurn() == TurnState.PLAYER_TURN){
+			Hand hand = state.getPlayerHand();					
+			hand.hit(deck.draw());
+			state.setPlayerHand(hand);
+			//TODO check if player busts
+		}
+		else if(state.getTurn() == TurnState.DEALER_TURN){
+			Hand hand = state.getDealerHand();					
+			hand.hit(deck.draw());
+			state.setPlayerHand(hand);
+			//TODO check if dealer busts
+		}
 		
 		//TODO Check if the new hand value causes a bust, if so, call a new BustAction and pass in
 		//the event
