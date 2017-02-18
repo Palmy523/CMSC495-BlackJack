@@ -19,6 +19,16 @@ h1 {
   text-align: center;
 }
 
+.logo {
+	background: url('img/logo.png');
+	height: 227px;
+    background-repeat: no-repeat;
+    background-size: 228px 228px;
+    background-position-x: 32px;
+    background-position-y: -5px;
+    margin-bottom: 21px;
+}
+
 .sendButton {
   display: block;
   font-size: 16pt;
@@ -423,10 +433,10 @@ h1 {
 .account-anchor-icon {
     border-radius: 50px;
     background-color: white;
-    background-image: url(img/AccountManagementIcon.png);
+    background-image: url(img/logo.png);
     height: 60px;
     width: 60px;
-    background-size: 75%;
+    background-size: 100%;
     background-repeat: no-repeat;
     background-position: center center;
     display: inline-block;

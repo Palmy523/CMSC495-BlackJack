@@ -17,6 +17,7 @@ public class LoginForm extends SimplePanel {
 	private Button loginButton;
 	private Button forgotPasswordButton;
 	private Button createAccountButton;
+	private HTML logo;
 	
 	/**
 	 * UI for user login.
@@ -26,6 +27,8 @@ public class LoginForm extends SimplePanel {
 		this.setStylePrimaryName("modal");
 		this.setStyleName("centered", true);
 		FlowPanel wrapper = new FlowPanel();
+		
+		logo = new HTML("<div class='logo'></div>");
 		
 		ModalHeader header = new ModalHeader("Login");
 		userNameLabel = new Label("Username:");
@@ -65,6 +68,7 @@ public class LoginForm extends SimplePanel {
 		createAccountButton.setWidth("279px");
 		
 		wrapper.add(header);
+		wrapper.add(logo);
 		wrapper.add(userNameLabel);
 		wrapper.add(userNameTextBox);
 		wrapper.add(new HTML("<br/>"));
