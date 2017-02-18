@@ -45,6 +45,7 @@ public class HandUI extends FlowPanel {
 	 * The label to display on stand
 	 */
 	private Label standLabel;
+	private Label bustLabel;
 	
 	/**
 	 * Construct with type to determine if it is a Player or Dealer hand,
@@ -66,6 +67,10 @@ public class HandUI extends FlowPanel {
 		
 		standLabel = new Label("Stand");
 		standLabel.setStylePrimaryName("standLabel");
+		
+		
+		bustLabel = new Label("Bust");
+		bustLabel.setStylePrimaryName("bustLabel");
 		
 		switch(type) {
 			case DEALER :
@@ -120,7 +125,7 @@ public class HandUI extends FlowPanel {
 	}
 	
 	/**
-	 * Perfoms a split and returns a HandUI object to display as 
+	 * Performs a split and returns a HandUI object to display as 
 	 * the split hand in the HandPanel
 	 * rank is of the same type.
 	 */
@@ -136,6 +141,10 @@ public class HandUI extends FlowPanel {
 	
 	public void stand() {
 		this.add(standLabel);
+	}
+	
+	public void bust() {
+		this.add(bustLabel);
 	}
 	
 	/**
