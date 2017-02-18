@@ -25,7 +25,7 @@ public class SoundManager {
 		sounds.put(SoundName.FAN1, cardFan1);
 		
 		Audio chipBet = Audio.createIfSupported();
-		chipBet.setSrc("sounds/chipsLay1.wav");
+		chipBet.setSrc("sounds/chipsHandle6.wav");
 		sounds.put(SoundName.CHIP_BET, chipBet);
 		
 		Audio cardPlace1 = Audio.createIfSupported();
