@@ -1,10 +1,13 @@
 package com.blackjack.client.controls;
 
+import com.blackjack.client.action.GameAction;
 import com.blackjack.client.action.HandEndAction;
 import com.blackjack.client.action.HitAction;
 import com.blackjack.client.action.StandAction;
+import com.blackjack.client.action.GameAction.ActionType;
 import com.blackjack.client.entities.GameState;
 import com.blackjack.client.entities.GameState.TurnState;
+import com.blackjack.client.event.Events;
 import com.blackjack.client.event.GameEvent;
 import com.blackjack.client.ui.BlackJackGamePanel;
 import com.google.gwt.user.client.Timer;
@@ -34,6 +37,7 @@ public class DealerAI {
 		timer.scheduleRepeating(1000);
 	}
 	
+	@SuppressWarnings("static-access")
 	public void processTurn(GameEvent event) {
 		
 		GameState state = event.getGameState();
@@ -59,21 +63,27 @@ public class DealerAI {
 		}
 		
 		if (dealerHandValue == 17 && playerHandValue <= 17) {
+			timer.cancel();
+			//TODO UI indicate player's hand is pushed
 			
+			
+			
+			//Fire the event so the rest of the UI knows that the action occurred
+			event.setActionType(ActionType.BUST);
+			Events.eventBus.fireEvent(event);
 		}
 		
 	}
 	
 	private boolean shouldHit(int playerHandValue, int dealerHandValue) {
-		if (dealerHandValue == 21) {
+		if (/*dealerHandValue == 21 ||*/ dealerHandValue > playerHandValue) {
+			//STAND = return false
 			return false;
 		}
 		
-		if (dealerHandValue > playerHandValue) {
-			return false;
-		}
-		
-		if (dealerHandValue < playerHandValue) {
+		//HIT until dealer's hand value = 17
+		if (dealerHandValue < 17 && dealerHandValue < playerHandValue) {
+			//TODO under review, adding medium stakes dealer always hits on a soft 17
 			return true;
 		}
 		
