@@ -26,6 +26,7 @@ public class StandAction extends GameAction {
 		
 		//TODO Cause the hand to stand based on state.getTurn() (PLAYER OR DEALER STAND)
 		panel.disableAllButtons();
+		panel.playerStand();
 		
 		if(state.getTurn() == TurnState.PLAYER_TURN){
 				state.setTurn(TurnState.DEALER_TURN);				
