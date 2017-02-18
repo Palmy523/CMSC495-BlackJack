@@ -55,4 +55,15 @@ public class Hand {
 		cards = new Card[MAX_CARDS];
 		numCards = 0;
 	}
+	
+	public int getHandValue() {
+		
+		int total = 0;
+		for (int i = 0; i < cards.length; i++)
+		{
+			total = Card.getValue(cards[i].getRank());
+		}
+		
+		return total;
+	}
 }

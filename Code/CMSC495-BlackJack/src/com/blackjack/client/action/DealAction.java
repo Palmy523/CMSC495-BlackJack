@@ -1,9 +1,14 @@
 package com.blackjack.client.action;
 
-import com.blackjack.client.action.GameAction.ActionType;
+import com.blackjack.client.entities.Card;
+import com.blackjack.client.entities.Deck;
 import com.blackjack.client.entities.GameState;
+import com.blackjack.client.entities.GameState.TurnState;
+import com.blackjack.client.entities.Hand;
 import com.blackjack.client.event.Events;
 import com.blackjack.client.event.GameEvent;
+import com.blackjack.client.sounds.SoundManager;
+import com.blackjack.client.sounds.SoundManager.SoundName;
 import com.blackjack.client.ui.BlackJackGamePanel;
 
 public class DealAction extends GameAction {
@@ -15,6 +20,10 @@ public class DealAction extends GameAction {
 	@Override
 	public void processAction(GameEvent event) {
 		GameState state = event.getGameState();
+		int betAmount = state.getBetAmount();
+		Deck deck = state.getDeck();
+		Hand playerHand = new Hand();
+		Hand dealerHand = new Hand();
 		//Update panel based on state, see accessors below 
 		//for potentially required state objects
 		//state.getBetAmount()
@@ -23,18 +32,40 @@ public class DealAction extends GameAction {
 		//state.getDeck()
 		//state.getTurn()
 		
-		//TODO DEAL the cards to a player hand and dealer hand. In order to make this smoother
-		//The GWT Timer can be used to deal cards at certain intervals until all cards
-		//are dealt, see http://www.gwtproject.org/javadoc/latest/com/google/gwt/user/client/Timer.html
+		if(state.getTurn() == TurnState.AWAITING_DEAL && betAmount > state.getRoom().getMinBet() && betAmount < state.getRoom().getMaxBet()) {
+			
+			//TODO GWT Timer can be used to deal cards at certain intervals until all cards
+			//are dealt, see http://www.gwtproject.org/javadoc/latest/com/google/gwt/user/client/Timer.html
+			
+			Card card = deck.draw();			
+			SoundManager.play(SoundName.PLACE1);
+			panel.dealPlayerCard(card);
+			playerHand.hit(card);
+			
+			card = deck.draw();
+			SoundManager.play(SoundName.PLACE2);
+			panel.dealDealerCard(deck.draw());			
+			card = deck.draw();
+			dealerHand.hit(card);
+			
+			card = deck.draw();
+			SoundManager.play(SoundName.PLACE3);
+			panel.dealPlayerCard(deck.draw());
+			playerHand.hit(card);
+			
+			card = deck.draw();
+			SoundManager.play(SoundName.PLACE4);
+			panel.dealDealerCard(deck.draw());
+			dealerHand.hit(card);
+			
+		}
+		else
+			return;
 		
-		//TODO Play sounds using the SoundManager.play(SoundName) static method!!!!! See SoundManager to create
-		//the sounds you need. Just follow the same setup that FAN1 uses, add an enum name
-		//then add a new sound that follows the creation in the loadResources method that matches 
-		//FAN1 but reference the sound from the war/sounds directory that you want.
-		
-		//THIS should do nothing if the GameState is in a state that does not allow a deal
-		
-		//TODO update the GameState by setting the proper turn, or other data
+		//update the state by setting the proper turn
+		state.setTurn(TurnState.PLAYER_TURN);
+		state.setPlayerHand(playerHand);
+		state.setDealerHand(dealerHand);
 		
 		//Fire the event so the rest of the UI knows that the action occurred
 		event.setActionType(ActionType.DEAL);
