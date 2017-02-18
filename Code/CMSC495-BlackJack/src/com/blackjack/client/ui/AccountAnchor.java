@@ -1,7 +1,6 @@
 package com.blackjack.client.ui;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -29,8 +28,13 @@ public class AccountAnchor extends FocusPanel {
 	}
 	
 	public void updateChipCount(float amount) {
-		String countString = String.valueOf(amount);
-		chipCountLabel.setText("$" + countString);
+		String value = NumberFormat.getDecimalFormat().format(amount);
+		if (value.contains(".")) {
+			if (value.substring(value.indexOf('.'), value.length()).length() < 3) {
+				value += "0";
+			}
+		}
+		chipCountLabel.setText("$" + value);
 	}
 	
 }

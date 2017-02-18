@@ -70,7 +70,7 @@ public class GameController {
 	public void playerHit() {
 		if (canPlayerHit()) {
 			GameEvent event = new GameEvent(gameState);
-			HitAction action = new HitAction(100, gamePanel);
+			HitAction action = new HitAction(gamePanel);
 			action.processAction(event);
 		}
 	}
@@ -86,7 +86,7 @@ public class GameController {
 	public void dealerHit() {
 		if (canDealerHit()) {
 			GameEvent event = new GameEvent(gameState);
-			HitAction action = new HitAction(100, gamePanel);
+			HitAction action = new HitAction(gamePanel);
 			action.processAction(event);
 		}
 	}
@@ -113,7 +113,7 @@ public class GameController {
 		//TODO cause a player hand to stand
 		if(canPlayerStand()){
 			GameEvent event= new GameEvent(gameState);
-			StandAction action = new StandAction(100, gamePanel);
+			StandAction action = new StandAction(gamePanel);
 			action.processAction(event);			
 		}
 	}
@@ -129,14 +129,14 @@ public class GameController {
 	public void dealerStand() {
 		if(canDealerStand()){
 			GameEvent event= new GameEvent(gameState);
-			StandAction action = new StandAction(100, gamePanel);
+			StandAction action = new StandAction(gamePanel);
 			action.processAction(event);			
 		}
 		//TODO cause the dealer hand to stand
 	}
 	
 	public boolean canDealerStand() {
-		return gameState.getTurn() == TurnState.DEALER_TURN;
+		return GameState.getTurn() == TurnState.DEALER_TURN;
 	}
 	
 	public void insurance() {

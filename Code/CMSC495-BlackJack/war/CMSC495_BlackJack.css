@@ -57,6 +57,8 @@ h1 {
 .label {
 	display: inline-block;
 	font-size: 14px;
+	user-select: none;
+	cursor: default;
 }
 
 .label-form {

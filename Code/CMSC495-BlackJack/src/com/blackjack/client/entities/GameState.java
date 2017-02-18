@@ -82,7 +82,7 @@ public class GameState {
 	 * @param betAmount the betAmount to set
 	 */
 	public static void setBetAmount(int betAmount) {
-		betAmount = betAmount;
+		GameState.betAmount = betAmount;
 	}
 
 	public static Room getRoom() {

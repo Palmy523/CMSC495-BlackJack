@@ -9,7 +9,7 @@ import com.blackjack.client.ui.BlackJackGamePanel;
 
 public class HandEndAction extends GameAction {
 
-	public HandEndAction(int delay, BlackJackGamePanel panel) {
+	public HandEndAction(BlackJackGamePanel panel) {
 		super(panel);		
 	}
 

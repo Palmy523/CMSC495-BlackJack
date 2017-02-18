@@ -43,7 +43,7 @@ public class BustAction extends GameAction {
 			
 			//dealer busts set state to end dealer's turn
 			state.setTurn(TurnState.HAND_END); //TODO needs a corresponding label case
-			HandEndAction endHand = new HandEndAction(100, panel);
+			HandEndAction endHand = new HandEndAction(panel);
 			endHand.processAction(event);
 		}
 		
