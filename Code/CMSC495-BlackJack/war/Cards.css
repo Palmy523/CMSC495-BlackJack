@@ -2,12 +2,9 @@
 	height: 117px;
 	width: 85px;
 	border-radius: 10px;
-	box-shadow: 0px 0px 13px 0px gold;
+	border: 1px solid black;
 	position: absolute;
-}
-
-.card:hover {
-	box-shadow: 0px 0px 25px 0px white;
+	top: 0;
 }
 
 .card-set1 {

@@ -350,7 +350,7 @@ h1 {
 }
 
 .button-game-deal {
-	background: linear-gradient(rgba(55, 168, 108, 1) rgba(168, 168, 168, .5));
+	background: linear-gradient(rgba(55, 168, 108, 1), rgba(168, 168, 168, .5));
 	box-shadow: inset 0px 0px 0px, 0px 2px 0px 0px rgba(55, 168, 108, 1), 0px 3px 4px grey;
     border-radius: 80px;
 }
@@ -365,7 +365,7 @@ h1 {
 
 
 .hand-panel {
-    height: 117px;
+    height: 118px;
     width: 85px;
     border-radius: 3px;
     background: radial-gradient(rgba(196, 196, 196, .5), rgba(196, 196, 196, .1));
