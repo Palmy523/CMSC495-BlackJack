@@ -41,8 +41,7 @@ public class DealerAI {
 	public void processTurn(GameEvent event) {
 
 		GameState state = event.getGameState();
-		// //TODO set to actual hand value from Jeffs update
-		// int playerHandValue = state.getPlayerHand().getHandValue();
+		
 		// TODO set to actual hand value from Jeffs update
 		int dealerHandValue = state.getDealerHand().getHandValue();
 
