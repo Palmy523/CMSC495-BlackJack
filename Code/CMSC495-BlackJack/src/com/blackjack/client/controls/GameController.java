@@ -2,15 +2,19 @@ package com.blackjack.client.controls;
 
 import com.blackjack.client.action.BetAction;
 import com.blackjack.client.action.DealAction;
+import com.blackjack.client.action.GameAction;
 import com.blackjack.client.action.GameAction.ActionType;
 import com.blackjack.client.action.HitAction;
 import com.blackjack.client.action.StandAction;
 import com.blackjack.client.entities.GameState;
 import com.blackjack.client.entities.GameState.TurnState;
+import com.blackjack.client.entities.Hand;
 import com.blackjack.client.entities.Hand.HandType;
+import com.blackjack.client.event.Events;
 import com.blackjack.client.event.GameEvent;
 import com.blackjack.client.ui.BlackJackGamePanel;
 import com.blackjack.client.ui.Dashboard;
+import com.google.gwt.user.client.Event;
 
 public class GameController {
 
@@ -22,6 +26,18 @@ public class GameController {
 		this.dashboard = dashboard;
 		gamePanel = dashboard.getGamePanel();
 		this.gameState = gameState;
+		
+		GameAction onHandEnd = new GameAction(gamePanel) {
+
+			@Override
+			public void processAction(GameEvent event) {
+				if (event.getActionType() == ActionType.HAND_END) {
+					startGame();
+				}
+			}
+		};
+		
+		Events.eventBus.addHandler(GameEvent.TYPE, onHandEnd);
 	}
 
 	/**
@@ -31,8 +47,12 @@ public class GameController {
 	 * @param isEasyPlay
 	 */
 	public void startGame() {
+		GameState.setBetAmount(0);
+		GameState.setDealerHand(new Hand());
+		GameState.setPlayerHand(new Hand());
+		GameState.setTurn(TurnState.AWAITING_BET);
 		dashboard.displayGamePanel();
-		gamePanel.disableAllButtons();
+		gamePanel.reset();
 		GameState.setTurn(TurnState.AWAITING_BET);
 	}
 

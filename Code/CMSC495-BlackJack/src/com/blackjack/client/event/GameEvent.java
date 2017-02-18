@@ -7,7 +7,7 @@ import com.google.gwt.event.shared.GwtEvent;
 
 public class GameEvent extends GwtEvent<GameAction> {
 
-	public Type<GameAction> TYPE = new Type<GameAction>();	
+	public static Type<GameAction> TYPE = new Type<GameAction>();	
 	private GameState gameState;
 	private ActionType actionType;
 	

@@ -419,6 +419,8 @@ public class App {
 	}
 
 	private void setupGamePanel() {
+		gamePanel.displayInstruction("Place bet");
+		
 		gamePanel.getHitButton().addClickHandler(new ClickHandler() {
 
 			@Override

@@ -45,6 +45,10 @@ public class HandUI extends FlowPanel {
 	 * The label to display on stand
 	 */
 	private Label standLabel;
+	
+	/**
+	 * The label to display on a bust
+	 */
 	private Label bustLabel;
 	
 	/**
@@ -66,11 +70,14 @@ public class HandUI extends FlowPanel {
 		label.addStyleDependentName("centered");
 		
 		standLabel = new Label("Stand");
-		standLabel.setStylePrimaryName("standLabel");
-		
+		standLabel.setStylePrimaryName("gameLabel");
+		standLabel.addStyleDependentName("stand");
+		standLabel.setVisible(false);
 		
 		bustLabel = new Label("Bust");
-		bustLabel.setStylePrimaryName("bustLabel");
+		bustLabel.setStylePrimaryName("gameLabel");
+		bustLabel.addStyleDependentName("bust");
+		bustLabel.setVisible(false);
 		
 		switch(type) {
 			case DEALER :
@@ -83,6 +90,7 @@ public class HandUI extends FlowPanel {
 		}
 		
 		this.add(label);
+		this.add(standLabel);
 	}
 	
 	/**
@@ -125,8 +133,7 @@ public class HandUI extends FlowPanel {
 	}
 	
 	/**
-	 * Performs a split and returns a HandUI object to display as 
-	 * the split hand in the HandPanel
+	 * Performs a split and returns a HandUI object to display as 	 * the split hand in the HandPanel
 	 * rank is of the same type.
 	 */
 	public HandUI splitHand() {
@@ -140,22 +147,27 @@ public class HandUI extends FlowPanel {
 	}
 	
 	public void stand() {
-		this.add(standLabel);
+		standLabel.setVisible(true);
 	}
 	
 	public void bust() {
-		this.add(bustLabel);
+		bustLabel.setVisible(true);
 	}
 	
 	/**
 	 * Resets the hand to empt by clearing the hand and UI
 	 */
 	public void reset() {
-		this.clear();
+		for (CardUI cardUI : cardUIs) {
+			if (cardUI != null) {
+				this.remove(cardUI);
+			}
+		}
 		cardUIs = new CardUI[Hand.MAX_CARDS];
 		numCardUIs = 0;
 		hand.clear();
-		
+		standLabel.setVisible(false);
+		bustLabel.setVisible(false);
 		//TODO if this HandUI is split, reset it to it's original position
 	}
 	

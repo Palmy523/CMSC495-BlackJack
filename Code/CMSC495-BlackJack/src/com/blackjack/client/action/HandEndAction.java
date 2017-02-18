@@ -44,6 +44,7 @@ public class HandEndAction extends GameAction {
 			
 		}
 		
-		
+		event.setActionType(ActionType.HAND_END);
+		Events.eventBus.fireEvent(event);
 	}
 }

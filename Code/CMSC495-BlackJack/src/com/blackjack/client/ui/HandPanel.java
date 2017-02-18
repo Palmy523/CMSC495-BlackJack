@@ -11,8 +11,6 @@ public class HandPanel extends FlowPanel {
 	private HandUI primaryHandUI;
 	private HandUI splitHandUI;
 	private HandType type;
-	private Label standLabel = new Label("Stand");
-	private Label bustLabel = new Label("Bust");
 	
 	public HandPanel(HandType type) {
 		this.type = type;
@@ -64,8 +62,20 @@ public class HandPanel extends FlowPanel {
 		//TODO see comments above
 	}
 	
+	/**
+	 * This should join a split hand to appear back as one hand
+	 */
+	public void join() {
+		
+	}
+	
 	public void showDealerCard() {
 		primaryHandUI.showDealerCard();
+	}
+	
+	public void reset() {
+		primaryHandUI.reset();
+		splitHandUI.reset();
 	}
 	
 	public int getNumberPrimaryCards() {

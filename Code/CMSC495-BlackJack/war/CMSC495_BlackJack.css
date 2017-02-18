@@ -103,6 +103,10 @@ h1 {
 	padding: 5px;
 }
 
+.label-instruction {
+	font-style: italic;
+}
+
 .label-header {
 	font-size: 15px;
     text-shadow: 0px 2px 3px rgba(255,255,255,0.6);
@@ -442,6 +446,7 @@ h1 {
     display: inline-block;
     border: 3px solid black;
 }
+
 .back-anchor-icon:hover,
 .account-anchor-icon:hover {
 	transform: scale(1.1);
@@ -456,8 +461,8 @@ h1 {
     border: 3px solid white;
 }
 
-.standLabel {
-	    z-index: 100;
+.gameLabel {
+	z-index: 100;
     color: black;
     font-size: 26pt;
     font-weight: bold;
@@ -465,9 +470,17 @@ h1 {
     padding: 10px;
     position: absolute;
     border-radius: 6px;
-    background: rgba(255, 215, 0, 0.55);
+/*     background: rgba(255, 215, 0, 0.55); */
     box-shadow: 0 0 53px 3px black;
     line-height: 16px;
     left: 17px;
     top: 40px;
+}
+
+.gameLabel-bust {
+	background-color: rgb(165, 54, 54);
+}
+
+.gameLabel-stand {
+	background: rgb(55, 168, 108);
 }
