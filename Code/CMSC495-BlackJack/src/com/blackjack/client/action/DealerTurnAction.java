@@ -17,6 +17,7 @@ public class DealerTurnAction extends GameAction {
 	@Override
 	public void processAction(GameEvent event) {
 		if (GameState.getTurn() == TurnState.DEALER_TURN) {
+			panel.showDealerCard();
 			DealerAI ai = new DealerAI(panel);
 			ai.startTurn(event);
 		}

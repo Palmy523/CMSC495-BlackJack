@@ -58,6 +58,10 @@ public class HandPanel extends FlowPanel {
 		//TODO see comments above
 	}
 	
+	public void showDealerCard() {
+		primaryHandUI.showDealerCard();
+	}
+	
 	public int getNumberPrimaryCards() {
 		return primaryHandUI.getNumCardUIs();
 	}

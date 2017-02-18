@@ -10,6 +10,7 @@ import com.blackjack.client.entities.GameState.TurnState;
 import com.blackjack.client.event.Events;
 import com.blackjack.client.event.GameEvent;
 import com.blackjack.client.ui.BlackJackGamePanel;
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.Timer;
 
 public class DealerAI {
@@ -38,7 +39,7 @@ public class DealerAI {
 	public void processTurn(GameEvent event) {
 
 		int dealerHandValue = GameState.getDealerHand().getHandValue();
-
+		GWT.log("" + dealerHandValue);
 		boolean hit = shouldHit(dealerHandValue);
 
 		// dealer hit or stand actions

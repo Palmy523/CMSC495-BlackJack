@@ -49,7 +49,7 @@ public class HitAction extends GameAction {
 			Card drawn = deck.draw();
 			panel.hitDealerHand(drawn);
 			hand.hit(drawn);
-			state.setPlayerHand(hand);
+			state.setDealerHand(hand);
 			//TODO check if dealer busts
 		}
 		

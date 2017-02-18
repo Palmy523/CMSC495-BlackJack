@@ -149,6 +149,12 @@ public class HandUI extends FlowPanel {
 		
 		//TODO if this HandUI is split, reset it to it's original position
 	}
+	
+	public void showDealerCard() {
+		if (cardUIs[1] != null) {
+			cardUIs[1].setFaceUp(true);
+		}
+	}
 
 	public int getNumCardUIs() {
 		return numCardUIs;

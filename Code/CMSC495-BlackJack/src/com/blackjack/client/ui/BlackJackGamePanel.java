@@ -350,6 +350,13 @@ public class BlackJackGamePanel extends SimplePanel {
 		chip50.setEnabled(false);
 		chip100.setEnabled(false);		
 	}
+	
+	/**
+	 * Turns over the dealers down card
+	 */
+	public void showDealerCard() {
+		dealerHandPanel.showDealerCard();
+	}
 
 	
 	

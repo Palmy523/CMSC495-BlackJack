@@ -457,7 +457,6 @@ h1 {
     border-radius: 6px;
     background: rgba(255, 215, 0, 0.55);
     box-shadow: 0 0 53px 3px black;
-    transform: skewX(-35deg);
     line-height: 16px;
     left: 17px;
     top: 40px;
