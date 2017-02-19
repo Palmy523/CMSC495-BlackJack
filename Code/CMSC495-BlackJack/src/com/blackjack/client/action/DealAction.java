@@ -28,7 +28,7 @@ public class DealAction extends GameAction {
 	}
 
 	@Override
-	public void processAction(GameEvent event) {
+	public void processAction(final GameEvent event) {
 		GameState state = event.getGameState();
 		int betAmount = state.getBetAmount();
 		cardNum = 0;
@@ -59,6 +59,14 @@ public class DealAction extends GameAction {
 				public void run() {
 					dealCard(cardNum);
 					cardNum++;
+					if (cardNum == 3) {
+						cancel();
+					}
+				}
+				
+				public void cancel() {
+					super.cancel();
+					endDeal(event);
 				}
 			};
 
@@ -67,44 +75,41 @@ public class DealAction extends GameAction {
 		else
 			return;
 		
-		if(playerHand.getHandValue() == 21 && dealerHand.getHandValue() == 21)
-		{
+
+	}
+	
+	private void endDeal(GameEvent event) {
+		if (playerHand.getHandValue() == 21 && dealerHand.getHandValue() == 21) {
 			event.setActionType(ActionType.PUSH);
-			//TODO add call to dealerACtion?
-		}			
-		else if(playerHand.getHandValue() == 21)
-		{
+			// TODO add call to dealerACtion?
+		} else if (playerHand.getHandValue() == 21) {
 			event.setActionType(ActionType.BLACKJACK);
-			//TODO add call to dealerACtion?
-		}			
-		else
-		{
+			// TODO add call to dealerACtion?
+		} else {
 			panel.enableButton(GameButtonType.DEAL, false);
 			panel.enableButton(GameButtonType.HIT, true);
 			panel.enableButton(GameButtonType.STAND, true);
 			panel.chipsEnabled(false);
-			panel.enableButton(GameButtonType.SURRENDER, true);			
+			panel.enableButton(GameButtonType.SURRENDER, true);
 			panel.enableButton(GameButtonType.DOUBLE_DOWN, true);
-			
-			if(dealerHand.showingAce())
-			{
+
+			if (dealerHand.showingAce()) {
 				panel.displayInstruction("Want Insurance?");
 				panel.enableButton(GameButtonType.INSURANCE, true);
 			}
-			
-			if(playerHand.canSplit())
+
+			if (playerHand.canSplit())
 				panel.enableButton(GameButtonType.SPLIT, true);
-			
+
 		}
-			//TODO call DealerAction.processAction(gameEvent)
-			
-			//update the state by setting the proper turn
-			state.setTurn(TurnState.PLAYER_TURN);
-			panel.displayInstruction("Players turn");
-			state.setPlayerHand(playerHand);
-			state.setDealerHand(dealerHand);
-		
-		//Fire the event so the rest of the UI knows that the action occurred
+
+		// update the state by setting the proper turn
+		GameState.setTurn(TurnState.PLAYER_TURN);
+		panel.displayInstruction("Players turn");
+		GameState.setPlayerHand(playerHand);
+		GameState.setDealerHand(dealerHand);
+
+		// Fire the event so the rest of the UI knows that the action occurred
 		event.setActionType(ActionType.DEAL);
 		Events.eventBus.fireEvent(event);
 	}
