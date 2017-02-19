@@ -34,7 +34,10 @@ public class DealAction extends GameAction {
 		//state.getDeck()
 		//state.getTurn()
 		
-		if(state.getTurn() == TurnState.AWAITING_DEAL && betAmount >= state.getRoom().getMinBet() && betAmount <= state.getRoom().getMaxBet()) {
+		if(state.getTurn() != TurnState.AWAITING_DEAL)
+			return;
+		
+		if(betAmount >= state.getRoom().getMinBet() && betAmount <= state.getRoom().getMaxBet()) {
 			
 			//TODO GWT Timer can be used to deal cards at certain intervals until all cards
 			//are dealt, see http://www.gwtproject.org/javadoc/latest/com/google/gwt/user/client/Timer.html			
@@ -95,6 +98,7 @@ public class DealAction extends GameAction {
 			
 			//update the state by setting the proper turn
 			state.setTurn(TurnState.PLAYER_TURN);
+			panel.displayInstruction("Players turn");
 			state.setPlayerHand(playerHand);
 			state.setDealerHand(dealerHand);
 		
