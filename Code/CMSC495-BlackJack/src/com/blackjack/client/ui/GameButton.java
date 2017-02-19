@@ -70,6 +70,7 @@ public class GameButton extends Button {
 	}
 	
 	public void setEnabled(boolean enabled) {
+		super.setEnabled(enabled);
 		isEnabled = enabled;
 		if (enabled) {
 			this.removeStyleDependentName("disabled");
