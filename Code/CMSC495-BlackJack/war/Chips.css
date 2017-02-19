@@ -11,6 +11,14 @@
     border-radius: 100px;
 }
 
+.chip-disabled {
+	opacity: .5;
+}
+
+.chip-disabled:hover {
+	
+}
+
 .chip:hover {
 	transform: scale(1.1);
 	box-shadow: 0px 0px 3px 0px white;
