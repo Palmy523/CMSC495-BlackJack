@@ -95,7 +95,7 @@ public class Hand {
 	}
 	
 	public boolean canSplit() {
-		if(cards[0] == cards[1])
+		if(cards[0].getRank() == cards[1].getRank())
 			return true;
 		return false;
 	}
