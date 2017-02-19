@@ -7,6 +7,8 @@ import com.blackjack.client.entities.GameState.TurnState;
 import com.blackjack.client.entities.Hand;
 import com.blackjack.client.event.Events;
 import com.blackjack.client.event.GameEvent;
+import com.blackjack.client.sounds.SoundManager;
+import com.blackjack.client.sounds.SoundManager.SoundName;
 import com.blackjack.client.ui.BlackJackGamePanel;
 
 public class HitAction extends GameAction {
@@ -22,18 +24,7 @@ public class HitAction extends GameAction {
 		Deck deck = state.getDeck();
 		int score;
 		Hand hand;
-		//Update panel based on state, see accessors below 
-		//for potentially required state objects
-		//state.getBetAmount()
-		//state.getDealerHand()
-		//state.getPlayerHand()
-		//state.getDeck()
-		//state.getTurn()
 		
-		//TODO Play sounds using the SoundManager.play(SoundName) static method!!!!! See SoundManager to create
-		//the sounds you need. Just follow the same setup that FAN1 uses, add an enum name
-		//then add a new sound that follows the creation in the loadResources method that matches 
-		//FAN1 but reference the sound from the war/sounds directory that you want.
 				
 		if(state.getTurn() == TurnState.PLAYER_TURN){
 			
@@ -44,6 +35,7 @@ public class HitAction extends GameAction {
 			}
 			
 			Card drawn = deck.draw();
+			SoundManager.play(SoundName.PLACE4);
 			panel.hitPlayerHand(drawn);
 			hand.hit(drawn);
 			state.setPlayerHand(hand);
@@ -54,7 +46,8 @@ public class HitAction extends GameAction {
 			
 			if(score> 21){
 				hand.busts();
-				panel.displayInstruction("Busted!");
+				panel.displayInstruction("Busted!");	//TODO Change to label
+				SoundManager.play(SoundName.BUST);
 				BustAction b = new BustAction(100, panel);				
 				b.processAction(event);
 			}			
@@ -68,6 +61,7 @@ public class HitAction extends GameAction {
 			}
 			
 			Card drawn = deck.draw();
+			SoundManager.play(SoundName.PLACE4);
 			panel.hitDealerHand(drawn);
 			hand.hit(drawn);
 			state.setDealerHand(hand);

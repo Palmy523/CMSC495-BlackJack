@@ -7,7 +7,7 @@ import com.google.gwt.media.client.Audio;
 
 public class SoundManager {
 
-	public enum SoundName {FAN1, CHIP_BET, PLACE1, PLACE2, PLACE3, PLACE4}
+	public enum SoundName {FAN1, CHIP_BET, PLACE1, PLACE2, PLACE3, PLACE4, STAND, BUST}
 	
 	private static HashMap<SoundName, Audio> sounds = new HashMap<SoundName, Audio>();
 	
@@ -43,6 +43,14 @@ public class SoundManager {
 		Audio cardPlace4 = Audio.createIfSupported();
 		cardPlace4.setSrc("sounds/cardPlace4.wav");
 		sounds.put(SoundName.PLACE4, cardPlace4);
+		
+		Audio stand = Audio.createIfSupported();
+		stand.setSrc("sounds/StandSound.wav");
+		sounds.put(SoundName.STAND, stand);
+		
+		Audio bust = Audio.createIfSupported();
+		bust.setSrc("sounds/bust.wav");
+		sounds.put(SoundName.BUST, bust);
 	}
 	
 }
