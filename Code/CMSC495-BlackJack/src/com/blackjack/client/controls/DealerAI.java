@@ -1,7 +1,5 @@
 package com.blackjack.client.controls;
 
-import com.blackjack.client.action.BustAction;
-import com.blackjack.client.action.HandEndAction;
 import com.blackjack.client.action.HitAction;
 import com.blackjack.client.action.StandAction;
 import com.blackjack.client.action.GameAction.ActionType;
