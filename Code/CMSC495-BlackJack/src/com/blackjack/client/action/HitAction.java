@@ -21,6 +21,7 @@ public class HitAction extends GameAction {
 		GameState state = event.getGameState();
 		Deck deck = state.getDeck();
 		int score;
+		Hand hand;
 		//Update panel based on state, see accessors below 
 		//for potentially required state objects
 		//state.getBetAmount()
@@ -33,42 +34,54 @@ public class HitAction extends GameAction {
 		//the sounds you need. Just follow the same setup that FAN1 uses, add an enum name
 		//then add a new sound that follows the creation in the loadResources method that matches 
 		//FAN1 but reference the sound from the war/sounds directory that you want.
-			
+				
 		if(state.getTurn() == TurnState.PLAYER_TURN){
-			Hand hand = state.getPlayerHand();	
+			
+			hand = state.getPlayerHand();	
+			
+			if(hand.getBustStatus()){
+				return;
+			}
+			
 			Card drawn = deck.draw();
 			panel.hitPlayerHand(drawn);
 			hand.hit(drawn);
 			state.setPlayerHand(hand);
 			score = hand.getHandValue();
+			
+			event.setActionType(ActionType.HIT);
+			Events.eventBus.fireEvent(event);
+			
 			if(score> 21){
 				hand.busts();
-				state.setTurn(TurnState.DEALER_TURN);
-				event.setActionType(ActionType.BUST);
-				Events.eventBus.fireEvent(event);
+				panel.displayInstruction("Busted!");
+				BustAction b = new BustAction(100, panel);				
+				b.processAction(event);
 			}			
 		}
 		else if(state.getTurn() == TurnState.DEALER_TURN){
-			Hand hand = state.getDealerHand();					
+			
+			hand = state.getDealerHand();
+			
+			if(hand.getBustStatus()){
+				return;
+			}
+			
 			Card drawn = deck.draw();
 			panel.hitDealerHand(drawn);
 			hand.hit(drawn);
 			state.setDealerHand(hand);
-			score = hand.getHandValue();
+			score = hand.getHandValue();	
+			
+			event.setActionType(ActionType.HIT);
+			Events.eventBus.fireEvent(event);
+						
 			if(score> 21){
-				hand.busts();
-				state.setTurn(TurnState.HAND_END);
-				event.setActionType(ActionType.BUST);
-				Events.eventBus.fireEvent(event);
+				hand.busts();				
+				BustAction b = new BustAction(100, panel);				
+				b.processAction(event);
 			}			
 		}
-		
-		//TODO Check if the new hand value causes a bust, if so, call a new BustAction and pass in
-		//the event
-		
-		//Fire the event so the rest of the UI knows that the action occurred
-		event.setActionType(ActionType.HIT);
-		Events.eventBus.fireEvent(event);
 	}
 
 }
