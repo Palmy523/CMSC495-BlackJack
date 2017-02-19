@@ -26,7 +26,6 @@ public class BetAction extends GameAction {
 				|| GameState.getBetAmount() == GameState.getRoom().getMaxBet()) {
 			return;
 		}
-		GameState.setTurn(TurnState.AWAITING_DEAL);
 		int currentBet = GameState.getBetAmount() + betAmount;
 		GameState.setBetAmount(currentBet);
 
@@ -34,6 +33,7 @@ public class BetAction extends GameAction {
 
 		if (currentBet >= GameState.getRoom().getMinBet()) {
 			panel.enableButton(GameButtonType.DEAL, true);
+			GameState.setTurn(TurnState.AWAITING_DEAL);
 		}
 
 		if (currentBet >= GameState.getRoom().getMaxBet()) {
