@@ -16,7 +16,9 @@
 }
 
 .chip-disabled:hover {
-	
+	transform: scale(1)!important;
+    cursor: default;
+    box-shadow: none!important;
 }
 
 .chip:hover {
