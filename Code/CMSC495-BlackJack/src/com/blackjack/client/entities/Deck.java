@@ -13,6 +13,8 @@ public class Deck {
 	private int numCards;
 	
 	public Deck(Set set, int numberOfDecks, boolean autoShuffle) {
+		this.numberOfDecks = numberOfDecks;
+		this.set = set;
 		cards = new Card[52 * numberOfDecks];
 		numCards = cards.length;
 		int cardIndex = 0;
@@ -53,6 +55,10 @@ public class Deck {
 			cards[index] = cards[i];
 			cards[i] = a;
 		}
+	}
+	
+	public float getCardUsage() {
+		return numCards / cards.length;
 	}
 	
 	/**
