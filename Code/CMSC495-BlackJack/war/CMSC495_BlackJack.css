@@ -104,6 +104,8 @@ h1 {
 	padding: 10px;
 	top: 250px !important;
 	background-color: black;
+	max-width: 200px;
+    white-space: initial;
 }
 
 .label-header {

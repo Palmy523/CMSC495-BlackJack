@@ -8,7 +8,7 @@ import com.google.gwt.event.shared.EventHandler;
 
 public abstract class GameAction implements EventHandler{
 
-	public static enum ActionType {DEAL, BET, HIT, STAND, BUST, PUSH, BLACKJACK, HAND_END}
+	public static enum ActionType {DEAL, BET, HIT, STAND, PLAYER_BUST, DEALER_BUST, PUSH, BLACKJACK, HAND_END}
 	protected BlackJackGamePanel panel;
 	protected ActionType type;
 	

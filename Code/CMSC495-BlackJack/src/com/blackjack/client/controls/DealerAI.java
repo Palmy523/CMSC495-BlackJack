@@ -1,5 +1,6 @@
 package com.blackjack.client.controls;
 
+import com.blackjack.client.action.HandEndAction;
 import com.blackjack.client.action.HitAction;
 import com.blackjack.client.action.StandAction;
 import com.blackjack.client.action.GameAction.ActionType;
@@ -37,7 +38,13 @@ public class DealerAI {
 	public void processTurn(GameEvent event) {
 
 		int dealerHandValue = GameState.getDealerHand().getHandValue();
-		GWT.log("" + dealerHandValue);
+		int playerHandValue = GameState.getPlayerHand().getHandValue();
+		
+		if (playerHandValue > 21) {
+			HandEndAction handEnd = new HandEndAction(gamePanel);
+			event.setActionType(ActionType.PLAYER_BUST);
+			handEnd.processAction(event);
+		}
 		boolean hit = shouldHit(dealerHandValue);
 
 		// dealer hit or stand actions

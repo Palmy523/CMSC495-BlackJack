@@ -54,6 +54,7 @@ public class BustAction extends GameAction {
 			state.setTurn(TurnState.DEALER_TURN); //TODO needs a corresponding label case
 			DealerTurnAction dAction = new DealerTurnAction(100, panel);
 			dAction.processAction(event);
+			event.setActionType(ActionType.PLAYER_BUST);
 		} else if (turn == TurnState.DEALER_TURN) {
 			//TODO UI displays Dealer Busts
 			panel.dealerBust();
@@ -61,6 +62,7 @@ public class BustAction extends GameAction {
 			//dealer busts set state to end dealer's turn
 			state.setTurn(TurnState.HAND_END); //TODO needs a corresponding label case
 			HandEndAction endHand = new HandEndAction(panel);
+			event.setActionType(ActionType.DEALER_BUST);
 			endHand.processAction(event);
 		}
 		
@@ -70,7 +72,6 @@ public class BustAction extends GameAction {
 		//TODO if dealer busts check gamestate to see who wins and ??? ask me later ???
 
 		//Fire the event so the rest of the UI knows that the action occurred
-		event.setActionType(ActionType.BUST);
 		Events.eventBus.fireEvent(event);
 	}
 

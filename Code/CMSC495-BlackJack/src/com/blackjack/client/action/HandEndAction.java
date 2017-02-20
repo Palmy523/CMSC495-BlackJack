@@ -15,33 +15,32 @@ import com.blackjack.client.ui.BlackJackGamePanel;
  */
 public class HandEndAction extends GameAction {
 
+	private final static String message = "\nPlace the minimum bet and click 'Deal' to start a new hand";
+	
 	public HandEndAction(BlackJackGamePanel panel) {
 		super(panel);		
 	}
 
 	@Override
 	public void processAction(GameEvent event) {
-		// TODO Auto-generated method stub	
+		int playerHandVal = GameState.getPlayerHand().getHandValue();
+		int dealerHandVal = GameState.getDealerHand().getHandValue();
 		
-		GameState state = event.getGameState();
-		
-		int playerHandVal = state.getPlayerHand().getHandValue();
-		int dealerHandVal = state.getDealerHand().getHandValue();
-		
-		if (dealerHandVal > playerHandVal) {
-			//TODO UI displays dealer wins
-			//play chip sounds when player loses
-				// balance should already be updated when the betting started, no update
-				// to balance
-		} if (dealerHandVal < playerHandVal) {
-			//TODO UI displays player wins
-			
-			// play chip winning sounds
-			// update players balance 1:1 for normal wins
-			// ...
-		} else {
-			//TODO UI displays a push is made
-			
+		if (event.getActionType() == ActionType.BLACKJACK) {
+			panel.displayInstruction("Blackjack!" + message);
+			//TODO Award chips 3/2
+		} else if (event.getActionType() == ActionType.PUSH || 
+				playerHandVal == dealerHandVal) {
+			panel.displayInstruction("Push!" + message);
+			//Update chips with betted value
+		} else if (event.getActionType() == ActionType.PLAYER_BUST) {
+			panel.displayInstruction("Dealer wins!" + message);
+		} else if (event.getActionType() == ActionType.DEALER_BUST) {
+			panel.displayInstruction("You win!" + message);
+		} else if (dealerHandVal > playerHandVal) {
+			panel.displayInstruction("Dealer wins!" + message);
+		} else if (dealerHandVal < playerHandVal) {
+			panel.displayInstruction("You win!" + message);
 		}
 		
 		event.setActionType(ActionType.HAND_END);
