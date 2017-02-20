@@ -17,9 +17,6 @@ import com.google.gwt.user.client.Timer;
 
 public class DealAction extends GameAction {
 	
-	Deck deck;
-	Hand playerHand;
-	Hand dealerHand;
 	int cardNum;
 	Card card;
 
@@ -29,31 +26,33 @@ public class DealAction extends GameAction {
 
 	@Override
 	public void processAction(final GameEvent event) {
-		GameState state = event.getGameState();
-		int betAmount = state.getBetAmount();
-		cardNum = 0;
-		deck = state.getDeck();
-		playerHand = new Hand();
-		dealerHand = new Hand();
+		//get the game state from the event
+		GameState state = event.getGameState();		
+		//get bet amount
+		int betAmount = state.getBetAmount();		
+		//set card number to first card
+		cardNum = 0;		
+		//reset the hands if there are still hands showing on the table
 		panel.resetHands();
-		//Update panel based on state, see accessors below 
-		//for potentially required state objects
-		//state.getBetAmount()
-		//state.getDealerHand()
-		//state.getPlayerHand()
-		//state.getDeck()
-		//state.getTurn()
 		
+		//return if state is not awaiting deal
 		if(state.getTurn() != TurnState.AWAITING_DEAL)
 			return;
 		
+		//if the bets are in the proper range, start the deal.
 		if(betAmount >= state.getRoom().getMinBet() && betAmount <= state.getRoom().getMaxBet()) {
 			
-			card = deck.draw();			
-			//playRandomDealSound();
+			//get the top card from the deck
+			card = GameState.getDeck().draw();
+			
+			//play deal sound
 			SoundManager.play(SoundName.PLACE1);
+			
+			//deal card in the interface
 			panel.dealPlayerCard(card);
-			playerHand.hit(card);
+			
+			//update player hand object
+			GameState.getPlayerHand().hit(card);
 			
 			Timer timer = new Timer() {
 				public void run() {
@@ -79,13 +78,16 @@ public class DealAction extends GameAction {
 	}
 	
 	private void endDeal(GameEvent event) {
-		if (playerHand.getHandValue() == 21 && dealerHand.getHandValue() == 21) {
+		//check for push
+		if (GameState.getPlayerHand().getHandValue() == 21 && GameState.getDealerHand().getHandValue() == 21) {
 			event.setActionType(ActionType.PUSH);
 			// TODO add call to dealerACtion?
-		} else if (playerHand.getHandValue() == 21) {
+		} //check for blackjack
+		else if (GameState.getPlayerHand().getHandValue() == 21) {
 			event.setActionType(ActionType.BLACKJACK);
 			// TODO add call to dealerACtion?
-		} else {
+		} //enable the appropriate buttons 
+		else {
 			panel.enableButton(GameButtonType.DEAL, false);
 			panel.enableButton(GameButtonType.HIT, true);
 			panel.enableButton(GameButtonType.STAND, true);
@@ -93,12 +95,15 @@ public class DealAction extends GameAction {
 			panel.enableButton(GameButtonType.SURRENDER, true);
 			panel.enableButton(GameButtonType.DOUBLE_DOWN, true);
 
-			if (dealerHand.showingAce()) {
+			//check if insurance is available
+			if(GameState.getDealerHand().showingAce())
+			{
 				panel.displayInstruction("Want Insurance?");
 				panel.enableButton(GameButtonType.INSURANCE, true);
 			}
 
-			if (playerHand.canSplit())
+			//check if split is available
+			if(GameState.getPlayerHand().canSplit())
 				panel.enableButton(GameButtonType.SPLIT, true);
 
 		}
@@ -106,8 +111,8 @@ public class DealAction extends GameAction {
 		// update the state by setting the proper turn
 		GameState.setTurn(TurnState.PLAYER_TURN);
 		panel.displayInstruction("Players turn");
-		GameState.setPlayerHand(playerHand);
-		GameState.setDealerHand(dealerHand);
+		//GameState.setPlayerHand(playerHand);
+		//GameState.setDealerHand(dealerHand);
 
 		// Fire the event so the rest of the UI knows that the action occurred
 		event.setActionType(ActionType.DEAL);
@@ -118,48 +123,24 @@ public class DealAction extends GameAction {
 	{
 		if(cardNum == 0)
 		{
-			card = deck.draw();
-			//playRandomDealSound();
+			card = GameState.getDeck().draw();
 			SoundManager.play(SoundName.PLACE2);
-			panel.dealDealerCard(card);			
-			dealerHand.hit(card);
+			panel.dealDealerCard(card);	
+			GameState.getDealerHand().hit(card);
 		}
 		else if(cardNum == 1)
 		{
-			card = deck.draw();
-			//playRandomDealSound();
+			card = GameState.getDeck().draw();
 			SoundManager.play(SoundName.PLACE3);
 			panel.dealPlayerCard(card);
-			playerHand.hit(card);
+			GameState.getPlayerHand().hit(card);
 		}
 		else if(cardNum == 2)
 		{
-			card = deck.draw();
-			//playRandomDealSound();
+			card = GameState.getDeck().draw();
 			SoundManager.play(SoundName.PLACE4);
 			panel.dealDealerCard(card);
-			dealerHand.hit(card);
+			GameState.getDealerHand().hit(card);
 		}
 	}
-	
-	private void playRandomDealSound() 
-	{
-		Random rand = new Random();
-		int randNum = rand.nextInt(4) + 1;
-		
-		switch (randNum) {
-		case 1:
-			SoundManager.play(SoundName.PLACE1);
-		case 2:
-			SoundManager.play(SoundName.PLACE2);
-		case 3:
-			SoundManager.play(SoundName.PLACE3);
-		case 4:
-			SoundManager.play(SoundName.PLACE4);
-		default:
-			SoundManager.play(SoundName.PLACE1);
-		}
-		
-	}
-
 }
