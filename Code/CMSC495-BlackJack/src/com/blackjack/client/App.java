@@ -405,8 +405,8 @@ public class App {
 				public void onClick(ClickEvent event) {
 					GameState state = new GameState();
 					state.setBetAmount(0);
-					state.setDealerHand(new Hand());
 					state.setPlayerHand(new Hand());
+					state.setDealerHand(new Hand());
 					state.setDeck(new Deck(Set.ONE, 1, true));
 					state.setTurn(TurnState.PLAYER_TURN);
 					state.setRoom(room);
