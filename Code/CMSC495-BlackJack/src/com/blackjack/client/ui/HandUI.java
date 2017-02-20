@@ -91,6 +91,7 @@ public class HandUI extends FlowPanel {
 		
 		this.add(label);
 		this.add(standLabel);
+		this.add(bustLabel);
 	}
 	
 	/**
