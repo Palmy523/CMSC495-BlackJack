@@ -13,6 +13,7 @@ import com.blackjack.client.sounds.SoundManager;
 import com.blackjack.client.sounds.SoundManager.SoundName;
 import com.blackjack.client.ui.BlackJackGamePanel;
 import com.blackjack.client.ui.GameButton.GameButtonType;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Timer;
 
 public class DealAction extends GameAction {
@@ -54,10 +55,12 @@ public class DealAction extends GameAction {
 			SoundManager.play(SoundName.PLACE1);
 			panel.dealPlayerCard(card);
 			playerHand.hit(card);
-			
+			GWT.log("Hit player hand with card " + card.getRank());
+
 			Timer timer = new Timer() {
 				public void run() {
 					dealCard(cardNum);
+					
 					cardNum++;
 					if (cardNum == 3) {
 						cancel();
@@ -107,7 +110,9 @@ public class DealAction extends GameAction {
 			GameState.setTurn(TurnState.PLAYER_TURN);
 			panel.displayInstruction("Players turn");
 			GameState.setPlayerHand(playerHand);
+			GWT.log("Player hand value: " + GameState.getPlayerHand().getHandValue());
 			GameState.setDealerHand(dealerHand);
+			GWT.log("Dealer hand value: " + GameState.getDealerHand().getHandValue());
 		}
 
 		// Fire the event so the rest of the UI knows that the action occurred
@@ -122,8 +127,9 @@ public class DealAction extends GameAction {
 			card = deck.draw();
 			//playRandomDealSound();
 			SoundManager.play(SoundName.PLACE2);
-			panel.dealDealerCard(card);			
+			panel.dealDealerCard(card);	
 			dealerHand.hit(card);
+			GWT.log("Hit dealer hand with card " + card.getRank());
 		}
 		else if(cardNum == 1)
 		{
@@ -132,6 +138,7 @@ public class DealAction extends GameAction {
 			SoundManager.play(SoundName.PLACE3);
 			panel.dealPlayerCard(card);
 			playerHand.hit(card);
+			GWT.log("Hit player hand with card " + card.getRank());
 		}
 		else if(cardNum == 2)
 		{
@@ -140,6 +147,8 @@ public class DealAction extends GameAction {
 			SoundManager.play(SoundName.PLACE4);
 			panel.dealDealerCard(card);
 			dealerHand.hit(card);
+			GWT.log("Hit dealer hand with card " + card.getRank());
+
 		}
 	}
 }

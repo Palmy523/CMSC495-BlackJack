@@ -10,6 +10,7 @@ import com.blackjack.client.event.GameEvent;
 import com.blackjack.client.sounds.SoundManager;
 import com.blackjack.client.sounds.SoundManager.SoundName;
 import com.blackjack.client.ui.BlackJackGamePanel;
+import com.google.gwt.core.client.GWT;
 
 public class HitAction extends GameAction {
 
@@ -44,7 +45,10 @@ public class HitAction extends GameAction {
 			event.setActionType(ActionType.HIT);
 			Events.eventBus.fireEvent(event);
 			
-			if(score> 21){
+			GWT.log("Hit Player hand with " + drawn.getRank());
+			GWT.log("Player hand value: " + hand.getHandValue());
+			
+			if(score > 21){
 				hand.busts();
 				panel.displayInstruction("Busted!");	//TODO Change to label
 				SoundManager.play(SoundName.BUST);
@@ -69,7 +73,10 @@ public class HitAction extends GameAction {
 			
 			event.setActionType(ActionType.HIT);
 			Events.eventBus.fireEvent(event);
-						
+					
+			GWT.log("Hit Dealer hand with " + drawn.getRank());
+			GWT.log("Dealer hand value: " + hand.getHandValue());
+			
 			if(score> 21){
 				hand.busts();				
 				BustAction b = new BustAction(100, panel);				
