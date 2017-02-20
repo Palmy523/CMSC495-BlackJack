@@ -12,37 +12,33 @@ import com.blackjack.client.ui.BlackJackGamePanel;
 public class StandAction extends GameAction {
 
 	public StandAction(BlackJackGamePanel panel) {
-		super(panel);		
+		super(panel);
 	}
 
 	@Override
 	public void processAction(GameEvent event) {
-		GameState state = event.getGameState();
 
+		// Cause the hand to stand based on state.getTurn() (PLAYER OR DEALER
+		// STAND)
+		if (GameState.getTurn() == TurnState.PLAYER_TURN) {
+			panel.disableAllButtons();
+			panel.playerStand();
+			SoundManager.play(SoundName.STAND);
+			GameState.setTurn(TurnState.DEALER_TURN);
 
-		panel.disableAllButtons();
-		panel.playerStand();
+			// implement DealerTurnAction
+			DealerTurnAction action = new DealerTurnAction(100, panel);
+			action.processAction(event);
+		} else if (GameState.getTurn() == TurnState.DEALER_TURN) {
+			panel.dealerStand();
+			GameState.setTurn(TurnState.HAND_END);
 
-		//Cause the hand to stand based on state.getTurn() (PLAYER OR DEALER STAND)
-		if(state.getTurn() == TurnState.PLAYER_TURN){
-			
-				SoundManager.play(SoundName.STAND);
-				state.setTurn(TurnState.DEALER_TURN);
-		
-				//implement DealerTurnAction
-				DealerTurnAction action = new DealerTurnAction(100, panel);
-				action.processAction(event);
-		}											
-		else if(state.getTurn() == TurnState.DEALER_TURN){
-							
-				state.setTurn(TurnState.HAND_END);
-				
-				//create HandEndAction-implement and end action
-				HandEndAction action = new HandEndAction(panel);
-				action.processAction(event);
+			// create HandEndAction-implement and end action
+			HandEndAction action = new HandEndAction(panel);
+			action.processAction(event);
 		}
-		
-		//Fire the event so the rest of the UI knows that the action occurred
+
+		// Fire the event so the rest of the UI knows that the action occurred
 		event.setActionType(ActionType.STAND);
 		Events.eventBus.fireEvent(event);
 	}

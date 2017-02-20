@@ -82,11 +82,11 @@ public class DealAction extends GameAction {
 		if (playerHand.getHandValue() == 21 && dealerHand.getHandValue() == 21) {
 			event.setActionType(ActionType.PUSH);
 			HandEndAction handEndAction = new HandEndAction(panel);
-			// TODO add call to dealerACtion?
+			handEndAction.processAction(event);
 		} else if (playerHand.getHandValue() == 21) {
 			event.setActionType(ActionType.BLACKJACK);
 			HandEndAction handEndAction = new HandEndAction(panel);
-			// TODO add call to dealerACtion?
+			handEndAction.processAction(event);
 		} else {
 			panel.enableButton(GameButtonType.DEAL, false);
 			panel.enableButton(GameButtonType.HIT, true);
@@ -103,13 +103,12 @@ public class DealAction extends GameAction {
 			if (playerHand.canSplit())
 				panel.enableButton(GameButtonType.SPLIT, true);
 
+			// update the state by setting the proper turn
+			GameState.setTurn(TurnState.PLAYER_TURN);
+			panel.displayInstruction("Players turn");
+			GameState.setPlayerHand(playerHand);
+			GameState.setDealerHand(dealerHand);
 		}
-
-		// update the state by setting the proper turn
-		GameState.setTurn(TurnState.PLAYER_TURN);
-		panel.displayInstruction("Players turn");
-		GameState.setPlayerHand(playerHand);
-		GameState.setDealerHand(dealerHand);
 
 		// Fire the event so the rest of the UI knows that the action occurred
 		event.setActionType(ActionType.DEAL);

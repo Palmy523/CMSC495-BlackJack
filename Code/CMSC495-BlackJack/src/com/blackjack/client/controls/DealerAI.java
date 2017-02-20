@@ -30,6 +30,7 @@ public class DealerAI {
 				while (GameState.getTurn() == TurnState.DEALER_TURN) {
 					processTurn(event);
 				}
+				timer.cancel();
 			}
 		};
 		timer.scheduleRepeating(1000);

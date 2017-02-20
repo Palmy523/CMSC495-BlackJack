@@ -57,6 +57,7 @@ public class GameController {
 		GameState.setTurn(TurnState.AWAITING_BET);
 		dashboard.displayGamePanel();
 		gamePanel.reset();
+		
 		GameState.setTurn(TurnState.AWAITING_BET);
 	}
 
