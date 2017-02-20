@@ -1,21 +1,21 @@
 package com.blackjack.client.controls;
 
+import com.blackjack.client.action.GameAction;
+import com.blackjack.client.action.GameAction.ActionType;
 import com.blackjack.client.action.HandEndAction;
 import com.blackjack.client.action.HitAction;
 import com.blackjack.client.action.StandAction;
-import com.blackjack.client.action.GameAction.ActionType;
 import com.blackjack.client.entities.GameState;
 import com.blackjack.client.entities.GameState.TurnState;
 import com.blackjack.client.event.Events;
 import com.blackjack.client.event.GameEvent;
 import com.blackjack.client.ui.BlackJackGamePanel;
-import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.Timer;
 
 public class DealerAI {
 
 	private BlackJackGamePanel gamePanel;
-	private Timer timer;
+	private static Timer timer;
 
 	public DealerAI(BlackJackGamePanel panel) {
 		this.gamePanel = panel;
@@ -23,14 +23,15 @@ public class DealerAI {
 
 	public void startTurn(final GameEvent event) {
 
+
+		
 		timer = new Timer() {
 
 			@Override
 			public void run() {
-				while (GameState.getTurn() == TurnState.DEALER_TURN) {
+				if (GameState.getTurn() == TurnState.DEALER_TURN) {
 					processTurn(event);
 				}
-				timer.cancel();
 			}
 		};
 		timer.scheduleRepeating(1000);
@@ -74,6 +75,12 @@ public class DealerAI {
 	 */
 	private boolean shouldHit(int dealerHandValue) {
 		return (dealerHandValue < 17);
+	}
+	
+	public static void cancelDealerActions() {
+		if (timer != null) {
+			timer.cancel();
+		}
 	}
 
 }

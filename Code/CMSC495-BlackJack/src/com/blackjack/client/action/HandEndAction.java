@@ -1,6 +1,7 @@
 package com.blackjack.client.action;
 
 import com.blackjack.client.action.GameAction.ActionType;
+import com.blackjack.client.controls.DealerAI;
 import com.blackjack.client.entities.GameState;
 import com.blackjack.client.entities.GameState.TurnState;
 import com.blackjack.client.event.Events;
@@ -43,6 +44,7 @@ public class HandEndAction extends GameAction {
 			panel.displayInstruction("You win!" + message);
 		}
 		
+		DealerAI.cancelDealerActions();
 		event.setActionType(ActionType.HAND_END);
 		Events.eventBus.fireEvent(event);
 	}
