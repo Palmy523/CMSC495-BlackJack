@@ -156,7 +156,8 @@ public class Dashboard extends SimplePanel {
 			displayLoginScreen();
 			break;
 		case "game":
-			displayRoomSelectionScreen();
+			displayMessage(MessageType.WARN, 
+					"Are you sure you want to quit? All chips currently bet will be lost!");
 			break;
 		case "createAccount":
 			displayLoginScreen();
@@ -252,8 +253,7 @@ public class Dashboard extends SimplePanel {
 	}
 	
 	public void displayGamePanel() {
-		this.loadView(gamePanel);
-		//Abby
+		this.loadView(gamePanel);		
 		History.newItem("game");
 	}
 	

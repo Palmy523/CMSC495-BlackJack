@@ -14,6 +14,9 @@ import com.blackjack.client.event.Events;
 import com.blackjack.client.event.GameEvent;
 import com.blackjack.client.ui.BlackJackGamePanel;
 import com.blackjack.client.ui.Dashboard;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
 
 public class GameController {
 
@@ -58,11 +61,28 @@ public class GameController {
 		dashboard.displayGamePanel();
 		gamePanel.reset();
 		
+		Button quitButton = dashboard.getMessageBox().getQuitButton();
+		
+		quitButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {				
+				dashboard.getMessageBox().setVisible(false);		
+				quitGame();				
+			}
+			
+		});
+		
 		GameState.setTurn(TurnState.AWAITING_BET);
 	}
 
 	public void quitGame() {
-		// TODO quit the game and return to the RoomSelectionScreen
+		// TODO lose chips
+		gamePanel.reset();
+		gamePanel.resetHands();
+		GameState.setTurn(TurnState.AWAITING_BET);
+		gamePanel.displayInstruction("Place bet");
+		dashboard.displayRoomSelectionScreen();
 	}
 
 	public void deal() {

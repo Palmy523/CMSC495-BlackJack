@@ -21,6 +21,7 @@ public class UserMessageBox extends FocusPanel {
 	
 	private Label label = new Label();
 	private Button button = new Button();
+	private Button quitButton = new Button();	
 	
 	public UserMessageBox() {	
 		FlowPanel panel = new FlowPanel();
@@ -34,6 +35,11 @@ public class UserMessageBox extends FocusPanel {
 		button.setText("Close");
 		button.setStylePrimaryName("button");
 		button.addStyleDependentName("red");
+		
+		quitButton.setText("Quit");
+		quitButton.setStylePrimaryName("button");
+		quitButton.addStyleDependentName("red");
+		quitButton.setVisible(false);
 		
 		button.addClickHandler(new ClickHandler() {
 
@@ -69,6 +75,7 @@ public class UserMessageBox extends FocusPanel {
 		panel.add(label);
 		panel.add(new HTML("<br />"));
 		panel.add(button);
+		panel.add(quitButton);
 		this.add(panel);
 	}
 	
@@ -94,7 +101,18 @@ public class UserMessageBox extends FocusPanel {
 			this.setStylePrimaryName("modal");
 			this.addStyleDependentName("gray");
 			break;
+		case WARN:
+			label.removeStyleName("label");
+			label.setStylePrimaryName("label");
+			label.addStyleDependentName("white");
+			label.addStyleDependentName("centered");
+			this.setStylePrimaryName("modal");
+			this.addStyleDependentName("gray");
+			quitButton.setVisible(true);
 		}
 	}
 	
+	public Button getQuitButton(){
+		return quitButton;
+	}
 }
