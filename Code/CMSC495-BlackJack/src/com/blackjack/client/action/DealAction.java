@@ -82,12 +82,19 @@ public class DealAction extends GameAction {
 	}
 	
 	private void endDeal(GameEvent event) {
+		int temp = 1;
 		if (playerHand.getHandValue() == 21 && dealerHand.getHandValue() == 21) {
+			panel.showDealerCard();
 			event.setActionType(ActionType.PUSH);
 			HandEndAction handEndAction = new HandEndAction(panel);
 			handEndAction.processAction(event);
 		} else if (playerHand.getHandValue() == 21) {
 			event.setActionType(ActionType.BLACKJACK);
+			HandEndAction handEndAction = new HandEndAction(panel);
+			handEndAction.processAction(event);
+		} else if (dealerHand.getHandValue() == 21) {
+			panel.showDealerCard();
+			event.setActionType(ActionType.DEALER_BLACKJACK);
 			HandEndAction handEndAction = new HandEndAction(panel);
 			handEndAction.processAction(event);
 		} else {

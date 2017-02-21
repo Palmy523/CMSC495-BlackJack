@@ -30,6 +30,8 @@ public class HandEndAction extends GameAction {
 		if (event.getActionType() == ActionType.BLACKJACK) {
 			panel.displayInstruction("Blackjack!" + message);
 			//TODO Award chips 3/2
+		} else if (event.getActionType() == ActionType.DEALER_BLACKJACK) {
+			panel.displayInstruction("Dealer Blackjack!" + message);
 		} else if (event.getActionType() == ActionType.PUSH || 
 				playerHandVal == dealerHandVal) {
 			panel.displayInstruction("Push!" + message);
