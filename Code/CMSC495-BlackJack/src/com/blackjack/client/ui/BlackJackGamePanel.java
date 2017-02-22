@@ -194,6 +194,10 @@ public class BlackJackGamePanel extends SimplePanel {
 		dealerHandPanel.bust();
 	}
 	
+	//causes UI to display 21 label over player hand
+	public void twentyone() {
+		playerHandPanel.twentyone();
+	}
 	/**
 	 * Deals a card to the player, will not allow more than 
 	 * two cards 

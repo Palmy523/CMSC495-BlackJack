@@ -51,6 +51,9 @@ public class HandUI extends FlowPanel {
 	 */
 	private Label bustLabel;
 	
+	//label to display when player gets 21
+	private Label twentyoneLabel;
+	
 	/**
 	 * Construct with type to determine if it is a Player or Dealer hand,
 	 * init UI and styles, hand always starts empty.
@@ -78,6 +81,11 @@ public class HandUI extends FlowPanel {
 		bustLabel.setStylePrimaryName("gameLabel");
 		bustLabel.addStyleDependentName("bust");
 		bustLabel.setVisible(false);
+		
+		twentyoneLabel = new Label("21!");
+		twentyoneLabel.setStylePrimaryName("gameLabel");
+		twentyoneLabel.addStyleDependentName("twentyone");
+		twentyoneLabel.setVisible(false);
 		
 		switch(type) {
 			case DEALER :
@@ -162,6 +170,10 @@ public class HandUI extends FlowPanel {
 	
 	public void bust() {
 		bustLabel.setVisible(true);
+	}
+	
+	public void twentyone(){
+		twentyoneLabel.setVisible(true);
 	}
 	
 	/**

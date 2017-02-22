@@ -54,7 +54,15 @@ public class HitAction extends GameAction {
 				SoundManager.play(SoundName.BUST);
 				BustAction b = new BustAction(100, panel);				
 				b.processAction(event);
-			}			
+			}
+			else if(score == 21){
+				panel.twentyone();
+				panel.displayInstruction("You got 21!");
+				
+				GameState.setTurn(TurnState.DEALER_TURN);
+				DealerTurnAction action = new DealerTurnAction(100, panel);
+				action.processAction(event);
+			}
 		}
 		else if(state.getTurn() == TurnState.DEALER_TURN){
 			
