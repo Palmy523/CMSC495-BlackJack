@@ -209,10 +209,10 @@ public class BlackJackGamePanel extends SimplePanel {
 	 * 
 	 * @param card the card to deal to the dealer
 	 */
-	public void dealDealerCard(Card card) {
+	public void dealDealerCard(Card card, boolean isEasyPlay) {
 		int numCards = dealerHandPanel.getNumberPrimaryCards();
 		if (numCards < 2) {
-			if (numCards == 0) {
+			if (numCards == 0 && !isEasyPlay) {
 				dealerHandPanel.hitFaceDown(card);
 			} else {
 				dealerHandPanel.hit(card);
