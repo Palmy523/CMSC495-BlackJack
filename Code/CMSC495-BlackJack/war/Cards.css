@@ -7,6 +7,11 @@
 	top: 0;
 }
 
+.card-double-down {
+	transform: rotate(90deg);
+	top: -16px;
+}
+
 .card-set1 {
 	background: url("img/Cards1.jpeg");
 	background-size: 961px 961px;

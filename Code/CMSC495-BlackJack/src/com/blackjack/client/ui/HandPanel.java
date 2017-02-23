@@ -145,7 +145,12 @@ public class HandPanel extends FlowPanel {
 	}
 
 	public void hit_DoubleDown(Card card) {
-		// TODO Auto-generated method stub
-		
+		primaryHandUI.hit_DoubleDown(card);
+	}
+	
+	public void hitSplit_DoubleDown(Card card) {
+		if (splitHandUI != null) {
+			splitHandUI.hit_DoubleDown(card);
+		}
 	}
 }

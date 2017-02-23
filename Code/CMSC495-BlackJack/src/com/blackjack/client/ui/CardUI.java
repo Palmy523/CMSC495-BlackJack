@@ -7,6 +7,7 @@ public class CardUI extends SimplePanel{
 
 	private Card card;
 	private boolean isFaceUp = true;
+	private boolean isDoubleDown = false;
 	
 	public CardUI(){}
 	public CardUI(Card card) {
@@ -45,6 +46,13 @@ public class CardUI extends SimplePanel{
 	 */
 	public void setCard(Card card) {
 		this.card = card;
+		CardStyleHelper.applyCardStyle(this);
+	}
+	public boolean isDoubleDown() {
+		return isDoubleDown;
+	}
+	public void setDoubleDown(boolean isDoubleDown) {
+		this.isDoubleDown = isDoubleDown;
 		CardStyleHelper.applyCardStyle(this);
 	}
 	

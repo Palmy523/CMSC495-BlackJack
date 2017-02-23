@@ -150,7 +150,7 @@ public class BlackJackGamePanel extends SimplePanel {
 	 * @param card
 	 */
 	public void hitPlayerSplitHand_DoubleDown(Card card) {
-		playerHandPanel.hit_DoubleDown(card);
+		playerHandPanel.hitSplit_DoubleDown(card);
 	}
 	
 	/**

@@ -115,6 +115,12 @@ public class HandUI extends FlowPanel {
 		hit(cardUI);
 	}
 	
+	public void hit_DoubleDown(Card card) {
+		CardUI cardUI = new CardUI(card);
+		cardUI.setDoubleDown(true);
+		hit(cardUI);
+	}
+	
 	/**
 	 * Hits this hand with the specified CardUI and adds the card 
 	 * to the Hand object
@@ -126,6 +132,9 @@ public class HandUI extends FlowPanel {
 		
 		//update positioning and styles
 		int left = (numCardUIs) * CARD_OFFSET; 
+		if (cardUI.isDoubleDown()) {
+			left += 20;
+		}
 		cardUI.getElement().setAttribute("style", "left: " + left + "px;");
 		
 		this.add(cardUI);

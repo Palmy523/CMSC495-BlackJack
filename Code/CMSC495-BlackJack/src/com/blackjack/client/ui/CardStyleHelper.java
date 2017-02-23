@@ -87,6 +87,10 @@ public class CardStyleHelper {
 		} else {
 			ui.addStyleDependentName("back");
 		}
+		
+		if (ui.isDoubleDown()) {
+			ui.addStyleName("card-double-down");
+		}
 	}
 
 }
