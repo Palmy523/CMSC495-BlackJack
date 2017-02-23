@@ -23,10 +23,14 @@ public class BetAction extends GameAction {
 
 		if (GameState.getTurn() != TurnState.AWAITING_BET &&
 				GameState.getTurn() != TurnState.AWAITING_DEAL
-				|| GameState.getBetAmount() == GameState.getRoom().getMaxBet()) {
+				|| GameState.getBetAmount() > GameState.getRoom().getMaxBet()) {
 			return;
 		}
+
 		int currentBet = GameState.getBetAmount() + betAmount;
+		if (currentBet < 0) {
+			currentBet = 0;
+		}
 		GameState.setBetAmount(currentBet);
 
 		SoundManager.play(SoundName.CHIP_BET);
@@ -39,8 +43,15 @@ public class BetAction extends GameAction {
 		if (currentBet >= GameState.getRoom().getMaxBet()) {
 			currentBet = GameState.getRoom().getMaxBet();
 			GameState.setBetAmount(currentBet);
-			panel.chipsEnabled(false);
 		}
+		
+		if (currentBet < GameState.getRoom().getMinBet()) {
+			GameState.setBetAmount(currentBet);
+			panel.chipsEnabled(true);
+			panel.enableButton(GameButtonType.DEAL, false);
+			GameState.setTurn(TurnState.AWAITING_BET);
+		}
+
 		panel.bet(currentBet);
 
 		// Fire the event so the rest of the UI knows that the action occurred

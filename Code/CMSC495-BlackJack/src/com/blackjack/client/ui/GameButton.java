@@ -24,7 +24,6 @@ public class GameButton extends Button {
 					addStyleDependentName("depressed");
 				}
 			}
-			
 		});
 		
 		this.addMouseUpHandler(new MouseUpHandler() {

@@ -97,9 +97,13 @@ public class BlackJackGamePanel extends SimplePanel {
 		chip100 = new ChipButton(ChipButton.ChipValue.ONE_HUNDERED);
 		
 		chipPanel.add(betLabel);
-		chipPanel.add(new HTML("<br/>"));
+		HTML br = new HTML("<br/>");
+		br.setHeight("0px");
+		chipPanel.add(br);
 		chipPanel.add(betLabelValue);
-		chipPanel.add(new HTML("<br/>"));
+		br = new HTML("<br/>");
+		br.setHeight("30px");
+		chipPanel.add(br);
 		chipPanel.add(chip1);
 		chipPanel.add(chip5);
 		chipPanel.add(chip25);

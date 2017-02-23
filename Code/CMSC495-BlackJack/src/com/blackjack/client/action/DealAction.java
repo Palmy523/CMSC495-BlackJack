@@ -49,7 +49,7 @@ public class DealAction extends GameAction {
 			return;
 		
 		if(betAmount >= state.getRoom().getMinBet() && betAmount <= state.getRoom().getMaxBet()) {
-			
+			panel.chipsEnabled(false);
 			card = deck.draw();			
 			//playRandomDealSound();
 			SoundManager.play(SoundName.PLACE1);

@@ -447,7 +447,7 @@ public class App {
 			}
 		});
 		
-		gamePanel.getChip1().addClickHandler(new ClickHandler() {
+		gamePanel.getChip1().getPlusButton().addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -456,7 +456,16 @@ public class App {
 			
 		});
 		
-		gamePanel.getChip5().addClickHandler(new ClickHandler() {
+		gamePanel.getChip1().getMinusButton().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				gameController.betPlus(-1);
+			}
+			
+		});
+		
+		gamePanel.getChip5().getPlusButton().addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -465,7 +474,16 @@ public class App {
 			
 		});
 		
-		gamePanel.getChip25().addClickHandler(new ClickHandler() {
+		gamePanel.getChip5().getMinusButton().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				gameController.betPlus(-5);
+			}
+			
+		});
+		
+		gamePanel.getChip25().getPlusButton().addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -474,7 +492,16 @@ public class App {
 			
 		});
 		
-		gamePanel.getChip50().addClickHandler(new ClickHandler() {
+		gamePanel.getChip25().getMinusButton().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				gameController.betPlus(-25);
+			}
+			
+		});
+		
+		gamePanel.getChip50().getPlusButton().addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -483,11 +510,29 @@ public class App {
 			
 		});
 		
-		gamePanel.getChip100().addClickHandler(new ClickHandler() {
+		gamePanel.getChip50().getMinusButton().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				gameController.betPlus(-50);
+			}
+			
+		});
+		
+		gamePanel.getChip100().getPlusButton().addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				gameController.betPlus(100);
+			}
+			
+		});
+		
+		gamePanel.getChip100().getMinusButton().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				gameController.betPlus(-100);
 			}
 			
 		});

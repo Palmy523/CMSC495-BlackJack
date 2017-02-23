@@ -1,62 +1,105 @@
 package com.blackjack.client.ui;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlowPanel;
 
-public class ChipButton extends Button {
+public class ChipButton extends FlowPanel {
 
 	public enum ChipValue {ONE, FIVE, TWENTY_FIVE, FIFTY, ONE_HUNDERED}
 	
 	private boolean isEnabled;
+	private Button chipButton;
+	private Button plusButton;
+	private Button minusButton;
 	
 	public ChipButton(ChipValue value) {
-		this.setStylePrimaryName("chip");
-		setEnabled(true);
+		this.setStylePrimaryName("chipContainer");
+		chipButton = new Button();
+		chipButton.setStylePrimaryName("chip");
 		switch(value) {
 			case ONE :
-				this.setText("$1");
-				this.addStyleDependentName("1");
+				chipButton.setText("$1");
+				chipButton.addStyleDependentName("1");
 				break;
 			case FIVE :
-				this.setText("$5");
-				this.addStyleDependentName("5");
+				chipButton.setText("$5");
+				chipButton.addStyleDependentName("5");
 				break;
 			case TWENTY_FIVE :
-				this.setText("$25");
-				this.addStyleDependentName("25");
+				chipButton.setText("$25");
+				chipButton.addStyleDependentName("25");
 				break;
 			case FIFTY :
-				this.setText("$50");
-				this.addStyleDependentName("50");
+				chipButton.setText("$50");
+				chipButton.addStyleDependentName("50");
 				break;
 			case ONE_HUNDERED :
-				this.setText("$100");
-				this.addStyleDependentName("100");
+				chipButton.setText("$100");
+				chipButton.addStyleDependentName("100");
 				break;
 		}
 		
-		this.addClickHandler(new ClickHandler() {
+		plusButton = new Button();
+		plusButton.setText("+");
+		plusButton.setStylePrimaryName("bet");
+		plusButton.addStyleName("bet-plus");
+		plusButton.addStyleName("button");
+		
+		minusButton = new Button();
+		minusButton.setText("-");
+		minusButton.setStylePrimaryName("bet");
+		minusButton.addStyleName("bet-minus");
+		minusButton.addStyleName("button");
 
-			@Override
-			public void onClick(ClickEvent event) {
-				removeStyleName("coin-flip");
-				addStyleName("coin-flip");
-			}
-			
-		});
+		
+		this.add(plusButton);
+		this.add(chipButton);
+		this.add(minusButton);
+		
+		setEnabled(true);
 	}
 	
 	public void setEnabled(boolean enabled) {
-		super.setEnabled(enabled);
+		chipButton.setEnabled(enabled);
+		plusButton.setEnabled(enabled);
+		minusButton.setEnabled(enabled);
 		isEnabled = enabled;
 		if (enabled) {
-			this.removeStyleDependentName("disabled");
+			chipButton.removeStyleDependentName("disabled");
+			plusButton.removeStyleDependentName("disabled");
+			minusButton.removeStyleDependentName("disabled");
+
 		} else {
-			this.addStyleDependentName("disabled");
+			chipButton.addStyleDependentName("disabled");
+			plusButton.addStyleDependentName("disabled");
+			minusButton.addStyleDependentName("disabled");
 		}
 	}
 	
+	public Button getChipButton() {
+		return chipButton;
+	}
+
+	public void setChipButton(Button chipButton) {
+		this.chipButton = chipButton;
+	}
+
+	public Button getPlusButton() {
+		return plusButton;
+	}
+
+	public void setPlusButton(Button plusButton) {
+		this.plusButton = plusButton;
+	}
+
+	public Button getMinusButton() {
+		return minusButton;
+	}
+
+	public void setMinusButton(Button minusButton) {
+		this.minusButton = minusButton;
+	}
+
 	public boolean isEnabled() {
 		return isEnabled;
 	}
