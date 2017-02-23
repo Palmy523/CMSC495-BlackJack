@@ -10,6 +10,13 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 
+/**
+ * The BlackJackGamePanel is the primary UI piece for the main 
+ * game of BlackJack.
+ * 
+ * @author Dave
+ *
+ */
 public class BlackJackGamePanel extends SimplePanel {
 
 	private int betAmount;
@@ -31,7 +38,10 @@ public class BlackJackGamePanel extends SimplePanel {
 	private Label betLabelValue;
 	private Label instructionLabel;
 	
-	
+	/**
+	 * Default constructor adds all children to the panel and 
+	 * sets display styles for all components.
+	 */
 	public BlackJackGamePanel() {
 		this.setStylePrimaryName("modal");
 		this.addStyleName("centered");
@@ -106,30 +116,76 @@ public class BlackJackGamePanel extends SimplePanel {
 	}
 	
 	/**
-	 * Causes the UI to update
+	 * Hits the player's primary hand
+	 * 
+	 * @param card the card to display in the primary hand
 	 */
 	public void hitPlayerHand(Card card) {
 		playerHandPanel.hit(card);
 	}
 	
+	/**
+	 * Hits the player's split hand
+	 * 
+	 * @param card the card to display in the split hand
+	 */
+	public void hitPlayerSplitHand(Card card) {
+		playerHandPanel.hitSplit(card);
+	}
+	
+	/**
+	 * Hits the player primary hand and displays the card at 
+	 * 90 degrees to infer a double down.
+	 * 
+	 * @param card the card to display at 90deg in the primary hand
+	 */
+	public void hitPlayerHand_DoubleDown(Card card) {
+		playerHandPanel.hit_DoubleDown(card);
+	}
+	
+	/**
+	 * Hits the player split hand and displays the card at 
+	 * 90 degrees to infer a double down.
+	 * 
+	 * @param card
+	 */
+	public void hitPlayerSplitHand_DoubleDown(Card card) {
+		playerHandPanel.hit_DoubleDown(card);
+	}
+	
+	/**
+	 * Hits the dealer hand
+	 * 
+	 * @param card the card to hit the dealer hand with
+	 */
 	public void hitDealerHand(Card card) {
 		dealerHandPanel.hit(card);
 	}
 	
+	/**
+	 * Causes the UI to display a stand label over the player hand
+	 */
 	public void playerStand() {
-		//TODO implement stand for HandPanel, HandUI, and Hand and call
 		playerHandPanel.stand();
 	}
 	
+	/**
+	 * Causes the UI to display a stand label over the dealer hand
+	 */
 	public void dealerStand() {
-		//TODO implement stand for HandPanel, HandUI, and Hand and call
 		dealerHandPanel.stand();
 	}
 	
+	/**
+	 * Causes the UI to display a bust label over the player hand
+	 */
 	public void playerBust() {
 		playerHandPanel.bust();
 	}
 	
+	/**
+	 * Causes the UI to display a bust label over the dealer hand
+	 */
 	public void dealerBust() {
 		dealerHandPanel.bust();
 	}
@@ -180,7 +236,110 @@ public class BlackJackGamePanel extends SimplePanel {
 		}
 		betLabelValue.setText("$" + value);
 	}
-
+	
+	/**
+	 * Enables or disabled a button specified by the button type.
+	 * @param button the button to disable/enable
+	 * @param enabled if false will disable the button, if true will enable it
+	 */
+	public void enableButton(GameButton.GameButtonType button, boolean enabled){
+		switch(button){
+			case INSURANCE:
+				insuranceButton.setEnabled(enabled);
+				break;
+			case DOUBLE_DOWN:
+				doubleDownButton.setEnabled(enabled);
+				break;
+			case HIT:				
+				hitButton.setEnabled(enabled);
+				break;
+			case STAND:				
+				standButton.setEnabled(enabled);
+				break;
+			case SPLIT:
+				splitButton.setEnabled(enabled);
+				break;
+			case SURRENDER:
+				surrenderButton.setEnabled(enabled);
+				break;
+			case DEAL:
+				dealButton.setEnabled(enabled);
+				break;			
+		}
+	}
+	
+	/**
+	 * Enables or disables the chip buttons
+	 * 
+	 * @param enabled true will enable the chips, false will disable
+	 */
+	public void chipsEnabled(boolean enabled){
+		chip1.setEnabled(enabled);
+		chip5.setEnabled(enabled);		
+		chip25.setEnabled(enabled);
+		chip50.setEnabled(enabled);
+		chip100.setEnabled(enabled);	
+	}
+	
+	
+	/**
+	 * Disables all the game buttons for the user
+	 */
+	public void disableAllButtons(){
+		insuranceButton.setEnabled(false);
+		doubleDownButton.setEnabled(false);
+		hitButton.setEnabled(false);
+		standButton.setEnabled(false);
+		splitButton.setEnabled(false);
+		surrenderButton.setEnabled(false);
+		dealButton.setEnabled(false);
+		chip1.setEnabled(false);
+		chip5.setEnabled(false);		
+		chip25.setEnabled(false);
+		chip50.setEnabled(false);
+		chip100.setEnabled(false);		
+	}
+	
+	/**
+	 * Turns over the dealers down card
+	 */
+	public void showDealerCard() {
+		dealerHandPanel.showDealerCard();
+	}
+	
+	/**
+	 * Sets the panel back to the starting hand state
+	 */
+	public void reset() {
+		disableAllButtons();
+		chipsEnabled(true);
+		bet(0);
+	}
+	
+	/**
+	 * Resets the dealer and player hands to their original state
+	 */
+	public void resetHands() {
+		playerHandPanel.reset();
+		dealerHandPanel.reset();
+	}
+	
+	/**
+	 * Displays a message in the center of the game panel to the player
+	 * 
+	 * @param message the message to display
+	 */
+	public void displayInstruction(String message) {
+		this.instructionLabel.setText(message);
+	}
+	
+	/**
+	 * Updates the UI to display a split in the player hand
+	 */
+	public void splitPlayerHand() {
+		playerHandPanel.split();
+	}
+	
 	public int getBetAmount() {
 		return betAmount;
 	}
@@ -307,88 +466,5 @@ public class BlackJackGamePanel extends SimplePanel {
 
 	public void setDealButton(Button dealButton) {
 		this.dealButton = dealButton;
-	}
-	
-	/**
-	 * Enables or disabled a button specified by the button type.
-	 * @param button the button to disable/enable
-	 * @param enabled if false will disable the button, if true will enable it
-	 */
-	public void enableButton(GameButton.GameButtonType button, boolean enabled){
-		switch(button){
-			case INSURANCE:
-				insuranceButton.setEnabled(enabled);
-				break;
-			case DOUBLE_DOWN:
-				doubleDownButton.setEnabled(enabled);
-				break;
-			case HIT:				
-				hitButton.setEnabled(enabled);
-				break;
-			case STAND:				
-				standButton.setEnabled(enabled);
-				break;
-			case SPLIT:
-				splitButton.setEnabled(enabled);
-				break;
-			case SURRENDER:
-				surrenderButton.setEnabled(enabled);
-				break;
-			case DEAL:
-				dealButton.setEnabled(enabled);
-				break;			
-		}
-	}
-	
-	public void chipsEnabled(boolean enabled){
-		chip1.setEnabled(enabled);
-		chip5.setEnabled(enabled);		
-		chip25.setEnabled(enabled);
-		chip50.setEnabled(enabled);
-		chip100.setEnabled(enabled);	
-	}
-	
-	
-	/**
-	 * Disables all buttons for the user
-	 */
-	public void disableAllButtons(){
-		insuranceButton.setEnabled(false);
-		doubleDownButton.setEnabled(false);
-		hitButton.setEnabled(false);
-		standButton.setEnabled(false);
-		splitButton.setEnabled(false);
-		surrenderButton.setEnabled(false);
-		dealButton.setEnabled(false);
-		chip1.setEnabled(false);
-		chip5.setEnabled(false);		
-		chip25.setEnabled(false);
-		chip50.setEnabled(false);
-		chip100.setEnabled(false);		
-	}
-	
-	/**
-	 * Turns over the dealers down card
-	 */
-	public void showDealerCard() {
-		dealerHandPanel.showDealerCard();
-	}
-	
-	/**
-	 * Sets the panel back to the starting hand state
-	 */
-	public void reset() {
-		disableAllButtons();
-		chipsEnabled(true);
-		bet(0);
-	}
-	
-	public void resetHands() {
-		playerHandPanel.reset();
-		dealerHandPanel.reset();
-	}
-	
-	public void displayInstruction(String message) {
-		this.instructionLabel.setText(message);
 	}
 }
