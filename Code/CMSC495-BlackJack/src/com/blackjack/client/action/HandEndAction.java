@@ -40,6 +40,8 @@ public class HandEndAction extends GameAction {
 			panel.displayInstruction("Dealer wins!" + message);
 		} else if (event.getActionType() == ActionType.DEALER_BUST) {
 			panel.displayInstruction("You win!" + message);
+		} else if (event.getActionType() == ActionType.SURRENDER) {
+			panel.displayInstruction("You surrendered. You get half your bet back." + message);
 		} else if (dealerHandVal > playerHandVal) {
 			panel.displayInstruction("Dealer wins!" + message);
 		} else if (dealerHandVal < playerHandVal) {

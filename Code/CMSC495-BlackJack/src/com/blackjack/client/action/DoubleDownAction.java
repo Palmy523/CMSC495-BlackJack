@@ -54,14 +54,12 @@ public class DoubleDownAction extends GameAction {
 		if(score > 21){
 			hand.busts();
 			panel.displayInstruction("Busted!");	//TODO Change to label
+			event.setActionType(ActionType.PLAYER_BUST);
 			SoundManager.play(SoundName.BUST);
 			BustAction b = new BustAction(100, panel);				
 			b.processAction(event);
 		}
-		else if(score == 21){
-			panel.twentyone();
-			panel.displayInstruction("You got 21!");
-			
+		else {			
 			GameState.setTurn(TurnState.DEALER_TURN);
 			DealerTurnAction action = new DealerTurnAction(100, panel);
 			action.processAction(event);
