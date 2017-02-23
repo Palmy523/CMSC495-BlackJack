@@ -87,6 +87,9 @@ public class GameController {
 		});
 		
 		GameState.setTurn(TurnState.AWAITING_BET);
+		
+		//TEMP for testing
+		gamePanel.getSplitButton().setEnabled(true);
 	}
 
 	/**

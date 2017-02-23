@@ -12,7 +12,7 @@ public class SplitAction extends GameAction {
 	@Override
 	public void processAction(GameEvent event) {
 		// TODO Auto-generated method stub
-
+		panel.splitPlayerHand();
 	}
 
 }

@@ -1,36 +1,51 @@
 package com.blackjack.client.ui;
 
 import com.blackjack.client.entities.Card;
-import com.blackjack.client.entities.Hand;
 import com.blackjack.client.entities.Hand.HandType;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
 
+/**
+ * THe Hand Panel is the primary UI the represents a Hand 
+ * or set of cards for a round in BlackJack. The HandPanel includes
+ * a primary HandUI and an additional UI for a split hand and 
+ * methods to deal with display.
+ * 
+ * @author Dave
+ *
+ */
 public class HandPanel extends FlowPanel {
 
 	private HandUI primaryHandUI;
 	private HandUI splitHandUI;
 	private HandType type;
 	
+	/**
+	 * Construct with a hand type to determine whether the hand
+	 * belongs to the player or dealer.
+	 * 
+	 * @param type DEALER or PLAYER hand from the Hand entity class
+	 */
 	public HandPanel(HandType type) {
 		this.type = type;
 		primaryHandUI = new HandUI(type);
-		splitHandUI = new HandUI(type);
-		
-		splitHandUI.setVisible(false);
 		
 		this.add(primaryHandUI);
-		this.add(splitHandUI);
 	}
 	
 	/**
 	 * Causes a card to be dealt to the primary hand and updates the UI
+	 * 
 	 * @param card the card to be dealt
 	 */
 	public void hit(Card card) {
 		primaryHandUI.hit(card);
 	}
 	
+	/**
+	 * Causes a card to be dealt face down in the primary hand.
+	 * 
+	 * @param card the card to be dealt face down
+	 */
 	public void hitFaceDown(Card card) {
 		primaryHandUI.hitFaceDown(card);
 	}
@@ -45,10 +60,16 @@ public class HandPanel extends FlowPanel {
 		splitHandUI.hit(card);
 	}
 	
+	/**
+	 * Displays the stand label for the primary hand
+	 */
 	public void stand(){
 		primaryHandUI.stand();
 	}
 	
+	/**
+	 * Displays the bust label for the primary hand
+	 */
 	public void bust() {
 		primaryHandUI.bust();
 	}
@@ -59,14 +80,48 @@ public class HandPanel extends FlowPanel {
 	 * the position of the primary and split hands appropriately
 	 */
 	public void split() {
-		//TODO see comments above
+		if (primaryHandUI.getNumCardUIs() != 2) {
+			return;
+		}
+		
+		CardUI[] cardUIs = primaryHandUI.getCardUIs();
+		Card cardOne = cardUIs[0].getCard();
+		Card cardTwo = cardUIs[1].getCard();
+		
+		if (cardOne.getRank() != cardTwo.getRank()) {
+			return;
+		}
+
+		if (splitHandUI != null && this.getWidgetIndex(splitHandUI) != -1) {
+			this.remove(splitHandUI);
+		}
+		
+		if (primaryHandUI != null && this.getWidgetIndex(primaryHandUI) != -1) {
+			this.remove(primaryHandUI);
+		}
+		
+		primaryHandUI = new HandUI(type);
+		primaryHandUI.hit(cardOne);
+		
+		splitHandUI = new HandUI(type);
+		splitHandUI.hit(cardTwo);
+		
+		splitHandUI.addStyleDependentName("right");
+		
+		primaryHandUI.addStyleDependentName("left");
+		
+		this.add(primaryHandUI);
+		this.add(splitHandUI);
 	}
 	
 	/**
 	 * This should join a split hand to appear back as one hand
 	 */
 	public void join() {
+		this.remove(splitHandUI);
 		
+		primaryHandUI.removeStyleDependentName("split");
+		primaryHandUI.removeStyleDependentName("left");
 	}
 	
 	public void showDealerCard() {
@@ -74,8 +129,12 @@ public class HandPanel extends FlowPanel {
 	}
 	
 	public void reset() {
-		primaryHandUI.reset();
-		splitHandUI.reset();
+		if (primaryHandUI != null) {
+			primaryHandUI.reset();
+		}
+		if (splitHandUI != null) {
+			splitHandUI.reset();
+		}
 	}
 	
 	public int getNumberPrimaryCards() {
@@ -84,5 +143,10 @@ public class HandPanel extends FlowPanel {
 	
 	public int getNumberSplitCards() {
 		return splitHandUI.getNumCardUIs();
+	}
+
+	public void hit_DoubleDown(Card card) {
+		// TODO Auto-generated method stub
+		
 	}
 }

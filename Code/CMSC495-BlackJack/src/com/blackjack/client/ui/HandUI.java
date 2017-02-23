@@ -193,4 +193,8 @@ public class HandUI extends FlowPanel {
 	public void setType(HandType type) {
 		this.type = type;
 	}
+	
+	public CardUI[] getCardUIs() {
+		return cardUIs;
+	}
 }
