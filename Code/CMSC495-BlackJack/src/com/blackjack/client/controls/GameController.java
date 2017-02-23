@@ -2,10 +2,14 @@ package com.blackjack.client.controls;
 
 import com.blackjack.client.action.BetAction;
 import com.blackjack.client.action.DealAction;
+import com.blackjack.client.action.DoubleDownAction;
 import com.blackjack.client.action.GameAction;
 import com.blackjack.client.action.GameAction.ActionType;
 import com.blackjack.client.action.HitAction;
+import com.blackjack.client.action.InsuranceAction;
+import com.blackjack.client.action.SplitAction;
 import com.blackjack.client.action.StandAction;
+import com.blackjack.client.action.SurrenderAction;
 import com.blackjack.client.entities.Deck;
 import com.blackjack.client.entities.GameState;
 import com.blackjack.client.entities.GameState.TurnState;
@@ -60,6 +64,10 @@ public class GameController {
 		GameState.setDealerHand(new Hand());
 		GameState.setPlayerHand(new Hand());
 		GameState.setTurn(TurnState.AWAITING_BET);
+		GameState.setDoubledDown(false);
+		GameState.setInsurance(false);
+		GameState.setSurrender(false);
+		GameState.setSplit(false);
 		dashboard.displayGamePanel();
 		gamePanel.reset();
 		
@@ -81,6 +89,9 @@ public class GameController {
 		GameState.setTurn(TurnState.AWAITING_BET);
 	}
 
+	/**
+	 * Quits the game, returns to the RoomSelectionScreen, and resets the GamePanel UI
+	 */
 	public void quitGame() {
 		// TODO lose chips
 		gamePanel.reset();
@@ -90,6 +101,9 @@ public class GameController {
 		dashboard.displayRoomSelectionScreen();
 	}
 
+	/**
+	 * Calls the deal action to deal out cards to the player and dealer.
+	 */
 	public void deal() {
 		// Create a GameEvent with the current GameState.
 		GameEvent event = new GameEvent(gameState);
@@ -100,6 +114,9 @@ public class GameController {
 		action.processAction(event);
 	}
 
+	/**
+	 * Calls the hit action to hit the player hand with a single card
+	 */
 	public void playerHit() {
 		GameEvent event = new GameEvent(gameState);
 		event.setActionType(ActionType.HIT);
@@ -107,6 +124,9 @@ public class GameController {
 		action.processAction(event);
 	}
 
+	/**
+	 * Calss the hit action to hit the dealer hand with a single card
+	 */
 	public void dealerHit() {
 		GameEvent event = new GameEvent(gameState);
 		event.setActionType(ActionType.HIT);
@@ -114,6 +134,9 @@ public class GameController {
 		action.processAction(event);
 	}
 
+	/**
+	 * Calls the Stand Action to stop the player turn and push off the dealer turn
+	 */
 	public void playerStand() {
 		GameEvent event = new GameEvent(gameState);
 		event.setActionType(ActionType.STAND);
@@ -121,32 +144,55 @@ public class GameController {
 		action.processAction(event);
 	}
 
+	/**
+	 * Calls the insurance action for the player
+	 */
 	public void insurance() {
-		// TODO invokes insurance for the player
+		GameEvent event = new GameEvent(gameState);
+		event.setActionType(ActionType.INSURANCE);
+		InsuranceAction action = new InsuranceAction(gamePanel);
+		action.processAction(event);
 	}
 
+	/**
+	 * Calls the double down action
+	 */
 	public void doubleDown() {
-		// TODO cause the player to Double Down
+		GameEvent event = new GameEvent(gameState);
+		event.setActionType(ActionType.DOUBLE_DOWN);
+		DoubleDownAction action = new DoubleDownAction(gamePanel);
+		action.processAction(event);
 	}
 
+	/**
+	 * Calls the split action
+	 */
 	public void split() {
-		// TODO splits the players hand
-
+		GameEvent event = new GameEvent(gameState);
+		event.setActionType(ActionType.SPLIT);
+		SplitAction action = new SplitAction(gamePanel);
+		action.processAction(event);
 	}
 
+	/**
+	 * Calls the surrender action
+	 */
 	public void surrender() {
-		// TODO causes the player to surrender
+		GameEvent event = new GameEvent(gameState);
+		event.setActionType(ActionType.SURRENDER);
+		SurrenderAction action = new SurrenderAction(gamePanel);
+		action.processAction(event);
 	}
 
+	/**
+	 * Calls the BetAction and passes in the bet amount
+	 * @param amount the amount to bet
+	 */
 	public void betPlus(int amount) {
 		GameEvent event = new GameEvent(gameState);
 		event.setActionType(ActionType.BET);
 		BetAction action = new BetAction(gamePanel, amount);
 		action.processAction(event);
-	}
-
-	public void betMinus(int amount) {
-		// TODO decrease the bet by the specified amount
 	}
 
 	public GameState getGameState() {
