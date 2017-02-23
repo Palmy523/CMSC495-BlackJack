@@ -14,6 +14,10 @@ public class GameState {
 	private static int betAmount;
 	private static Room room;
 	private static User user;
+	private static boolean isDoubledDown;
+	private static boolean isInsurance;
+	private static boolean isSplit;
+	private static boolean isSurrender;
 	
 	/**
 	 * @return the turn
@@ -100,6 +104,36 @@ public class GameState {
 	public static void setUser(User user) {
 		GameState.user = user;
 	}
-	
-	
+
+	public static boolean isDoubledDown() {
+		return isDoubledDown;
+	}
+
+	public static void setDoubledDown(boolean isDoubledDown) {
+		GameState.isDoubledDown = isDoubledDown;
+	}
+
+	public static boolean isInsurance() {
+		return isInsurance;
+	}
+
+	public static void setInsurance(boolean isInsurance) {
+		GameState.isInsurance = isInsurance;
+	}
+
+	public static boolean isSplit() {
+		return isSplit;
+	}
+
+	public static void setSplit(boolean isSplit) {
+		GameState.isSplit = isSplit;
+	}
+
+	public static boolean isSurrender() {
+		return isSurrender;
+	}
+
+	public static void setSurrender(boolean isSurrender) {
+		GameState.isSurrender = isSurrender;
+	}
 }
