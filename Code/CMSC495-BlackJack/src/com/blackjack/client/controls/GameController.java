@@ -16,6 +16,7 @@ import com.blackjack.client.ui.BlackJackGamePanel;
 import com.blackjack.client.ui.Dashboard;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Button;
 
 public class GameController {
@@ -23,6 +24,7 @@ public class GameController {
 	private Dashboard dashboard;
 	private BlackJackGamePanel gamePanel;
 	private GameState gameState;
+	private HandlerRegistration registration;
 
 	public GameController(Dashboard dashboard, GameState gameState) {
 		this.dashboard = dashboard;
@@ -63,11 +65,14 @@ public class GameController {
 		
 		Button quitButton = dashboard.getMessageBox().getQuitButton();
 		
-		quitButton.addClickHandler(new ClickHandler() {
+		registration = 
+				quitButton.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {				
-				dashboard.getMessageBox().setVisible(false);		
+				dashboard.getMessageBox().setVisible(false);	
+				dashboard.getMessageBox().getQuitButton().setVisible(false);
+				registration.removeHandler();
 				quitGame();				
 			}
 			

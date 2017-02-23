@@ -39,6 +39,8 @@ public class UserMessageBox extends FocusPanel {
 		quitButton.setText("Quit");
 		quitButton.setStylePrimaryName("button");
 		quitButton.addStyleDependentName("red");
+		quitButton.addStyleDependentName("right");
+		quitButton.setWidth("50px");
 		quitButton.setVisible(false);
 		
 		button.addClickHandler(new ClickHandler() {
