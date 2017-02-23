@@ -100,6 +100,7 @@ public class HandUI extends FlowPanel {
 		this.add(label);
 		this.add(standLabel);
 		this.add(bustLabel);
+		this.add(twentyoneLabel);
 	}
 	
 	/**
@@ -190,6 +191,7 @@ public class HandUI extends FlowPanel {
 		hand.clear();
 		standLabel.setVisible(false);
 		bustLabel.setVisible(false);
+		twentyoneLabel.setVisible(false);
 		//TODO if this HandUI is split, reset it to it's original position
 	}
 	
