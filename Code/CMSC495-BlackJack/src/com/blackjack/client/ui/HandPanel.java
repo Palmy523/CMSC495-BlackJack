@@ -88,9 +88,10 @@ public class HandPanel extends FlowPanel {
 		Card cardOne = cardUIs[0].getCard();
 		Card cardTwo = cardUIs[1].getCard();
 		
-		if (cardOne.getRank() != cardTwo.getRank()) {
-			return;
-		}
+		//TODO Uncomment when done testing
+//		if (cardOne.getRank() != cardTwo.getRank()) {
+//			return;
+//		}
 
 		if (splitHandUI != null && this.getWidgetIndex(splitHandUI) != -1) {
 			this.remove(splitHandUI);
@@ -118,9 +119,9 @@ public class HandPanel extends FlowPanel {
 	 * This should join a split hand to appear back as one hand
 	 */
 	public void join() {
-		this.remove(splitHandUI);
-		
-		primaryHandUI.removeStyleDependentName("split");
+		if (splitHandUI != null) {
+			this.remove(splitHandUI);
+		}
 		primaryHandUI.removeStyleDependentName("left");
 	}
 	
@@ -132,9 +133,7 @@ public class HandPanel extends FlowPanel {
 		if (primaryHandUI != null) {
 			primaryHandUI.reset();
 		}
-		if (splitHandUI != null) {
-			splitHandUI.reset();
-		}
+		this.join();
 	}
 	
 	public int getNumberPrimaryCards() {
