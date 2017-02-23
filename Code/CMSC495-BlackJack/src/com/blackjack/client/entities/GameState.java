@@ -18,6 +18,7 @@ public class GameState {
 	private static boolean isInsurance;
 	private static boolean isSplit;
 	private static boolean isSurrender;
+	private static boolean isEasyPlay;
 	
 	/**
 	 * @return the turn
@@ -136,4 +137,14 @@ public class GameState {
 	public static void setSurrender(boolean isSurrender) {
 		GameState.isSurrender = isSurrender;
 	}
+
+	public static boolean isEasyPlay() {
+		return isEasyPlay;
+	}
+
+	public static void setEasyPlay(boolean isEasyPlay) {
+		GameState.isEasyPlay = isEasyPlay;
+	}
+	
+	
 }

@@ -134,7 +134,7 @@ public class DealAction extends GameAction {
 			card = deck.draw();
 			//playRandomDealSound();
 			SoundManager.play(SoundName.PLACE2);
-			panel.dealDealerCard(card);	
+			panel.dealDealerCard(card, GameState.isEasyPlay());	
 			dealerHand.hit(card);
 			GWT.log("Hit dealer hand with card " + card.getRank());
 		}
@@ -152,10 +152,9 @@ public class DealAction extends GameAction {
 			card = deck.draw();
 			//playRandomDealSound();
 			SoundManager.play(SoundName.PLACE4);
-			panel.dealDealerCard(card);
+			panel.dealDealerCard(card, GameState.isEasyPlay());
 			dealerHand.hit(card);
 			GWT.log("Hit dealer hand with card " + card.getRank());
-
 		}
 	}
 }

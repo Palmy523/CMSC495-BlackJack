@@ -488,6 +488,7 @@ h1 {
 	line-height: 16px;
 	left: 17px;
 	top: 40px;
+	user-select: none;
 }
 
 .gameLabel-bust {

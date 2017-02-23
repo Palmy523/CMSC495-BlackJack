@@ -403,14 +403,16 @@ public class App {
 
 				@Override
 				public void onClick(ClickEvent event) {
+					boolean isEasyPlay = roomSelectionPanel.getDifficultyCheckBox().getValue();
 					GameState state = new GameState();
-					state.setBetAmount(0);
-					state.setPlayerHand(new Hand());
-					state.setDealerHand(new Hand());
-					state.setDeck(new Deck(Set.ONE, 1, true));
-					state.setTurn(TurnState.PLAYER_TURN);
-					state.setRoom(room);
-					state.setUser(UserController.getUser());
+					GameState.setEasyPlay(isEasyPlay);
+					GameState.setBetAmount(0);
+					GameState.setPlayerHand(new Hand());
+					GameState.setDealerHand(new Hand());
+					GameState.setDeck(new Deck(Set.ONE, 1, true));
+					GameState.setTurn(TurnState.PLAYER_TURN);
+					GameState.setRoom(room);
+					GameState.setUser(UserController.getUser());
 					gameController = new GameController(dashboard, state);
 					gameController.startGame();
 				}
