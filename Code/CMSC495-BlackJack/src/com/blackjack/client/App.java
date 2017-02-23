@@ -489,6 +489,40 @@ public class App {
 			}
 			
 		});
+		
+		gamePanel.getSplitButton().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				gameController.split();
+			}
+			
+		});
+		
+		gamePanel.getDoubleDownButton().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				gameController.doubleDown();
+			}
+			
+		});
+		
+		gamePanel.getInsuranceButton().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				gameController.insurance();
+			}
+		});
+		
+		gamePanel.getSurrenderButton().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				gameController.surrender();
+			}
+		});
 	}
 
 }
