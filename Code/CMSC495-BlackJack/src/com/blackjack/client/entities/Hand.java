@@ -86,16 +86,33 @@ public class Hand {
 		}
 		return total;
 	}
+	
+	/**
+	 * When the dealer shows an Ace this method determines
+	 * if the card face down has a 10 value. 
+	 * @return true if dealer has a Natural Blackjack
+	 */
+	public boolean dealerHasNatural() {
+		if (cards.length == 2) {
+			if (showingAce() && cards[0].getValue() == 10) {
+					return true;
+			}
+		}
+		return false;
+	}
 
 	
 	public boolean showingAce() {
-		if(cards[1].getRank() == Rank.ACE)
-				return true;
+		if(cards[1].getRank() == Rank.ACE) {
+			return true;
+		}
 		return false;
 	}
 	
 	public boolean canSplit() {
-		if(cards[0].getRank() == cards[1].getRank())
+//		if(cards[0].getRank() == cards[1].getRank())
+		if(cards[0].getValue() == cards[1].getValue() 
+				&& cards[0].getRank() != Rank.ACE)
 			return true;
 		return false;
 	}

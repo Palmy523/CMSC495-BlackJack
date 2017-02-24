@@ -22,8 +22,8 @@ public abstract class GameAction implements EventHandler{
 		DOUBLE_DOWN,
 		SPLIT,
 		INSURANCE,
-		SURRENDER 
-	
+		SURRENDER,
+		NATURAL
 	}
 	protected BlackJackGamePanel panel;
 	protected ActionType type;

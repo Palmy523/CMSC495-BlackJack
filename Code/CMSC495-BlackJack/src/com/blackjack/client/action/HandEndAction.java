@@ -8,7 +8,6 @@ import com.blackjack.client.event.GameEvent;
 import com.blackjack.client.service.UserService;
 import com.blackjack.client.service.UserServiceAsync;
 import com.blackjack.client.ui.BlackJackGamePanel;
-import com.blackjack.shared.entities.User;
 import com.google.gwt.core.shared.GWT;
 
 /**
@@ -26,6 +25,7 @@ public class HandEndAction extends GameAction {
 		super(panel);		
 	}
 
+	@SuppressWarnings("static-access")
 	@Override
 	public void processAction(GameEvent event) {
 		int playerHandVal = GameState.getPlayerHand().getHandValue();
@@ -37,6 +37,12 @@ public class HandEndAction extends GameAction {
 			UserController.updateChipCount(award);
 		} else if (event.getActionType() == ActionType.DEALER_BLACKJACK) {
 			panel.displayInstruction("Dealer Blackjack!" + message);
+			
+			if (event.getGameState().isInsurance()) {
+				UserController.updateChipCount(GameState.getBetAmount() 
+						+ GameState.getInsuranceBetAmt());
+				panel.displayInsuranceBet(false);
+			}
 		} else if (event.getActionType() == ActionType.PUSH || 
 				playerHandVal == dealerHandVal) {
 			panel.displayInstruction("Push!" + message);

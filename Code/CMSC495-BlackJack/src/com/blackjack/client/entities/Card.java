@@ -118,4 +118,12 @@ public class Card {
 			return 0;
 		}
 	}
+	
+	/**
+	 * Returns the value of concat card
+	 * @return the value of the card
+	 */
+	public int getValue() {
+		return getValue(rank);
+	}
 }

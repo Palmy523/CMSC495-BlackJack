@@ -36,9 +36,10 @@ public class BlackJackGamePanel extends SimplePanel {
 	private HandPanel dealerHandPanel;
 	private Button dealButton;
 	private Label betLabelValue;
+	private Label sideBetLabelValue;
+	private Label sideBetLabel;
 	private Label instructionLabel;
 	private UserMessageBox insurancePrompt;
-	
 	/**
 	 * Default constructor adds all children to the panel and 
 	 * sets display styles for all components.
@@ -86,6 +87,17 @@ public class BlackJackGamePanel extends SimplePanel {
 		betLabelValue.setStylePrimaryName("label");
 		betLabelValue.addStyleDependentName("goldFont");
 		
+		sideBetLabel = new Label("Side Bet ");
+		sideBetLabel.setStylePrimaryName("label");
+		sideBetLabel.addStyleDependentName("goldFont");
+		sideBetLabel.addStyleDependentName("underline");
+		sideBetLabel.setVisible(false);
+		
+		sideBetLabelValue = new Label("$0");
+		sideBetLabelValue.setStylePrimaryName("label");
+		sideBetLabelValue.addStyleDependentName("goldFont");
+		sideBetLabelValue.setVisible(false);
+		
 		instructionLabel = new Label();
 		instructionLabel.setStylePrimaryName("label");
 		instructionLabel.addStyleDependentName("goldFont");
@@ -110,6 +122,7 @@ public class BlackJackGamePanel extends SimplePanel {
 		br.setHeight("0px");
 		chipPanel.add(br);
 		chipPanel.add(betLabelValue);
+		chipPanel.add(sideBetLabelValue);
 		br = new HTML("<br/>");
 		br.setHeight("30px");
 		chipPanel.add(br);
@@ -118,7 +131,6 @@ public class BlackJackGamePanel extends SimplePanel {
 		chipPanel.add(chip25);
 		chipPanel.add(chip50);
 		chipPanel.add(chip100);
-		
 		content.add(buttonPanel);
 		content.add(playerHandPanel);
 		content.add(dealerHandPanel);
@@ -255,6 +267,12 @@ public class BlackJackGamePanel extends SimplePanel {
 		betLabelValue.setText("$" + value);
 	}
 	
+	
+	public void betInsurance(float amount) {
+		String value = NumberFormat.getDecimalFormat().format(amount);
+		sideBetLabelValue.setText("$" + value);
+	}
+	
 	/**
 	 * Enables or disabled a button specified by the button type.
 	 * @param button the button to disable/enable
@@ -353,6 +371,11 @@ public class BlackJackGamePanel extends SimplePanel {
 	
 	public void displayInsurancePrompt(boolean visible) {
 		insurancePrompt.setVisible(visible);
+	}
+	
+	public void displayInsuranceBet(boolean visible) {
+		sideBetLabel.setVisible(visible);
+		sideBetLabelValue.setVisible(visible);
 	}
 	
 	/**
@@ -497,6 +520,5 @@ public class BlackJackGamePanel extends SimplePanel {
 	public void setInsurancePrompt(UserMessageBox insurancePrompt) {
 		this.insurancePrompt = insurancePrompt;
 	}
-	
 	
 }

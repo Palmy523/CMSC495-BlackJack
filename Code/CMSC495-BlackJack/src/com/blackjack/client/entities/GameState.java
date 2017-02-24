@@ -12,6 +12,7 @@ public class GameState {
 	private static Hand dealerHand;
 	private static Deck deck;
 	private static int betAmount;
+	private static int insuranceBetAmt;
 	private static Room room;
 	private static User user;
 	private static boolean isDoubledDown;
@@ -82,12 +83,28 @@ public class GameState {
 	public static int getBetAmount() {
 		return betAmount;
 	}
+	
+	/**
+	 * @return the insuranceBetAmt
+	 * @return
+	 */
+	public static int getInsuranceBetAmt() {
+		return insuranceBetAmt;
+	}
 
 	/**
 	 * @param betAmount the betAmount to set
 	 */
 	public static void setBetAmount(int betAmount) {
 		GameState.betAmount = betAmount;
+	}
+	
+	/**
+	 * 
+	 * @param insuranceBet to insuranceBet to set
+	 */
+	public static void setInsuranceAmt(int insuranceBet) {
+		GameState.insuranceBetAmt = insuranceBet;
 	}
 
 	public static Room getRoom() {

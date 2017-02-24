@@ -18,7 +18,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Timer;
 
 public class DealAction extends GameAction {
-	
+
 	Deck deck;
 	Hand playerHand;
 	Hand dealerHand;
@@ -46,10 +46,10 @@ public class DealAction extends GameAction {
 		//state.getPlayerHand()
 		//state.getDeck()
 		//state.getTurn()
-		
+
 		if(state.getTurn() != TurnState.AWAITING_DEAL)
 			return;
-		
+
 		if(betAmount >= state.getRoom().getMinBet() && betAmount <= state.getRoom().getMaxBet()) {
 			panel.chipsEnabled(false);
 			card = deck.draw();			
@@ -62,13 +62,13 @@ public class DealAction extends GameAction {
 			Timer timer = new Timer() {
 				public void run() {
 					dealCard(cardNum);
-					
+
 					cardNum++;
 					if (cardNum == 3) {
 						cancel();
 					}
 				}
-				
+
 				public void cancel() {
 					super.cancel();
 					endDeal(event);
@@ -79,10 +79,10 @@ public class DealAction extends GameAction {
 		}
 		else
 			return;
-		
+
 
 	}
-	
+
 	private void endDeal(GameEvent event) {
 		GameState.setDealerHand(dealerHand);
 		GameState.setPlayerHand(playerHand);
@@ -115,7 +115,7 @@ public class DealAction extends GameAction {
 				if (playerHand.canSplit())
 					panel.enableButton(GameButtonType.SPLIT, true);
 			}
-			
+
 			GWT.log("Player hand value: " + GameState.getPlayerHand().getHandValue());
 			GWT.log("Dealer hand value: " + GameState.getDealerHand().getHandValue());
 		}
@@ -124,7 +124,7 @@ public class DealAction extends GameAction {
 		event.setActionType(ActionType.DEAL);
 		Events.eventBus.fireEvent(event);
 	}
-	
+
 	private void dealCard(int cardNum)
 	{
 		if(cardNum == 0)
