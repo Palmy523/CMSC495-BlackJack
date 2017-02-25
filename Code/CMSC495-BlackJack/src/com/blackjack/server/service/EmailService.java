@@ -1,6 +1,9 @@
 package com.blackjack.server.service;
 
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.mail.*;
 import javax.mail.internet.*;
 
@@ -12,7 +15,7 @@ public class EmailService {
 			Properties properties;
             
 			// Get system properties
-            properties = System.getProperties();
+            properties = new Properties();
             // Setup mail server
             properties.put("mail.smtp.auth", "true");
             properties.put("mail.smtp.starttls.enable", "true");
@@ -35,7 +38,7 @@ public class EmailService {
 	            message.setFrom(new InternetAddress(EMAIL));
 
 	            // Set To: header field of the header.
-	            message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
+	            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
 
 	            // Set Subject: header field
 	            message.setSubject(subject);
@@ -46,9 +49,10 @@ public class EmailService {
 	          // Send message
 	          Transport.send(message);
 	          success = true;
+	    	  Logger.getLogger(EmailService.class.getName()).log(Level.SEVERE, "Successfully sent email to " + email);
 	      } catch(Exception ex) {
-	        System.out.println(ex.toString());
-	        success = false;
+	    	  Logger.getLogger(EmailService.class.getName()).log(Level.SEVERE, "Failed to send email/n " + ex.getMessage());
+	    	  success = false;
 	      }
 	        return success;
 	    }

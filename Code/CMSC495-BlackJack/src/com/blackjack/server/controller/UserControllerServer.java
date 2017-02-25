@@ -1,9 +1,11 @@
 package com.blackjack.server.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.Random;
 
 import com.blackjack.server.service.ConnectionService;
@@ -26,7 +28,11 @@ public class UserControllerServer {
 	 * false if username doesn't exist or password is invalid.
 	 */
 	public static User login(String username, String password) {
+		System.out.println(password);
+		System.out.println(password.length());
 		password = MD5EncryptionService.encrypt(password);
+		System.out.println(password);
+		System.out.println(password.length());
 		User user;
 		Connection conn = ConnectionService.getConnection();
 		PreparedStatement ps = null;
@@ -334,12 +340,14 @@ public class UserControllerServer {
 	 * @param emailAddress the email address of the user to perform the update on
 	 * @return the new password if the update was successful, else null
 	 */
-	public static String resetPassword(String emailAddress) {
-		String newPassword = createRandomKey();
-		String newPasswordEncrypted = MD5EncryptionService.encrypt(createRandomKey());
-
+	public static boolean resetPassword(String emailAddress, String newPassword) {
+		String newPasswordEncrypted = MD5EncryptionService.encrypt(newPassword);
+		System.out.println(newPassword);
+		System.out.println(newPassword.length());
+		System.out.println(newPasswordEncrypted);
+		System.out.println(newPasswordEncrypted.length());
 		if (!emailExists(emailAddress)) {
-			return null;
+			return false;
 		}
 		
 		Connection conn = ConnectionService.getConnection();
@@ -351,7 +359,7 @@ public class UserControllerServer {
 			ps.setString(1, newPasswordEncrypted);
 			ps.setString(2, emailAddress);
 			if (ps.executeUpdate() > 0) {
-				return newPassword;
+				return true;
 			}
 		} catch (SQLException e) {
 			// TODO Log message appropriately
@@ -370,7 +378,7 @@ public class UserControllerServer {
 			}
 		}
 		
-		return null;
+		return false;
 	}
 	
 	/**
@@ -506,8 +514,7 @@ public class UserControllerServer {
 	 * @param userID the userID to create the key for
 	 * @return the newly created key unencrypted
 	 */
-	public static String createTemporaryEmailUpdateKey(String userID) {
-		String tempKey = createRandomKey();
+	public static boolean createTemporaryEmailUpdateKey(String userID, String tempKey) {
 		String tempKeyEncrypted = MD5EncryptionService.encrypt(tempKey);
 		int userIDInt = Integer.valueOf(userID);
 		Connection conn = ConnectionService.getConnection();
@@ -520,8 +527,8 @@ public class UserControllerServer {
 			ps.setString(1, tempKeyEncrypted);
 			ps.setInt(2, userIDInt);
 			int value = ps.executeUpdate();
-			if (value < 1) {
-				tempKey = null;
+			if (value > 0) {
+				return true;
 			}
 		} catch(SQLException e) {
 			//TODO log exception appropriately
@@ -544,7 +551,7 @@ public class UserControllerServer {
 				System.err.println(e.getMessage());
 			}
 		}
-		return tempKey;
+		return false;
 	}
 	
 	/**
@@ -783,27 +790,6 @@ public class UserControllerServer {
 		
 		return success;
 	}
-	
-	/**
-	 * Creates a random key for use in email confirmation key generation and reset
-	 * password generation
-	 * @return a randomized string of 16 characters in length
-	 */
-	public static String createRandomKey() {
-		String charsAllowed = new String("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
-				+ "1234567890!@#$%^&*()");
-		int length = 16;
-		StringBuilder sb = new StringBuilder();
-		Random rnd = new Random();
-		
-		for (int i = 0; i < length; i++){
-			int index = rnd.nextInt(charsAllowed.length());
-			sb.append(charsAllowed.charAt(index));
-		}
-		
-		return sb.toString();
-	}
-	
 	
 	public static float updateChipCount(String userID, float amount) {
 		//TODO update the database with the new amount using controller

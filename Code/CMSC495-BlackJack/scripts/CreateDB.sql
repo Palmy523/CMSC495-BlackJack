@@ -18,3 +18,6 @@ CREATE TABLE user
 
 ALTER TABLE game_data
 ADD CONSTRAINT user_id FOREIGN KEY (user_id) REFERENCES user (user_id);
+
+ALTER TABLE `blackjack`.`user` 
+ADD COLUMN `last_login` DATE NULL DEFAULT NULL AFTER `email_key`;

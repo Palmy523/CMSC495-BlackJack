@@ -82,7 +82,7 @@ public class UserServiceImpl extends RemoteServiceServlet implements UserService
 		return updateChipEvent;
 	}
 	
-	public ResetPasswordEvent resetPassword(String email) {
+	public ResetPasswordEvent resetPassword(String email, String tempPassword) {
 		
 		ResetPasswordEvent resetPasswordEvent = new ResetPasswordEvent();
 		resetPasswordEvent.setSuccess(true);
@@ -94,15 +94,11 @@ public class UserServiceImpl extends RemoteServiceServlet implements UserService
 			return resetPasswordEvent;
 		}
 		
-		String tempPassword = null;
 		if(resetPasswordEvent.isSuccess()) {
-			tempPassword = UserControllerServer.resetPassword(email);
+			boolean success = UserControllerServer.resetPassword(email, tempPassword);
+			resetPasswordEvent.setSuccess(success);
 		}
 		
-		if (tempPassword == null || tempPassword.equals("")) {
-			resetPasswordEvent.setSuccess(false);
-			return resetPasswordEvent;
-		}
 		
 		if (!EmailService.sendTemporaryPassword(email, tempPassword))
 		{
@@ -112,7 +108,7 @@ public class UserServiceImpl extends RemoteServiceServlet implements UserService
 		return resetPasswordEvent;
 	}
 	
-	public UpdateEmailEvent updateEmail(String userID, String newEmail) {
+	public UpdateEmailEvent updateEmail(String userID, String newEmail, String tempKey) {
 				
 		UpdateEmailEvent updateEmailEvent = new UpdateEmailEvent();
 		updateEmailEvent.setSuccess(true);
@@ -126,17 +122,15 @@ public class UserServiceImpl extends RemoteServiceServlet implements UserService
 			return updateEmailEvent;
 		}
 		
-		String confirmationKey = UserControllerServer.createTemporaryEmailUpdateKey(userID);
-		if (confirmationKey == null) {
-			updateEmailEvent.setSuccess(false);
-			return updateEmailEvent;
-		}
+		boolean success = 
+				UserControllerServer.createTemporaryEmailUpdateKey(userID, tempKey);
+		updateEmailEvent.setSuccess(success);
 		
 		if(!UserControllerServer.createTemporaryEmail(userID, newEmail))
 			updateEmailEvent.setSuccess(false);
 
 				
-		if(!EmailService.sendEmailUpdateKey(newEmail, confirmationKey))
+		if(!EmailService.sendEmailUpdateKey(newEmail, tempKey))
 			updateEmailEvent.setSuccess(false);
 		
 		return updateEmailEvent;
@@ -181,10 +175,5 @@ public class UserServiceImpl extends RemoteServiceServlet implements UserService
 				UserControllerServer.updatePassword(userID, newPassword));
 		
 		return updatePasswordEvent;
-	}
-
-	@Override
-	public void initDB() {
-		ConnectionService.initDB();
 	}
 }

@@ -1,5 +1,8 @@
 package com.blackjack.client.controls;
 
+import java.io.UnsupportedEncodingException;
+import java.util.Random;
+
 import com.blackjack.client.Config;
 import com.blackjack.client.event.Events;
 import com.blackjack.client.service.UserService;
@@ -197,7 +200,6 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 	 * @param emailAddress the email adress of the user to reset the pasword for.
 	 */
 	public static void resetPassword(String emailAddress) {
-		
 		if (FieldVerifier.isValidEmail(emailAddress) == FormatError.INVALID_FORMAT) {
 			dashboard.displayMessage(MessageType.ERROR, FieldVerifier.EMAIL_ADDRESS_ERROR);
 			return;
@@ -222,7 +224,8 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 			}
 			
 		};
-		service.resetPassword(emailAddress, callback);
+		String tempPassword = createRandomKey();
+		service.resetPassword(emailAddress, tempPassword, callback);
 	}
 	
 	/**
@@ -285,8 +288,9 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 
         };
 
+        String tempKey = createRandomKey();
 		String userID = String.valueOf(user.getUserID());
-		service.updateEmail(userID, newEmailAddress, callback);
+		service.updateEmail(userID, newEmailAddress, tempKey, callback);
 	}
 	
 	/**
@@ -451,6 +455,7 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 	 * @param amount
 	 */
 	public static void updateChipCount(float amount) {
+		checkLogin();
 		if (Config.IS_TESTING) {
 			user.setBankAmount(user.getBankAmount() + amount);
 			UpdateChipEvent event = new UpdateChipEvent();
@@ -494,6 +499,32 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 			dashboard.displayMessage(MessageType.INFO, 
 					"You have been logged out, please log back in.");
 		}
+	}
+	
+	/**
+	 * Creates a random key for use in email confirmation key generation and reset
+	 * password generation
+	 * @return a randomized string of 16 characters in length
+	 */
+	public static String createRandomKey() {
+		String charsAllowed = new String("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+				+ "1234567890!@#$%^&*()");
+		int length = 16;
+		StringBuilder sb = new StringBuilder();
+		Random rnd = new Random();
+		
+		for (int i = 0; i < length; i++) {
+			int index = rnd.nextInt(charsAllowed.length());
+			sb.append(charsAllowed.charAt(index));
+		}
+		try {
+			byte[] b = sb.toString().getBytes("UTF-8");
+			return new String(b, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
 	}
 	
 	public static User getUser() {

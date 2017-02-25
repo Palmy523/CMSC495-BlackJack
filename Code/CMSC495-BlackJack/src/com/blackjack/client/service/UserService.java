@@ -12,8 +12,6 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 @RemoteServiceRelativePath("UserService")
 public interface UserService extends RemoteService {
-
-	public void initDB();
 	
 	public LoginEvent login(String username, String password);
 	
@@ -21,9 +19,9 @@ public interface UserService extends RemoteService {
 
 	public UpdateChipEvent updateChipCount(String userID, float amount);
 
-	public ResetPasswordEvent resetPassword(String emailAddress);
+	public ResetPasswordEvent resetPassword(String emailAddress, String tempPassword);
 
-	public UpdateEmailEvent updateEmail(String userID, String newEmail);
+	public UpdateEmailEvent updateEmail(String userID, String newEmail, String tempKey);
 	
 	public ConfirmEmailEvent confirmEmail(String userID, String confirmationKey);
 	
