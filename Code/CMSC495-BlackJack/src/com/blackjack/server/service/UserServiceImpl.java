@@ -67,7 +67,7 @@ public class UserServiceImpl extends RemoteServiceServlet implements UserService
 		return createAccountEvent;	
 	}
 	
-	public UpdateChipEvent updateChipCount(String userID, int amount) 
+	public UpdateChipEvent updateChipCount(String userID, float amount) 
 	{
 		UpdateChipEvent updateChipEvent = new UpdateChipEvent();
 		updateChipEvent.setSuccess(true);
@@ -75,9 +75,10 @@ public class UserServiceImpl extends RemoteServiceServlet implements UserService
 		if(!UserControllerServer.userExists(userID))
 			updateChipEvent.setSuccess(false);
 		
-		if(updateChipEvent.isSuccess())
+		if(updateChipEvent.isSuccess()) { 
 			UserControllerServer.updateChipCount(userID, amount);
-		
+		}
+			
 		return updateChipEvent;
 	}
 	

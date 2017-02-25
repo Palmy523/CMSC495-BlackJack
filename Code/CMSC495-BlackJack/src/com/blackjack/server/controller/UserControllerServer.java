@@ -805,9 +805,51 @@ public class UserControllerServer {
 	}
 	
 	
-	public static float updateChipCount(String userID, int amount) {
+	public static float updateChipCount(String userID, float amount) {
 		//TODO update the database with the new amount using controller
+
+		int userIDInt = Integer.valueOf(userID);
 		
+		Connection conn = ConnectionService.getConnection();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			ps = conn.prepareStatement("Select bank_amount "
+					+ "FROM user "
+					+ "WHERE user_id = ? ;");
+			ps.setInt(1, userIDInt);
+			rs = ps.executeQuery();
+			if (rs.first()) {
+				amount = rs.getFloat(0) + amount;
+				
+				rs.close();
+				ps.close();
+				
+				ps = conn.prepareStatement("UPDATE user "
+						+ "SET bank_amount = ? "
+						+ "WHERE user_id = ? ;");
+				ps.setFloat(1, amount);
+				ps.setInt(2, userIDInt);
+				if (ps.executeUpdate() > 0) {
+					return amount;
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Log message appropriately
+			System.err.println(e.getMessage());
+		} finally {
+			try {			
+			if (ps != null) {
+				ps.close();
+			}
+			
+			if (conn != null) {
+				conn.close();
+			}
+			} catch (SQLException e) {
+				System.err.println(e.getMessage());
+			}
+		}
 		//TODO return the amount if update was successful, else return the old amount
 		// or return -1 if any db actions were unsuccessful
 		return -1;

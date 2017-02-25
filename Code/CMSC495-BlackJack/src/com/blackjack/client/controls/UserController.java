@@ -19,19 +19,15 @@ import com.blackjack.shared.events.UpdatePasswordEvent;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-import javafx.event.Event;
-
 public class UserController {
 
 public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred, please try again later";
 	
-	private Dashboard dashboard;
+	private static Dashboard dashboard;
 	private static User user;
-	private UserServiceAsync service = GWT.create(UserService.class);
+	private static UserServiceAsync service = GWT.create(UserService.class);
 	
-	public UserController(Dashboard dashboard) {
-		this.dashboard = dashboard;
-		
+	static {
 		//TODO remove testing info
 		if (Config.IS_TESTING) {
 			user = new User();
@@ -50,13 +46,14 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 	 * @param username the username of a currently existing user
 	 * @param password the password for the user
 	 */
-	public void login(String username, String password) {
+	public static void login(String username, String password) {
 		
 		if (Config.IS_TESTING) {
 			dashboard.displayRoomSelectionScreen();
 			UpdateChipEvent event = new UpdateChipEvent();
 			event.setNewAmount(10455.50f);
 			event.setSuccess(true);
+			user.setBankAmount(10455.50f);
 			Events.eventBus.fireEvent(event);
 			LoginEvent loginEvent = new LoginEvent();
 			loginEvent.setUser(user);
@@ -93,7 +90,7 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 	 * 
 	 * @param event
 	 */
-	public void onLoginSuccess(LoginEvent event) {
+	public static void onLoginSuccess(LoginEvent event) {
 		dashboard.displayRoomSelectionScreen();
 		user = event.getUser();
 	}
@@ -103,7 +100,7 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 	 * 
 	 * @param event
 	 */
-	public void onLoginFailure(LoginEvent event) {
+	public static void onLoginFailure(LoginEvent event) {
 		String message = "";
 		if (event.isUsernameInvalid()) {
 			message = "The supplied username is invalid";
@@ -122,7 +119,7 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 	 * typed in exactly what they meant
 	 * @param email the email address to create the account with.
 	 */
-	public void createAccount(String username, 
+	public static void createAccount(String username, 
 			String password, 
 			String confirmPassword, 
 			String email) {
@@ -174,7 +171,7 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 	 * 
 	 * @param event the loginEvent that prompted the login
 	 */
-	public void onCreateAccountSuccess(CreateAccountEvent event) {
+	public static void onCreateAccountSuccess(CreateAccountEvent event) {
 		dashboard.displayLoginScreen();
 		dashboard.displayMessage(MessageType.INFO, "Your account has been successfully created, "
 				+ "please Login to play.");
@@ -185,7 +182,7 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 	 * 
 	 * @param event
 	 */
-	public void onCreateAccountFailure(CreateAccountEvent event) {
+	public static void onCreateAccountFailure(CreateAccountEvent event) {
 		String errorMessage = "An error occurred";
 		if (event.isUserNameTaken()) {
 			errorMessage = "Sorry, that user name is already taken.";
@@ -199,7 +196,7 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 	 * Resets a password for the user with the supplied email address.
 	 * @param emailAddress the email adress of the user to reset the pasword for.
 	 */
-	public void resetPassword(String emailAddress) {
+	public static void resetPassword(String emailAddress) {
 		
 		if (FieldVerifier.isValidEmail(emailAddress) == FormatError.INVALID_FORMAT) {
 			dashboard.displayMessage(MessageType.ERROR, FieldVerifier.EMAIL_ADDRESS_ERROR);
@@ -233,7 +230,7 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 	 * 
 	 * @param event
 	 */
-	public void onResetPasswordSuccess(ResetPasswordEvent event) {
+	public static void onResetPasswordSuccess(ResetPasswordEvent event) {
 		dashboard.displayLoginScreen();
 		dashboard.displayMessage(MessageType.INFO, "An email has been sent to the supplied email address with " 
 				+ "a temporary password.");
@@ -243,7 +240,7 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 	 * Method to perform when a password reset fails
 	 * @param event
 	 */
-	public void onResetPasswordFailure(ResetPasswordEvent event) {
+	public static void onResetPasswordFailure(ResetPasswordEvent event) {
 		if (event.isEmailInvalid()) {
 			dashboard.displayMessage(MessageType.INFO, "The email address you supplied is not in our system, "
 					+ "please provide a valid email address");
@@ -258,7 +255,7 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 	 * @param userID
 	 * @param newEmailAddress
 	 */
-	public void updatEmail(String newEmailAddress) {
+	public static void updatEmail(String newEmailAddress) {
 		checkLogin();
 		if (!isUserLoggedIn()) {
 			return;
@@ -297,7 +294,7 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 	 * 
 	 * @param event
 	 */
-	public void onUpdateEmailSuccess(UpdateEmailEvent event) {
+	public static void onUpdateEmailSuccess(UpdateEmailEvent event) {
 		dashboard.displayConfirmEmailForm();
 	}
 	
@@ -305,7 +302,7 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 	 * Method to perform when email update fails, display error
 	 * @param event
 	 */
-	public void onUpdateEmailFailure(UpdateEmailEvent event) {
+	public static void onUpdateEmailFailure(UpdateEmailEvent event) {
 		if (event.isEmailInvalid()) {
 			dashboard.displayMessage(MessageType.ERROR, "Sorry, the email you gave is already in use, "
 					+ "please choose another email address.");
@@ -320,7 +317,7 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 	 * 
 	 * @param confirmationKey
 	 */
-	public void confirmEmail(String confirmationKey) {
+	public static void confirmEmail(String confirmationKey) {
 		checkLogin();
 		if (!isUserLoggedIn()) {
 			return;
@@ -358,7 +355,7 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 	 * Method to perform when confirmation of email is a success, close the confirmation panel
 	 * @param result
 	 */
-	public void onConfirmEmailSuccess(ConfirmEmailEvent result) {
+	public static void onConfirmEmailSuccess(ConfirmEmailEvent result) {
 		dashboard.displayMessage(MessageType.INFO, "Your email has been updated successfully");
 		dashboard.displayEmailConfirmationPanel(false);
 	}
@@ -367,7 +364,7 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 	 * Method to perform when confirmation of email fails, display error message
 	 * @param event
 	 */
-	public void onConfirmEmailFailure(ConfirmEmailEvent event) {
+	public static void onConfirmEmailFailure(ConfirmEmailEvent event) {
 		dashboard.displayMessage(MessageType.INFO, "Email update failed!");
 	}
 	
@@ -378,7 +375,7 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 	 * @param newPassword the new password to update the password with
 	 * @param confirmNewPassword the confirmed password that matches the new password
 	 */
-	public void updatePassword(String currentPassword, String newPassword, String confirmNewPassword) {
+	public static void updatePassword(String currentPassword, String newPassword, String confirmNewPassword) {
 		checkLogin();
 		if (!isUserLoggedIn()) {
 			return;
@@ -430,7 +427,7 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 	 * Method to perform when updating a password is a success, display success message
 	 * @param event
 	 */
-	public void onUpdatePasswordSuccess(UpdatePasswordEvent event) {
+	public static void onUpdatePasswordSuccess(UpdatePasswordEvent event) {
 		dashboard.displayMessage(MessageType.INFO, "Your password has been successfully updated!");
 	}
 
@@ -438,7 +435,7 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 	 * Method to perform when updating a password has failed, display an error message.
 	 * @param event
 	 */
-	public void onUpdatePasswordFailure(UpdatePasswordEvent event) {
+	public static void onUpdatePasswordFailure(UpdatePasswordEvent event) {
 		//TODO display appropriate message
 		if (event.isWrongCurrentPassword()) {
 			dashboard.displayMessage(MessageType.ERROR, "The current password supplied is incorrect");
@@ -449,10 +446,42 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 	}
 	
 	/**
+	 * Updates the user account with the new amount.
+	 * 
+	 * @param amount
+	 */
+	public static void updateChipCount(float amount) {
+		if (Config.IS_TESTING) {
+			user.setBankAmount(user.getBankAmount() + amount);
+			UpdateChipEvent event = new UpdateChipEvent();
+			event.setNewAmount(user.getBankAmount());
+			event.setSuccess(true);
+			Events.eventBus.fireEvent(event);
+		} else {
+			AsyncCallback<UpdateChipEvent> callback = new AsyncCallback<UpdateChipEvent>() {
+
+				@Override
+				public void onFailure(Throwable caught) {
+					dashboard.displayMessage(MessageType.ERROR, "Failed to update bank with new chip amount");
+				}
+
+				@Override
+				public void onSuccess(UpdateChipEvent result) {
+					UpdateChipEvent event = new UpdateChipEvent();
+					Events.eventBus.fireEvent(event);
+				}
+				
+			};
+			
+			service.updateChipCount(String.valueOf(user.getUserID()), amount, callback);
+		}
+	}
+	
+	/**
 	 * @return true if the user has logged in and the user object is available
 	 * false if otherwise
 	 */
-	public boolean isUserLoggedIn() {
+	public static boolean isUserLoggedIn() {
 		return (user != null);
 	}
 	
@@ -460,20 +489,28 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 	 * Checks the login status of the current user. If the user is not logged in
 	 * return them to the Login Screen and display an info message to log back in.
 	 */
-	public void checkLogin() {
+	public static void checkLogin() {
 		if (!isUserLoggedIn()) {
 			dashboard.displayLoginScreen();
 			dashboard.displayMessage(MessageType.INFO, 
 					"You have been logged out, please log back in.");
 		}
 	}
-
+	
 	public static User getUser() {
 		return user;
 	}
 
 	public static void setUser(User user) {
 		UserController.user = user;
+	}
+
+	public static Dashboard getDashboard() {
+		return dashboard;
+	}
+
+	public static void setDashboard(Dashboard dashboard) {
+		UserController.dashboard = dashboard;
 	}
 	
 	

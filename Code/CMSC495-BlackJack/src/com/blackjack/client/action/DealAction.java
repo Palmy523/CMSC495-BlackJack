@@ -2,6 +2,7 @@ package com.blackjack.client.action;
 
 import java.util.Random;
 
+import com.blackjack.client.controls.UserController;
 import com.blackjack.client.entities.Card;
 import com.blackjack.client.entities.Deck;
 import com.blackjack.client.entities.GameState;
@@ -32,6 +33,7 @@ public class DealAction extends GameAction {
 	public void processAction(final GameEvent event) {
 		GameState state = event.getGameState();
 		int betAmount = state.getBetAmount();
+		UserController.updateChipCount(-betAmount);
 		cardNum = 0;
 		deck = state.getDeck();
 		playerHand = new Hand();
@@ -82,43 +84,39 @@ public class DealAction extends GameAction {
 	}
 	
 	private void endDeal(GameEvent event) {
-		int temp = 1;
+		GameState.setDealerHand(dealerHand);
+		GameState.setPlayerHand(playerHand);
+		GameState.setTurn(TurnState.PLAYER_TURN);
+		panel.displayInstruction("Players turn");
+
 		if (playerHand.getHandValue() == 21 && dealerHand.getHandValue() == 21) {
+			panel.getPlayerHandPanel().twentyone();
+			panel.getDealerHandPanel().twentyone();
 			panel.showDealerCard();
 			event.setActionType(ActionType.PUSH);
 			HandEndAction handEndAction = new HandEndAction(panel);
 			handEndAction.processAction(event);
 		} else if (playerHand.getHandValue() == 21) {
+			panel.twentyone();
 			event.setActionType(ActionType.BLACKJACK);
 			HandEndAction handEndAction = new HandEndAction(panel);
 			handEndAction.processAction(event);
-		} else if (dealerHand.getHandValue() == 21) {
-			panel.showDealerCard();
-			event.setActionType(ActionType.DEALER_BLACKJACK);
-			HandEndAction handEndAction = new HandEndAction(panel);
-			handEndAction.processAction(event);
+		} else if (dealerHand.showingAce()) {
+			panel.displayInsurancePrompt(true);
 		} else {
-			panel.enableButton(GameButtonType.DEAL, false);
-			panel.enableButton(GameButtonType.HIT, true);
-			panel.enableButton(GameButtonType.STAND, true);
-			panel.chipsEnabled(false);
-			panel.enableButton(GameButtonType.SURRENDER, true);
-			panel.enableButton(GameButtonType.DOUBLE_DOWN, true);
+			if (!dealerHand.showingAce()) {
+				panel.enableButton(GameButtonType.DEAL, false);
+				panel.enableButton(GameButtonType.HIT, true);
+				panel.enableButton(GameButtonType.STAND, true);
+				panel.chipsEnabled(false);
+				panel.enableButton(GameButtonType.SURRENDER, true);
+				panel.enableButton(GameButtonType.DOUBLE_DOWN, true);
 
-			if (dealerHand.showingAce()) {
-				panel.displayInstruction("Want Insurance?");
-				panel.enableButton(GameButtonType.INSURANCE, true);
+				if (playerHand.canSplit())
+					panel.enableButton(GameButtonType.SPLIT, true);
 			}
-
-			if (playerHand.canSplit())
-				panel.enableButton(GameButtonType.SPLIT, true);
-
-			// update the state by setting the proper turn
-			GameState.setTurn(TurnState.PLAYER_TURN);
-			panel.displayInstruction("Players turn");
-			GameState.setPlayerHand(playerHand);
+			
 			GWT.log("Player hand value: " + GameState.getPlayerHand().getHandValue());
-			GameState.setDealerHand(dealerHand);
 			GWT.log("Dealer hand value: " + GameState.getDealerHand().getHandValue());
 		}
 

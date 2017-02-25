@@ -19,7 +19,7 @@ public interface UserService extends RemoteService {
 	
 	public CreateAccountEvent createAccount(String username, String password, String email);
 
-	public UpdateChipEvent updateChipCount(String userID, int amount);
+	public UpdateChipEvent updateChipCount(String userID, float amount);
 
 	public ResetPasswordEvent resetPassword(String emailAddress);
 

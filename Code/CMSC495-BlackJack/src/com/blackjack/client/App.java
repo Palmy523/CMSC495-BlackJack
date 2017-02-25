@@ -65,8 +65,8 @@ public class App {
 	 */
 	public void start() {
 		dashboard = new Dashboard();
-		userController = new UserController(dashboard);
-
+		UserController.setDashboard(dashboard);
+		
 		loginForm = new LoginForm();
 		setupLogin();
 
@@ -122,7 +122,7 @@ public class App {
 			public void onClick(ClickEvent event) {
 				String userName = loginForm.getUsernameTextBox().getText();
 				String password = loginForm.getPasswordTextBox().getText();
-				userController.login(userName, password);
+				UserController.login(userName, password);
 			}
 		});
 
@@ -204,7 +204,7 @@ public class App {
 				String email = createAccountForm.getEmailTextBox().getText();
 				String password = createAccountForm.getPasswordTextBox().getText();
 				String confirmPassword = createAccountForm.getConfirmPasswordTextBox().getText();
-				userController.createAccount(username, password, confirmPassword, email);
+				UserController.createAccount(username, password, confirmPassword, email);
 			}
 
 		});
@@ -239,7 +239,7 @@ public class App {
 			@Override
 			public void onClick(ClickEvent event) {
 				String email = forgotPasswordForm.getEmailTextBox().getText();
-				userController.resetPassword(email);
+				UserController.resetPassword(email);
 			}
 		});
 
@@ -322,7 +322,7 @@ public class App {
 				String currentPassword = accountManagementForm.getCurrentPasswordTextBox().getText();
 				String newPassword = accountManagementForm.getNewPasswordTextBox().getText();
 				String confirmPassword = accountManagementForm.getConfirmPasswordTextBox().getText();
-				userController.updatePassword(currentPassword, newPassword, confirmPassword);
+				UserController.updatePassword(currentPassword, newPassword, confirmPassword);
 			}
 		});
 
@@ -331,7 +331,7 @@ public class App {
 			@Override
 			public void onClick(ClickEvent event) {
 				String newEmail = accountManagementForm.getNewEmailTextBox().getText();
-				userController.updatEmail(newEmail);
+				UserController.updatEmail(newEmail);
 			}
 
 		});
@@ -368,7 +368,7 @@ public class App {
 			@Override
 			public void onClick(ClickEvent event) {
 				String key = confirmEmailForm.getConfirmKeyTextBox().getText();
-				userController.confirmEmail(key);
+				UserController.confirmEmail(key);
 			}
 		});
 
@@ -570,6 +570,25 @@ public class App {
 				gameController.surrender();
 			}
 		});
+		
+		gamePanel.getInsurancePrompt().getQuitButton().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				gameController.noInsurance();
+			}
+			
+		});
+		
+		gamePanel.getInsurancePrompt().getOkButton().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				gameController.insurance();
+			}
+			
+		});
+		
 	}
 
 }

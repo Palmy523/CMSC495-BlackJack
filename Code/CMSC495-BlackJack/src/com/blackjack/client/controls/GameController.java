@@ -2,6 +2,7 @@ package com.blackjack.client.controls;
 
 import com.blackjack.client.action.BetAction;
 import com.blackjack.client.action.DealAction;
+import com.blackjack.client.action.DeclineInsuranceAction;
 import com.blackjack.client.action.DoubleDownAction;
 import com.blackjack.client.action.GameAction;
 import com.blackjack.client.action.GameAction.ActionType;
@@ -29,6 +30,7 @@ public class GameController {
 	private BlackJackGamePanel gamePanel;
 	private GameState gameState;
 	private HandlerRegistration registration;
+	private UserController userController;
 
 	public GameController(Dashboard dashboard, GameState gameState) {
 		this.dashboard = dashboard;
@@ -206,4 +208,10 @@ public class GameController {
 		this.gameState = gameState;
 	}
 
+	public void noInsurance() {
+		GameEvent event = new GameEvent(gameState);
+		event.setActionType(ActionType.INSURANCE);
+		DeclineInsuranceAction action = new DeclineInsuranceAction(gamePanel);
+		action.processAction(event);
+	}
 }

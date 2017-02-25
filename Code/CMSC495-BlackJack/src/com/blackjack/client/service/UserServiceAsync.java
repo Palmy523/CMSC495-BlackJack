@@ -14,7 +14,7 @@ public interface UserServiceAsync {
 	void initDB(AsyncCallback<Void> callback);
 	void login(String username, String password, AsyncCallback<LoginEvent> callback);
 	void createAccount(String username, String password, String email, AsyncCallback<CreateAccountEvent> callbacks);
-	void updateChipCount(String userID, int amount, AsyncCallback<UpdateChipEvent> callback);
+	void updateChipCount(String userID, float amount, AsyncCallback<UpdateChipEvent> callback);
 	void resetPassword(String emailAddress, AsyncCallback<ResetPasswordEvent> callback);
 	void updateEmail(String userID, String newEmail, AsyncCallback<UpdateEmailEvent> callback);
 	void confirmEmail(String userID, String confirmationKey, AsyncCallback<ConfirmEmailEvent> callback);

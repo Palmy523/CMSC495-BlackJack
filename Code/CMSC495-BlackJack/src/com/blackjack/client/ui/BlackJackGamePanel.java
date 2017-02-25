@@ -37,6 +37,7 @@ public class BlackJackGamePanel extends SimplePanel {
 	private Button dealButton;
 	private Label betLabelValue;
 	private Label instructionLabel;
+	private UserMessageBox insurancePrompt;
 	
 	/**
 	 * Default constructor adds all children to the panel and 
@@ -54,6 +55,7 @@ public class BlackJackGamePanel extends SimplePanel {
 		buttonPanel.setStylePrimaryName("gameButtonPanel");
 		
 		insuranceButton = new GameButton(GameButton.GameButtonType.INSURANCE);
+		insuranceButton.setVisible(false);
 		doubleDownButton = new GameButton(GameButton.GameButtonType.DOUBLE_DOWN);
 		hitButton = new GameButton(GameButton.GameButtonType.HIT);
 		standButton = new GameButton(GameButton.GameButtonType.STAND);
@@ -90,6 +92,13 @@ public class BlackJackGamePanel extends SimplePanel {
 		instructionLabel.addStyleDependentName("instruction");
 		instructionLabel.addStyleName("centered");
 		
+		insurancePrompt = new UserMessageBox();
+		insurancePrompt.setMessage("Do you want insurnace?");
+		insurancePrompt.getOkButton().setText("Yes");
+		insurancePrompt.getQuitButton().setText("No");
+		insurancePrompt.getQuitButton().setVisible(true);
+		insurancePrompt.setVisible(false);
+		
 		chip1 = new ChipButton(ChipButton.ChipValue.ONE);
 		chip5 = new ChipButton(ChipButton.ChipValue.FIVE);
 		chip25 = new ChipButton(ChipButton.ChipValue.TWENTY_FIVE);
@@ -115,6 +124,7 @@ public class BlackJackGamePanel extends SimplePanel {
 		content.add(dealerHandPanel);
 		content.add(chipPanel);
 		content.add(instructionLabel);
+		content.add(insurancePrompt);
 		
 		this.add(content);
 	}
@@ -341,6 +351,10 @@ public class BlackJackGamePanel extends SimplePanel {
 		this.instructionLabel.setText(message);
 	}
 	
+	public void displayInsurancePrompt(boolean visible) {
+		insurancePrompt.setVisible(visible);
+	}
+	
 	/**
 	 * Updates the UI to display a split in the player hand
 	 */
@@ -475,4 +489,14 @@ public class BlackJackGamePanel extends SimplePanel {
 	public void setDealButton(Button dealButton) {
 		this.dealButton = dealButton;
 	}
+
+	public UserMessageBox getInsurancePrompt() {
+		return insurancePrompt;
+	}
+
+	public void setInsurancePrompt(UserMessageBox insurancePrompt) {
+		this.insurancePrompt = insurancePrompt;
+	}
+	
+	
 }

@@ -31,6 +31,7 @@ public class UserMessageBox extends FocusPanel {
 		
 		label.setStylePrimaryName("label");
 		label.addStyleDependentName("centered");
+		label.addStyleDependentName("white");
 		
 		button.setText("Close");
 		button.setStylePrimaryName("button");
@@ -112,6 +113,10 @@ public class UserMessageBox extends FocusPanel {
 			this.addStyleDependentName("gray");
 			quitButton.setVisible(true);
 		}
+	}
+	
+	public Button getOkButton() {
+		return button;
 	}
 	
 	public Button getQuitButton(){
