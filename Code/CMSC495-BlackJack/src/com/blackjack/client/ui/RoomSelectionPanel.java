@@ -1,6 +1,9 @@
 package com.blackjack.client.ui;
 
+import com.blackjack.client.controls.UserController;
+import com.blackjack.client.entities.GameState;
 import com.blackjack.shared.entities.Room;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 
@@ -36,10 +39,14 @@ public class RoomSelectionPanel extends FlowPanel {
 				RoomPanel roomPanel = new RoomPanel(room);
 				roomPanelWrapper.add(roomPanel);
 				roomPanels[count] = roomPanel;
+				boolean disableRoom = room.getChipLimit() > UserController.getUser().getBankAmount();
+				if (disableRoom) {
+					enableRoom(count, disableRoom);
+					room.setEnabled(false);
+				}
 				count++;
 			}
 		}
-		
 		
 		optionsPanel.add(difficultyCheckBox);
 		this.add(roomPanelWrapper);

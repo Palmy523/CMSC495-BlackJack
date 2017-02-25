@@ -1,6 +1,7 @@
 package com.blackjack.shared.entities;
 
 import com.blackjack.shared.entities.Stakes.StakeLevel;
+import com.google.gwt.core.shared.GWT;
 
 /**
  * Entity that represents a game room.
@@ -22,6 +23,8 @@ public class Room {
 	
 	//The stakes level for the room
 	private Stakes stakes;
+	
+	private boolean enabled = true;
 	
 	/**
 	 * Default Constructor
@@ -119,6 +122,14 @@ public class Room {
 		room.setMinBet(500);
 		room.setStakes(stakes);
 		return room;
+	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 	
 	

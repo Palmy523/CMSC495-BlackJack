@@ -403,18 +403,20 @@ public class App {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					boolean isEasyPlay = roomSelectionPanel.getDifficultyCheckBox().getValue();
-					GameState state = new GameState();
-					GameState.setEasyPlay(isEasyPlay);
-					GameState.setBetAmount(0);
-					GameState.setPlayerHand(new Hand());
-					GameState.setDealerHand(new Hand());
-					GameState.setDeck(new Deck(Set.ONE, 1, true));
-					GameState.setTurn(TurnState.PLAYER_TURN);
-					GameState.setRoom(room);
-					GameState.setUser(UserController.getUser());
-					gameController = new GameController(dashboard, state);
-					gameController.startGame();
+					if(room.isEnabled()){						
+						boolean isEasyPlay = roomSelectionPanel.getDifficultyCheckBox().getValue();
+						GameState state = new GameState();
+						GameState.setEasyPlay(isEasyPlay);
+						GameState.setBetAmount(0);
+						GameState.setPlayerHand(new Hand());
+						GameState.setDealerHand(new Hand());
+						GameState.setDeck(new Deck(Set.ONE, 1, true));
+						GameState.setTurn(TurnState.PLAYER_TURN);
+						GameState.setRoom(room);
+						GameState.setUser(UserController.getUser());
+						gameController = new GameController(dashboard, state);
+						gameController.startGame();
+					}
 				}
 			});
 		}

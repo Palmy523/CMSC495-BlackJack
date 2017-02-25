@@ -34,7 +34,7 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 		//TODO remove testing info
 		if (Config.IS_TESTING) {
 			user = new User();
-			user.setBankAmount(10000.50f);
+			user.setBankAmount(2500.50f);
 			user.setEasyPlay(false);
 			user.setEmail("iTestThings@email.com");
 			user.setMaxChips(25000f);
@@ -56,7 +56,7 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 			UpdateChipEvent event = new UpdateChipEvent();
 			event.setNewAmount(10455.50f);
 			event.setSuccess(true);
-			user.setBankAmount(10455.50f);
+			user.setBankAmount(2500.50f);
 			Events.eventBus.fireEvent(event);
 			LoginEvent loginEvent = new LoginEvent();
 			loginEvent.setUser(user);
