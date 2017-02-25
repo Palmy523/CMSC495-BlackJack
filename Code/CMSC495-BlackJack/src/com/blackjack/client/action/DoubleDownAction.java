@@ -1,6 +1,7 @@
 package com.blackjack.client.action;
 
 import com.blackjack.client.action.GameAction.ActionType;
+import com.blackjack.client.controls.UserController;
 import com.blackjack.client.entities.Card;
 import com.blackjack.client.entities.Deck;
 import com.blackjack.client.entities.GameState;
@@ -27,10 +28,11 @@ public class DoubleDownAction extends GameAction {
 		int score;
 		Hand hand;
 		
-		// TODO Auto-generated method stub
 		panel.displayInstruction("Doubled Down");
 		event.setActionType(ActionType.DOUBLE_DOWN);
 		event.getGameState().setDoubledDown(true);
+		panel.bet(GameState.getBetAmount()*2);
+		UserController.updateChipCount(-GameState.getBetAmount());
 		GameState.setBetAmount(GameState.getBetAmount()*2);
 		hand = state.getPlayerHand();	
 		
