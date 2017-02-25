@@ -99,6 +99,21 @@ public class RoomSelectionPanel extends FlowPanel {
 		this.roomPanels = roomPanels;
 	}
 	
+	public void updateRoomEnabledness() {
+		
+		int count = 0;
+		for (Room room : rooms) {
+			if (room != null) {
+				boolean disableRoom = room.getChipLimit() > UserController.getUser().getBankAmount();
+				if (disableRoom) {
+					enableRoom(count, disableRoom);
+					room.setEnabled(false);
+				}
+				count++;
+			}
+		}
+	}
+	
 	
 	
 }

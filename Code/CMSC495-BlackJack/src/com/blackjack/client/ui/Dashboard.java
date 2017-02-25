@@ -213,6 +213,7 @@ public class Dashboard extends SimplePanel {
 	 * Display the room selection screen as the current screen for the user.
 	 */
 	public void displayRoomSelectionScreen() {
+		roomSelectionPanel.updateRoomEnabledness();
 		this.loadView(roomSelectionPanel);
 		History.newItem("rooms");
 	}
