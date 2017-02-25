@@ -94,7 +94,7 @@ public class Hand {
 	 */
 	public boolean dealerHasNatural() {
 		if (cards.length == 2) {
-			if (showingAce() && cards[0].getValue() == 10) {
+			if (showingAce() && cards[1].getValue() == 10) {
 					return true;
 			}
 		}
