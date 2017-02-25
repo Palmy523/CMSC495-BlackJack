@@ -56,7 +56,7 @@ public class HandEndAction extends GameAction {
 			UserController.updateChipCount(award);
 		} else if (event.getActionType() == ActionType.SURRENDER) {
 			panel.displayInstruction("You surrendered. You get half your bet back." + message);
-			UserController.updateChipCount(GameState.getBetAmount() / 2);
+			UserController.updateChipCount((float)GameState.getBetAmount() / 2);
 		} else if (dealerHandVal > playerHandVal) {
 			panel.displayInstruction("Dealer wins!" + message);
 		} else if (dealerHandVal < playerHandVal) {
