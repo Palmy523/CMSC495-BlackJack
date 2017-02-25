@@ -36,13 +36,14 @@ public class HandEndAction extends GameAction {
 			float award = GameState.getBetAmount() + (GameState.getBetAmount() * (3/2));
 			UserController.updateChipCount(award);
 		} else if (event.getActionType() == ActionType.DEALER_BLACKJACK) {
-			panel.displayInstruction("Dealer Blackjack!" + message);
+			panel.displayInstruction("Dealer has Blackjack!" + message);
 			
 			if (event.getGameState().isInsurance()) {
-				UserController.updateChipCount(GameState.getBetAmount() 
+				UserController.updateChipCount(GameState.getBetAmount()/* *2 */
 						+ GameState.getInsuranceBetAmt());
 				panel.displayInsuranceBet(false);
 			}
+			panel.displayInsuranceBet(false);
 		} else if (event.getActionType() == ActionType.PUSH || 
 				playerHandVal == dealerHandVal) {
 			panel.displayInstruction("Push!" + message);
