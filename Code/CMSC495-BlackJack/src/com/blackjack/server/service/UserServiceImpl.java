@@ -49,7 +49,7 @@ public class UserServiceImpl extends RemoteServiceServlet implements UserService
 		
 		if(UserControllerServer.userNameExists(username))
 		{
-			createAccountEvent.setUserNameInvalid(true);
+			createAccountEvent.setUserNameTaken(true);
 			createAccountEvent.setErrorString("This user name is already in use." + "\r\n");
 			createAccountEvent.setSuccess(false);
 		}
@@ -76,7 +76,7 @@ public class UserServiceImpl extends RemoteServiceServlet implements UserService
 			updateChipEvent.setSuccess(false);
 		
 		if(updateChipEvent.isSuccess()) { 
-			UserControllerServer.updateChipCount(userID, amount);
+			updateChipEvent.setNewAmount(UserControllerServer.updateChipCount(userID, amount));
 		}
 			
 		return updateChipEvent;

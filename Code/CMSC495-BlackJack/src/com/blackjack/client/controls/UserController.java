@@ -467,8 +467,7 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 
 				@Override
 				public void onSuccess(UpdateChipEvent result) {
-					UpdateChipEvent event = new UpdateChipEvent();
-					Events.eventBus.fireEvent(event);
+					Events.eventBus.fireEvent(result);
 				}
 				
 			};

@@ -814,19 +814,21 @@ public class UserControllerServer {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
-			ps = conn.prepareStatement("Select bank_amount "
-					+ "FROM user "
+			ps = conn.prepareStatement("Select bank_amt "
+					+ "FROM game_data "
 					+ "WHERE user_id = ? ;");
 			ps.setInt(1, userIDInt);
 			rs = ps.executeQuery();
 			if (rs.first()) {
-				amount = rs.getFloat(0) + amount;
-				
+				amount = rs.getFloat(1) + amount;
+				if (amount < 0) {
+					amount = 0;
+				}
 				rs.close();
 				ps.close();
 				
-				ps = conn.prepareStatement("UPDATE user "
-						+ "SET bank_amount = ? "
+				ps = conn.prepareStatement("UPDATE game_data "
+						+ "SET bank_amt = ? "
 						+ "WHERE user_id = ? ;");
 				ps.setFloat(1, amount);
 				ps.setInt(2, userIDInt);

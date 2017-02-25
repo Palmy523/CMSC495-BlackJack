@@ -78,25 +78,35 @@ public class BlackJackGamePanel extends SimplePanel {
 		FlowPanel chipPanel = new FlowPanel();
 		chipPanel.setStylePrimaryName("chipPanel");
 		
-		Label betLabel = new Label("Current Bet ");
+		FlowPanel betPanel = new FlowPanel();
+		Label betLabel = new Label("Current Bet: ");
 		betLabel.setStylePrimaryName("label");
 		betLabel.addStyleDependentName("goldFont");
 		betLabel.addStyleDependentName("underline");
+		betLabel.getElement().setAttribute("style", "margin-right: 20px;");
 		
 		betLabelValue = new Label("$0");
 		betLabelValue.setStylePrimaryName("label");
 		betLabelValue.addStyleDependentName("goldFont");
 		
-		sideBetLabel = new Label("Side Bet ");
+		betPanel.add(betLabel);
+		betPanel.add(betLabelValue);
+		
+		FlowPanel sideBetPanel = new FlowPanel();
+		sideBetLabel = new Label("Side Bet: ");
 		sideBetLabel.setStylePrimaryName("label");
 		sideBetLabel.addStyleDependentName("goldFont");
 		sideBetLabel.addStyleDependentName("underline");
+		sideBetLabel.getElement().setAttribute("style", "margin-right: 38px;");
 		sideBetLabel.setVisible(false);
 		
 		sideBetLabelValue = new Label("$0");
 		sideBetLabelValue.setStylePrimaryName("label");
 		sideBetLabelValue.addStyleDependentName("goldFont");
 		sideBetLabelValue.setVisible(false);
+		
+		sideBetPanel.add(sideBetLabel);
+		sideBetPanel.add(sideBetLabelValue);
 		
 		instructionLabel = new Label();
 		instructionLabel.setStylePrimaryName("label");
@@ -117,13 +127,11 @@ public class BlackJackGamePanel extends SimplePanel {
 		chip50 = new ChipButton(ChipButton.ChipValue.FIFTY);
 		chip100 = new ChipButton(ChipButton.ChipValue.ONE_HUNDERED);
 		
-		chipPanel.add(betLabel);
+		chipPanel.add(betPanel);
+		chipPanel.add(sideBetPanel);
 		HTML br = new HTML("<br/>");
 		br.setHeight("0px");
 		chipPanel.add(br);
-		chipPanel.add(betLabelValue);
-		chipPanel.add(sideBetLabelValue);
-		br = new HTML("<br/>");
 		br.setHeight("30px");
 		chipPanel.add(br);
 		chipPanel.add(chip1);
@@ -257,7 +265,7 @@ public class BlackJackGamePanel extends SimplePanel {
 	 *  
 	 * @param amount the amount to increase or decrease the current bet amount by
 	 */
-	public void bet(int amount) {
+	public void bet(float amount) {
 		String value = NumberFormat.getDecimalFormat().format(amount);
 		if (value.contains(".")) {
 			if (value.substring(value.indexOf('.'), value.length()).length() < 3) {
@@ -270,6 +278,11 @@ public class BlackJackGamePanel extends SimplePanel {
 	
 	public void betInsurance(float amount) {
 		String value = NumberFormat.getDecimalFormat().format(amount);
+		if (value.contains(".")) {
+			if (value.substring(value.indexOf('.'), value.length()).length() < 3) {
+				value += "0";
+			}
+		}
 		sideBetLabelValue.setText("$" + value);
 	}
 	
