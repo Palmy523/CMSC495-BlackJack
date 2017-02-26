@@ -98,6 +98,7 @@ public class UserControllerServer {
 			user.setUserID(rs.getInt(1));
 			user.setUsername(rs.getString(2));
 			user.setEmail(rs.getString(3));
+			user.setLastLogin(rs.getDate(8));
 			user = populateGameData(user.getUserID(), user);
 			return user;
 		} catch(SQLException e) {
@@ -845,7 +846,6 @@ public class UserControllerServer {
 	
 	public static Date updateLastLogin(String username) {
 
-		int userIDInt = Integer.valueOf(username);
 		Date currentDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
 		
 		Connection conn = ConnectionService.getConnection();

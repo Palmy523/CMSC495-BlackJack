@@ -39,11 +39,6 @@ public class RoomSelectionPanel extends FlowPanel {
 				RoomPanel roomPanel = new RoomPanel(room);
 				roomPanelWrapper.add(roomPanel);
 				roomPanels[count] = roomPanel;
-				boolean disableRoom = room.getChipLimit() > UserController.getUser().getBankAmount();
-				if (disableRoom) {
-					enableRoom(count, disableRoom);
-					room.setEnabled(false);
-				}
 				count++;
 			}
 		}
@@ -100,20 +95,19 @@ public class RoomSelectionPanel extends FlowPanel {
 	}
 	
 	public void updateRoomEnabledness() {
-		
-		int count = 0;
-		for (Room room : rooms) {
-			if (room != null) {
-				boolean disableRoom = room.getChipLimit() > UserController.getUser().getBankAmount();
-				if (disableRoom) {
-					enableRoom(count, disableRoom);
-					room.setEnabled(false);
+
+		if (UserController.getUser() != null) {
+			int count = 0;
+			for (Room room : rooms) {
+				if (room != null) {
+					boolean disableRoom = room.getChipLimit() > UserController.getUser().getBankAmount();
+					if (disableRoom) {
+						enableRoom(count, disableRoom);
+						room.setEnabled(false);
+					}
+					count++;
 				}
-				count++;
 			}
 		}
 	}
-	
-	
-	
 }

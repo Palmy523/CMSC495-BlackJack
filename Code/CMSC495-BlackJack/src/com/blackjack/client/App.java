@@ -420,6 +420,18 @@ public class App {
 				}
 			});
 		}
+		
+		LoginHandler handler = new LoginHandler() {
+
+			@Override
+			public void OnLogin(LoginEvent event) {
+				if (event.isSuccess()) {
+					roomSelectionPanel.updateRoomEnabledness();
+				}
+			}
+		};
+		
+		Events.eventBus.addHandler(LoginEvent.TYPE, handler);
 	}
 
 	private void setupGamePanel() {

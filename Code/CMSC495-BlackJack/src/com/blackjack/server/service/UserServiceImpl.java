@@ -41,13 +41,14 @@ public class UserServiceImpl extends RemoteServiceServlet implements UserService
 			return loginEvent;
 		}		
 
-		UserControllerServer.updateLastLogin(username);
-		
 		Date currentDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
 		
-		if(!CompareDates.isSameDay(user.getLastLogin(), currentDate)) {
-			user.setBankAmount(user.getBankAmount() + 3000);
+		if(user.getLastLogin() == null || !CompareDates.isSameDay(user.getLastLogin(), currentDate)) {
+			user.setBankAmount(user.getBankAmount() + 250f);
+			this.updateChipCount(String.valueOf(user.getUserID()), 250f);
 		}
+		
+		user.setLastLogin(UserControllerServer.updateLastLogin(username));
 		
 		loginEvent.setSuccess(true);
 		loginEvent.setUser(user);
