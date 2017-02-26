@@ -44,7 +44,7 @@ public class Hand {
 	 */
 	public Card split() {
 		Card splitCard = null;
-		if (numCards == 2 && cards[1].getRank() == cards[0].getRank()) {
+		if (numCards == 2 && cards[1].getValue() == cards[0].getValue()) {
 			splitCard = cards[1];
 			cards[1] = null;
 		}
@@ -110,9 +110,7 @@ public class Hand {
 	}
 	
 	public boolean canSplit() {
-//		if(cards[0].getRank() == cards[1].getRank())
-		if(cards[0].getValue() == cards[1].getValue() 
-				&& cards[0].getRank() != Rank.ACE)
+		if(cards[0].getValue() == cards[1].getValue())
 			return true;
 		return false;
 	}

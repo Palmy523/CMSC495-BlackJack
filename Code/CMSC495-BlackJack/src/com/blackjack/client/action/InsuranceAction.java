@@ -32,11 +32,16 @@ public class InsuranceAction extends GameAction {
 			panel.showDealerCard();
 			panel.getDealerHandPanel().twentyone();
 			event.setActionType(ActionType.DEALER_BLACKJACK);
+//			if (event.getGameState().isInsurance()) {
+//				UserController.updateChipCount(GameState.getInsuranceBetAmt()*2);
+//				panel.displayInsuranceBet(false);
+//			}
+			
 			HandEndAction action = new HandEndAction(panel);
 			action.processAction(event);
 		} else {
+			
 			panel.displayInstruction("Dealer doesn't have Blackjack");
-			panel.displayInsuranceBet(false);
 			panel.enableButton(GameButtonType.DEAL, false);
 			panel.enableButton(GameButtonType.HIT, true);
 			panel.enableButton(GameButtonType.STAND, true);
@@ -46,9 +51,13 @@ public class InsuranceAction extends GameAction {
 
 			if (GameState.getPlayerHand().canSplit())
 				panel.enableButton(GameButtonType.SPLIT, true);
+			
+			// Need to find a way to display side bet for at least
+			// 5 seconds before hiding insurance bet
+			panel.displayInsuranceBet(false);
 
 		}
-
+		
 		event.setActionType(ActionType.INSURANCE);
 		Events.eventBus.fireEvent(event);
 

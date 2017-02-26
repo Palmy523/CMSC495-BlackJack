@@ -39,7 +39,7 @@ public class CardUI extends SimplePanel{
 		}
 	}
 	/**
-	 * Sets the card as the card to this UI and applys 
+	 * Sets the card as the card to this UI and applies 
 	 * the style for the card.
 	 * 
 	 * @param card the card to display in this UI

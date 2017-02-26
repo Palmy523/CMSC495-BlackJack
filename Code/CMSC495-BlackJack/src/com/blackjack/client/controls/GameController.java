@@ -90,8 +90,8 @@ public class GameController {
 		
 		GameState.setTurn(TurnState.AWAITING_BET);
 		
-		//TEMP for testing
-		gamePanel.getSplitButton().setEnabled(true);
+//		//TEMP for testing
+//		gamePanel.getSplitButton().setEnabled(true);
 	}
 
 	/**
@@ -128,9 +128,9 @@ public class GameController {
 		HitAction action = new HitAction(gamePanel);
 		action.processAction(event);
 	}
-
+	
 	/**
-	 * Calss the hit action to hit the dealer hand with a single card
+	 * Calls the hit action to hit the dealer hand with a single card
 	 */
 	public void dealerHit() {
 		GameEvent event = new GameEvent(gameState);
