@@ -16,7 +16,6 @@ public class HitAction extends GameAction {
 
 	public HitAction(BlackJackGamePanel panel) {
 		super(panel);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -25,44 +24,74 @@ public class HitAction extends GameAction {
 		Deck deck = state.getDeck();
 		int score;
 		Hand hand;
+		Card drawn;
 		
 				
 		if(state.getTurn() == TurnState.PLAYER_TURN){
 			
-			hand = state.getPlayerHand();	
-			
-			if(hand.getBustStatus()){
-				return;
-			}
-			
-			Card drawn = deck.draw();
-			SoundManager.play(SoundName.PLACE4);
-			panel.hitPlayerHand(drawn);
-			hand.hit(drawn);
-			state.setPlayerHand(hand);
-			score = hand.getHandValue();
-			
-			event.setActionType(ActionType.HIT);
-			Events.eventBus.fireEvent(event);
-			
-			GWT.log("Hit Player hand with " + drawn.getRank());
-			GWT.log("Player hand value: " + hand.getHandValue());
-			
-			if(score > 21){
-				hand.busts();
-				panel.displayInstruction("Busted!");	//TODO Change to label
-				SoundManager.play(SoundName.BUST);
-				BustAction b = new BustAction(100, panel);				
-				b.processAction(event);
-			}
-			else if(score == 21){
-				panel.twentyone();
-				panel.displayInstruction("You got 21!");
+			if(!state.isSplit() || state.isHittingPrimary()==true)
+			{
+				hand = state.getPlayerHand();	
 				
-				GameState.setTurn(TurnState.DEALER_TURN);
-				DealerTurnAction action = new DealerTurnAction(100, panel);
-				action.processAction(event);
+				if(hand.getBustStatus()){
+					return;
+				}
+				
+				drawn = deck.draw();
+				SoundManager.play(SoundName.PLACE4);
+				panel.hitPlayerHand(drawn);
+				hand.hit(drawn);
+				state.setPlayerHand(hand);
+				score=hand.getHandValue();
+				
+				GWT.log("Hit Player hand with " + drawn.getRank());
+				GWT.log("Player hand value: " + hand.getHandValue());
 			}
+			else
+			{
+				hand = state.getPlayerSplitHand();	
+				
+				if(hand.getBustStatus()){
+					return;
+				}
+				
+				drawn = deck.draw();
+				SoundManager.play(SoundName.PLACE4);
+				panel.hitPlayerSplitHand(drawn);
+				hand.hit(drawn);
+				state.setPlayerSplitHand(hand);
+				score=hand.getHandValue();
+				
+				GWT.log("Hit Player Split hand with " + drawn.getRank());
+				GWT.log("Player hand value: " + hand.getHandValue());
+			}	
+				
+				event.setActionType(ActionType.HIT);
+				Events.eventBus.fireEvent(event);
+								
+				if(score > 21){
+					hand.busts();
+					panel.displayInstruction("Busted!");
+					SoundManager.play(SoundName.BUST);
+					BustAction b = new BustAction(panel);				
+					b.processAction(event);
+				}
+				else if(score == 21){
+					
+					panel.displayInstruction("You got 21!");
+					
+					if(!state.isSplit()|| state.isHittingPrimary() == true){
+						panel.twentyone();
+						GameState.setTurn(TurnState.DEALER_TURN);
+						DealerTurnAction action = new DealerTurnAction(panel);
+						action.processAction(event);
+					}
+					else{					
+						panel.twentyone_Split();
+						state.setHittingPrimary(false);
+						state.setHittingSplit(true);
+					}
+				}			
 		}
 		else if(state.getTurn() == TurnState.DEALER_TURN){
 			
@@ -72,7 +101,7 @@ public class HitAction extends GameAction {
 				return;
 			}
 			
-			Card drawn = deck.draw();
+			drawn = deck.draw();
 			SoundManager.play(SoundName.PLACE4);
 			panel.hitDealerHand(drawn);
 			hand.hit(drawn);
@@ -87,7 +116,7 @@ public class HitAction extends GameAction {
 			
 			if(score> 21){
 				hand.busts();				
-				BustAction b = new BustAction(100, panel);				
+				BustAction b = new BustAction(panel);				
 				b.processAction(event);
 			}			
 		}
