@@ -14,6 +14,7 @@ public class LoginEvent extends GwtEvent<LoginHandler> implements Serializable{
 	private boolean isSuccess;
 	private boolean isPasswordInvalid;
 	private boolean isUserNameInalid;
+	private boolean isDailyBonus;
 	private String errorString;
 	
 	public LoginEvent() {}
@@ -90,6 +91,14 @@ public class LoginEvent extends GwtEvent<LoginHandler> implements Serializable{
 
 	public void setErrorString(String errorString)	{
 		this.errorString = errorString;
+	}
+
+	public boolean isDailyBonus() {
+		return isDailyBonus;
+	}
+
+	public void setDailyBonus(boolean isDailyBonus) {
+		this.isDailyBonus = isDailyBonus;
 	}
 	
 }
