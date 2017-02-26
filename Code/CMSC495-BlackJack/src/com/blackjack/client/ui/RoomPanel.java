@@ -102,9 +102,13 @@ public class RoomPanel extends FocusPanel {
 	}
 	
 	public void enable(boolean enable) {
-		String enabled = (enable) ? "true" : "false";
-		this.getElement().setAttribute("disabled", enabled);
-		this.setTitle("Requirements not met");
+		String enabled = (!enable) ? "true" : "false";
+		if (enable)
+			this.getElement().removeAttribute("disabled");
+		else {
+			this.getElement().setAttribute("disabled", enabled);
+			this.setTitle("Requirements not met");
+		}
 	}
 
 	public Room getRoom() {
