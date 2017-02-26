@@ -98,7 +98,7 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 		user = event.getUser();
 		if (event.isDailyBonus()) {
 			dashboard.displayMessage(MessageType.INFO, 
-					"Thanks for loggin in! You have been reward "
+					"Thanks for loggin in! You have been rewarded "
 					+ "with a daily bonus in the amount of $250!");
 		}
 	}
