@@ -9,6 +9,7 @@ public class GameState {
 	
 	private static TurnState turn;
 	private static Hand playerHand;
+	private static Hand playerSplitHand;
 	private static Hand dealerHand;
 	private static Deck deck;
 	private static int betAmount;
@@ -161,6 +162,18 @@ public class GameState {
 
 	public static void setEasyPlay(boolean isEasyPlay) {
 		GameState.isEasyPlay = isEasyPlay;
+	}
+
+	public static Hand getPlayerSplitHand() {
+		return playerSplitHand;
+	}
+
+	public static void setPlayerSplitHand(Hand playerSplitHand) {
+		GameState.playerSplitHand = playerSplitHand;
+	}
+
+	public static void setInsuranceBetAmt(int insuranceBetAmt) {
+		GameState.insuranceBetAmt = insuranceBetAmt;
 	}
 	
 	
