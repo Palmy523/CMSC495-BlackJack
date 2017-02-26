@@ -46,6 +46,7 @@ public class UserServiceImpl extends RemoteServiceServlet implements UserService
 		if(user.getLastLogin() == null || !CompareDates.isSameDay(user.getLastLogin(), currentDate)) {
 			user.setBankAmount(user.getBankAmount() + 250f);
 			this.updateChipCount(String.valueOf(user.getUserID()), 250f);
+			loginEvent.setDailyBonus(true);
 		}
 		
 		user.setLastLogin(UserControllerServer.updateLastLogin(username));

@@ -96,6 +96,11 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 	public static void onLoginSuccess(LoginEvent event) {
 		dashboard.displayRoomSelectionScreen();
 		user = event.getUser();
+		if (event.isDailyBonus()) {
+			dashboard.displayMessage(MessageType.INFO, 
+					"Thanks for loggin in! You have been reward "
+					+ "with a daily bonus in the amount of $250!");
+		}
 	}
 	
 	/**
