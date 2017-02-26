@@ -1,6 +1,7 @@
 package com.blackjack.shared.entities;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 public class User implements Serializable{
 
@@ -15,6 +16,7 @@ public class User implements Serializable{
 	private float bankAmount;
 	private float maxChips;
 	private boolean isEasyPlay;
+	private Date lastLogin;
 	
 	//TODO create the User Object based on database data
 	public User() {}
@@ -66,8 +68,12 @@ public class User implements Serializable{
 	public void setEasyPlay(boolean isEasyPlay) {
 		this.isEasyPlay = isEasyPlay;
 	}
-	
-	
-	
-	
+
+	public Date getLastLogin() {
+		return lastLogin;
+	}
+
+	public void setLastLogin(Date lastLogin) {
+		this.lastLogin = lastLogin;
+	}
 }

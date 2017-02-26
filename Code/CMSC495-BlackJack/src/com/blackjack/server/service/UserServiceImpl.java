@@ -1,7 +1,11 @@
 package com.blackjack.server.service;
 
+import java.sql.Date;
+import java.util.Calendar;
+
 import com.blackjack.client.service.UserService;
 import com.blackjack.server.controller.UserControllerServer;
+import com.blackjack.shared.CompareDates;
 import com.blackjack.shared.entities.User;
 import com.blackjack.shared.events.ConfirmEmailEvent;
 import com.blackjack.shared.events.CreateAccountEvent;
@@ -30,10 +34,19 @@ public class UserServiceImpl extends RemoteServiceServlet implements UserService
 			return loginEvent;
 		}
 		
-		User user = UserControllerServer.login(username, password);
+		User user = UserControllerServer.login(username, password);		
+		
 		if (user == null) {
 			loginEvent.setPasswordInvalid(true);
 			return loginEvent;
+		}		
+
+		UserControllerServer.updateLastLogin(username);
+		
+		Date currentDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+		
+		if(!CompareDates.isSameDay(user.getLastLogin(), currentDate)) {
+			user.setBankAmount(user.getBankAmount() + 3000);
 		}
 		
 		loginEvent.setSuccess(true);

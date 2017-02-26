@@ -1,12 +1,11 @@
 package com.blackjack.server.controller;
 
-import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.Random;
+import java.util.Calendar;
 
 import com.blackjack.server.service.ConnectionService;
 import com.blackjack.server.service.MD5EncryptionService;
@@ -194,6 +193,7 @@ public class UserControllerServer {
 			user.setUserID(rs.getInt(1));
 			user.setUsername(rs.getString(2));
 			user.setEmail(rs.getString(3));
+			user.setLastLogin(rs.getDate(7));
 			return user;
 		} catch(SQLException e) {
 			//TODO log exception appropriately
@@ -841,5 +841,42 @@ public class UserControllerServer {
 		//TODO return the amount if update was successful, else return the old amount
 		// or return -1 if any db actions were unsuccessful
 		return -1;
+	}
+	
+	public static Date updateLastLogin(String username) {
+
+		int userIDInt = Integer.valueOf(username);
+		Date currentDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+		
+		Connection conn = ConnectionService.getConnection();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {							
+				ps = conn.prepareStatement("UPDATE user "
+						+ "SET last_login = ? "
+						+ "WHERE user_name = ? ;");
+				ps.setDate(1, currentDate);
+				ps.setString(2, username);
+				if (ps.executeUpdate() > 0) {
+					return currentDate;
+			}
+		} catch (SQLException e) {
+			// TODO Log message appropriately
+			System.err.println(e.getMessage());
+		} finally {
+			try {			
+			if (ps != null) {
+				ps.close();
+			}
+			
+			if (conn != null) {
+				conn.close();
+			}
+			} catch (SQLException e) {
+				System.err.println(e.getMessage());
+			}
+		}
+		//fail
+		return null;
 	}
 }
