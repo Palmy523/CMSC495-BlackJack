@@ -10,7 +10,7 @@ import com.blackjack.client.ui.BlackJackGamePanel;
 
 public class DealerTurnAction extends GameAction {
 
-	public DealerTurnAction(int delay, BlackJackGamePanel panel) {
+	public DealerTurnAction(BlackJackGamePanel panel) {
 		super(panel);		
 	}
 

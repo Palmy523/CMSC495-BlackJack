@@ -13,7 +13,7 @@ import com.blackjack.client.entities.GameState.TurnState;
  */
 public class BustAction extends GameAction {
 
-	public BustAction(int delay, BlackJackGamePanel panel) {
+	public BustAction(BlackJackGamePanel panel) {
 		super(panel);
 		// TODO Auto-generated constructor stub
 	}
@@ -31,46 +31,36 @@ public class BustAction extends GameAction {
 	@SuppressWarnings("static-access")
 	@Override
 	public void processAction(GameEvent event) {
-		GameState state = event.getGameState();
-		//Update panel based on state, see accessors below 
-		//for potentially required state objects
-		//state.getBetAmount()
-		//state.getDealerHand()
-		//state.getPlayerHand()
-		//state.getDeck()
-		//state.getTurn()
-
 		//TODO Cause the panel bust action
-		panel.disableAllButtons();
 
-		TurnState turn = state.getTurn();
+		TurnState turn = GameState.getTurn();
 		
-		//TODO fix static access to turn states
 		if (turn == TurnState.PLAYER_TURN) {
-			//TODO UI displays Player Busts
-			panel.playerBust();
-			
-			//player busts set player turn to dealer
-			state.setTurn(TurnState.DEALER_TURN); //TODO needs a corresponding label case
-			DealerTurnAction dAction = new DealerTurnAction(100, panel);
-			dAction.processAction(event);
-			event.setActionType(ActionType.PLAYER_BUST);
+			//Logic for normal gameplay, no split
+			if (!GameState.isSplit() || (GameState.isSplit() && GameState.isHittingSplit())) {
+				if (GameState.isHittingSplit()) {
+					panel.playerBust_Split();
+				} else {
+					panel.playerBust();
+				}
+				panel.disableAllButtons();
+				GameState.setTurn(TurnState.DEALER_TURN); //TODO needs a corresponding label case
+				DealerTurnAction dAction = new DealerTurnAction(panel);
+				dAction.processAction(event);
+				event.setActionType(ActionType.PLAYER_BUST);
+			} else if (GameState.isSplit() && GameState.isHittingPrimary()) {
+				panel.playerBust();
+				GameState.setHittingPrimary(false);
+				GameState.setHittingSplit(true);
+			}
 		} else if (turn == TurnState.DEALER_TURN) {
-			//TODO UI displays Dealer Busts
 			panel.dealerBust();
-			
-			//dealer busts set state to end dealer's turn
-			state.setTurn(TurnState.HAND_END); //TODO needs a corresponding label case
+			GameState.setTurn(TurnState.HAND_END);
 			HandEndAction endHand = new HandEndAction(panel);
 			event.setActionType(ActionType.DEALER_BUST);
 			endHand.processAction(event);
 		}
 		
-		// Project Plan 2.4.10 Player Busts, the player does not lose their bet until the
-		// dealer ends their turn. Therefore no sound needed here.
-
-		//TODO if dealer busts check gamestate to see who wins and ??? ask me later ???
-
 		//Fire the event so the rest of the UI knows that the action occurred
 		Events.eventBus.fireEvent(event);
 	}

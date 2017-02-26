@@ -17,18 +17,24 @@ public class StandAction extends GameAction {
 
 	@Override
 	public void processAction(GameEvent event) {
-
-		// Cause the hand to stand based on state.getTurn() (PLAYER OR DEALER
-		// STAND)
 		if (GameState.getTurn() == TurnState.PLAYER_TURN) {
-			panel.disableAllButtons();
-			panel.playerStand();
-			SoundManager.play(SoundName.STAND);
-			GameState.setTurn(TurnState.DEALER_TURN);
-
-			// implement DealerTurnAction
-			DealerTurnAction action = new DealerTurnAction(100, panel);
-			action.processAction(event);
+			if (!GameState.isSplit() || (GameState.isSplit() && GameState.isHittingSplit())) {
+				if (GameState.isHittingSplit()) {
+					panel.playerStand_Split();
+				} else {
+					panel.playerStand();
+				}
+				
+				panel.disableAllButtons();
+				SoundManager.play(SoundName.STAND);
+				GameState.setTurn(TurnState.DEALER_TURN);
+				DealerTurnAction action = new DealerTurnAction(panel);
+				action.processAction(event);
+			} else if (GameState.isSplit() && GameState.isHittingPrimary()) {
+				panel.playerStand();
+				GameState.setHittingPrimary(false);
+				GameState.setHittingSplit(true);
+			}
 		} else if (GameState.getTurn() == TurnState.DEALER_TURN) {
 			panel.dealerStand();
 			GameState.setTurn(TurnState.HAND_END);

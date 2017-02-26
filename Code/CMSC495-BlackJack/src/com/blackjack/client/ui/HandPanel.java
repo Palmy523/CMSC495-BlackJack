@@ -67,6 +67,10 @@ public class HandPanel extends FlowPanel {
 		primaryHandUI.stand();
 	}
 	
+	public void stand_Split() {
+		splitHandUI.stand();
+	}
+	
 	/**
 	 * Displays the bust label for the primary hand
 	 */
@@ -74,9 +78,17 @@ public class HandPanel extends FlowPanel {
 		primaryHandUI.bust();
 	}
 	
+	public void bust_Split() {
+		splitHandUI.bust();
+	}
+	
 	//displays 21 label when player gets 21
 	public void twentyone(){
 		primaryHandUI.twentyone();
+	}
+	
+	public void twentyone_Split() {
+		splitHandUI.twentyone();
 	}
 	
 	/**

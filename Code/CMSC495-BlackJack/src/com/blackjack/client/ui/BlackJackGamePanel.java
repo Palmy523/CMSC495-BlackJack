@@ -203,6 +203,10 @@ public class BlackJackGamePanel extends SimplePanel {
 		playerHandPanel.stand();
 	}
 	
+	public void playerStand_Split() {
+		playerHandPanel.stand_Split();
+	}
+	
 	/**
 	 * Causes the UI to display a stand label over the dealer hand
 	 */
@@ -217,6 +221,10 @@ public class BlackJackGamePanel extends SimplePanel {
 		playerHandPanel.bust();
 	}
 	
+	public void playerBust_Split() {
+		playerHandPanel.bust_Split();
+	}
+	
 	/**
 	 * Causes the UI to display a bust label over the dealer hand
 	 */
@@ -228,6 +236,11 @@ public class BlackJackGamePanel extends SimplePanel {
 	public void twentyone() {
 		playerHandPanel.twentyone();
 	}
+	
+	public void twentyone_Split() {
+		playerHandPanel.twentyone_Split();
+	}
+	
 	/**
 	 * Deals a card to the player, will not allow more than 
 	 * two cards 

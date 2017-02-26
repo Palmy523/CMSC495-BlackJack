@@ -29,7 +29,9 @@ public class SplitAction extends GameAction {
 			Hand hand = new Hand();
 			hand.hit(card);
 			GameState.setPlayerSplitHand(hand);
-
+			
+			GameState.setHittingPrimary(true);
+			
 			event.setActionType(ActionType.SPLIT);
 			Events.eventBus.fireEvent(event);
 		}

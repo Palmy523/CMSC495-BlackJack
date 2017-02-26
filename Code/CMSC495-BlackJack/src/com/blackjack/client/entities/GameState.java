@@ -21,6 +21,8 @@ public class GameState {
 	private static boolean isSplit;
 	private static boolean isSurrender;
 	private static boolean isEasyPlay;
+	private static boolean isHittingPrimary;
+	private static boolean isHittingSplit;
 	
 	/**
 	 * @return the turn
@@ -175,6 +177,20 @@ public class GameState {
 	public static void setInsuranceBetAmt(int insuranceBetAmt) {
 		GameState.insuranceBetAmt = insuranceBetAmt;
 	}
-	
-	
+
+	public static boolean isHittingPrimary() {
+		return isHittingPrimary;
+	}
+
+	public static void setHittingPrimary(boolean isHittingPrimary) {
+		GameState.isHittingPrimary = isHittingPrimary;
+	}
+
+	public static boolean isHittingSplit() {
+		return isHittingSplit;
+	}
+
+	public static void setHittingSplit(boolean isHittingSplit) {
+		GameState.isHittingSplit = isHittingSplit;
+	}
 }

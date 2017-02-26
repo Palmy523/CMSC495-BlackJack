@@ -58,12 +58,12 @@ public class DoubleDownAction extends GameAction {
 			panel.displayInstruction("Busted!");	//TODO Change to label
 			event.setActionType(ActionType.PLAYER_BUST);
 			SoundManager.play(SoundName.BUST);
-			BustAction b = new BustAction(100, panel);				
+			BustAction b = new BustAction(panel);				
 			b.processAction(event);
 		}
 		else {			
 			GameState.setTurn(TurnState.DEALER_TURN);
-			DealerTurnAction action = new DealerTurnAction(100, panel);
+			DealerTurnAction action = new DealerTurnAction(panel);
 			action.processAction(event);
 		}
 	}
