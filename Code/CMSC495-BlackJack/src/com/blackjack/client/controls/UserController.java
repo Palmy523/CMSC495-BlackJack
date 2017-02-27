@@ -50,7 +50,6 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 	 * @param password the password for the user
 	 */
 	public static void login(String username, String password) {
-		
 		if (Config.IS_TESTING) {
 			dashboard.displayRoomSelectionScreen();
 			UpdateChipEvent event = new UpdateChipEvent();
@@ -66,6 +65,25 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 		}
 		
 		//TODO verify username and password formats
+		if (FieldVerifier.isValidUsername(username) == FormatError.INVALID_CHARACTER) {
+			dashboard.displayMessage(MessageType.INFO, FieldVerifier.USER_REGEX_ERROR);
+			return;
+		}
+		
+		if (FieldVerifier.isValidUsername(username) == FormatError.LENGTH) {
+			dashboard.displayMessage(MessageType.INFO, FieldVerifier.USER_LENGTH_ERROR);
+			return;
+		}
+		
+		if (FieldVerifier.isValidPassword(password) == FormatError.LENGTH) {
+			dashboard.displayMessage(MessageType.INFO, FieldVerifier.PASSWORD_LENGTH_ERROR);
+			return;
+		}
+		
+		if (FieldVerifier.isValidPassword(password) == FormatError.INVALID_CHARACTER) {
+			dashboard.displayMessage(MessageType.INFO, FieldVerifier.PASSWORD_REGEX_ERROR);
+			return;
+		}
 		
 		AsyncCallback<LoginEvent> callback = new AsyncCallback<LoginEvent>() {
 
@@ -133,20 +151,29 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 			String confirmPassword, 
 			String email) {
 		
-		if (FieldVerifier.isValidEmail(email) == FormatError.INVALID_FORMAT) {
-			//dashboard.displayMessage(MessageType.INFO, FieldVerifier.EMAIL_ADDRESS_ERROR);
+		if (FieldVerifier.isValidUsername(username) == FormatError.INVALID_CHARACTER) {
+			dashboard.displayMessage(MessageType.INFO, FieldVerifier.USER_REGEX_ERROR);
+			return;
+		}
+		
+		if (FieldVerifier.isValidUsername(username) == FormatError.LENGTH) {
+			dashboard.displayMessage(MessageType.INFO, FieldVerifier.USER_LENGTH_ERROR);
+			return;
 		}
 		
 		if (FieldVerifier.isValidPassword(password) == FormatError.LENGTH) {
-			//dashboard.displayMessage(MessageType.INFO, FieldVerifier.PASSWORD_LENGTH_ERROR);
+			dashboard.displayMessage(MessageType.INFO, FieldVerifier.PASSWORD_LENGTH_ERROR);
+			return;
 		}
 		
 		if (FieldVerifier.isValidPassword(password) == FormatError.INVALID_FORMAT) {
-			//dashboard.displayMessage(MessageType.INFO, FieldVerifier.PASSWORD_REGEX_ERROR);
+			dashboard.displayMessage(MessageType.INFO, FieldVerifier.PASSWORD_REGEX_ERROR);
+			return;
 		}
 		
 		if (FieldVerifier.isValidEmail(email) == FormatError.INVALID_FORMAT) {
-			//dashboard.displayMessage(MessageType.INFO, FieldVerifier.EMAIL_ADDRESS_ERROR);
+			dashboard.displayMessage(MessageType.INFO, FieldVerifier.EMAIL_ADDRESS_ERROR);
+			return;
 		}
 		
 		if (!password.equals(confirmPassword)) {

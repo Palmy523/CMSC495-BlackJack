@@ -6,7 +6,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import com.blackjack.client.controls.UserController;
 import com.blackjack.server.service.ConnectionService;
 import com.blackjack.server.service.MD5EncryptionService;
 import com.blackjack.shared.entities.User;
@@ -49,9 +52,7 @@ public class UserControllerServer {
 				}
 			}
 		} catch(SQLException e) {
-			//TODO log exception appropriately
-			System.out.println("An error occurred getting the user by ID: "
-					+ e.getMessage());
+			Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, e.getMessage());
 		} finally {
 			try {
 			if (rs != null) {
@@ -66,7 +67,7 @@ public class UserControllerServer {
 				conn.close();
 			}
 			} catch (SQLException e) {
-				System.err.println(e.getMessage());
+				Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, e.getMessage());
 			}
 		}
 		return null;
@@ -98,13 +99,12 @@ public class UserControllerServer {
 			user.setUserID(rs.getInt(1));
 			user.setUsername(rs.getString(2));
 			user.setEmail(rs.getString(3));
-			user.setLastLogin(rs.getDate(8));
+			user.setLastLogin(rs.getDate(7));
 			user = populateGameData(user.getUserID(), user);
+			Logger.getLogger(UserController.class.getName()).log(Level.INFO, "Successfully got user");
 			return user;
 		} catch(SQLException e) {
-			//TODO log exception appropriately
-			System.out.println("An error occurred getting the user by ID: "
-					+ e.getMessage());
+			Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, e.getMessage());
 		} finally {
 			try {
 			if (rs != null) {
@@ -119,7 +119,7 @@ public class UserControllerServer {
 				conn.close();
 			}
 			} catch (SQLException e) {
-				System.err.println(e.getMessage());
+				Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, e.getMessage());
 			}
 		}
 		return null;
@@ -149,9 +149,7 @@ public class UserControllerServer {
 			user.setEmail(rs.getString(3));
 			return user;
 		} catch(SQLException e) {
-			//TODO log exception appropriately
-			System.out.println("An error occurred getting the user by email: "
-					+ e.getMessage());
+			Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, e.getMessage());
 		} finally {
 			try {
 			if (rs != null) {
@@ -166,7 +164,7 @@ public class UserControllerServer {
 				conn.close();
 			}
 			} catch (SQLException e) {
-				System.err.println(e.getMessage());
+				Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, e.getMessage());
 			}
 		}
 		return null;
@@ -197,9 +195,7 @@ public class UserControllerServer {
 			user.setLastLogin(rs.getDate(7));
 			return user;
 		} catch(SQLException e) {
-			//TODO log exception appropriately
-			System.out.println("An error occurred getting the user by email: "
-					+ e.getMessage());
+			Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, e.getMessage());
 		} finally {
 			try {
 			if (rs != null) {
@@ -214,7 +210,7 @@ public class UserControllerServer {
 				conn.close();
 			}
 			} catch (SQLException e) {
-				System.err.println(e.getMessage());
+				Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, e.getMessage());
 			}
 		}
 		return null;
@@ -248,10 +244,7 @@ public class UserControllerServer {
 			user.setBankAmount(rs.getFloat(3));
 			return user;
 		} catch(SQLException e) {
-			//TODO log exception appropriately
-			System.out.println("An error occurred getting the game data for the user with username: " 
-					+ user.getUsername()
-					+ e.getMessage());
+			Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, e.getMessage());
 		} finally {
 			try {
 			if (rs != null) {
@@ -266,7 +259,7 @@ public class UserControllerServer {
 				conn.close();
 			}
 			} catch (SQLException e) {
-				System.err.println(e.getMessage());
+				Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, e.getMessage());
 			}
 		}
 		return user;
@@ -316,8 +309,7 @@ public class UserControllerServer {
 			}
 			
 		} catch (SQLException e) {
-			// TODO Log message appropriately
-			System.err.println(e.getMessage());
+			Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, e.getMessage());
 		} finally {
 			try {			
 			if (ps != null) {
@@ -328,7 +320,7 @@ public class UserControllerServer {
 				conn.close();
 			}
 			} catch (SQLException e) {
-				System.err.println(e.getMessage());
+				Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, e.getMessage());
 			}
 		}
 		
@@ -363,8 +355,7 @@ public class UserControllerServer {
 				return true;
 			}
 		} catch (SQLException e) {
-			// TODO Log message appropriately
-			System.err.println(e.getMessage());
+			Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, e.getMessage());
 		} finally {
 			try {			
 			if (ps != null) {
@@ -375,7 +366,7 @@ public class UserControllerServer {
 				conn.close();
 			}
 			} catch (SQLException e) {
-				System.err.println(e.getMessage());
+				Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, e.getMessage());
 			}
 		}
 		
@@ -399,9 +390,7 @@ public class UserControllerServer {
 			int value = rs.getInt(1);
 			return value > 0;
 		} catch (SQLException e) {
-			//TODO log exception appropriately
-			System.out.println("An error occurred checking if the user exists in the database: "
-					+ e.getMessage());
+			Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, e.getMessage());
 		} finally {
 			try {
 				
@@ -417,7 +406,7 @@ public class UserControllerServer {
 				conn.close();
 			}
 			} catch (SQLException e) {
-				System.err.println(e.getMessage());
+				Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, e.getMessage());
 			}
 		}
 		return false;
@@ -444,9 +433,7 @@ public class UserControllerServer {
 			int value = (int)rs.getLong(1);
 			return value > 0;
 		} catch (SQLException e) {
-			//TODO log exception appropriately
-			System.out.println("An error occurred checking if the username exists in the database: "
-					+ e.getMessage());
+			Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, e.getMessage());
 		} finally {
 			try {
 				
@@ -462,7 +449,7 @@ public class UserControllerServer {
 				conn.close();
 			}
 			} catch (SQLException e) {
-				System.err.println(e.getMessage());
+				Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, e.getMessage());
 			}
 		}
 		return false;
@@ -485,9 +472,7 @@ public class UserControllerServer {
 			int value = rs.getInt(1);
 			return value > 0;
 		} catch (SQLException e) {
-			//TODO log exception appropriately
-			System.out.println("An error occurred checking if the email exists in the database: "
-					+ e.getMessage());
+			Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, e.getMessage());
 		} finally {
 			try {
 				
@@ -503,7 +488,7 @@ public class UserControllerServer {
 				conn.close();
 			}
 			} catch (SQLException e) {
-				System.err.println(e.getMessage());
+				Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, e.getMessage());
 			}
 		}
 		return false;
@@ -532,9 +517,7 @@ public class UserControllerServer {
 				return true;
 			}
 		} catch(SQLException e) {
-			//TODO log exception appropriately
-			System.out.println("An error occurred getting the user by ID: "
-					+ e.getMessage());
+			Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, e.getMessage());
 		} finally {
 			try {
 			if (rs != null) {
@@ -549,7 +532,7 @@ public class UserControllerServer {
 				conn.close();
 			}
 			} catch (SQLException e) {
-				System.err.println(e.getMessage());
+				Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, e.getMessage());
 			}
 		}
 		return false;
@@ -581,9 +564,7 @@ public class UserControllerServer {
 				success = true;
 			}
 		} catch(SQLException e) {
-			//TODO log exception appropriately
-			System.out.println("An error occurred getting the user by ID: "
-					+ e.getMessage());
+			Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, e.getMessage());
 		} finally {
 			try {
 			if (rs != null) {
@@ -598,7 +579,7 @@ public class UserControllerServer {
 				conn.close();
 			}
 			} catch (SQLException e) {
-				System.err.println(e.getMessage());
+				Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, e.getMessage());
 			}
 		}
 		return success;
@@ -634,8 +615,7 @@ public class UserControllerServer {
 				}
 			}
 		} catch (SQLException e) {
-			// TODO Log message appropriately
-			System.err.println(e.getMessage());
+			Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, e.getMessage());
 		} finally {
 			try {			
 			if (ps != null) {
@@ -646,7 +626,7 @@ public class UserControllerServer {
 				conn.close();
 			}
 			} catch (SQLException e) {
-				System.err.println(e.getMessage());
+				Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, e.getMessage());
 			}
 		}
 		
@@ -674,9 +654,7 @@ public class UserControllerServer {
 				}
 			}
 		} catch(SQLException e) {
-			//TODO log exception appropriately
-			System.out.println("An error occurred getting the user by ID: "
-					+ e.getMessage());
+			Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, e.getMessage());
 		} finally {
 			try {
 			if (rs != null) {
@@ -691,7 +669,7 @@ public class UserControllerServer {
 				conn.close();
 			}
 			} catch (SQLException e) {
-				System.err.println(e.getMessage());
+				Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, e.getMessage());
 			}
 		}
 		return isValid;
@@ -726,9 +704,7 @@ public class UserControllerServer {
 				}
 			}
 		} catch(SQLException e) {
-			//TODO log exception appropriately
-			System.out.println("An error occurred getting the user by ID: "
-					+ e.getMessage());
+			Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, e.getMessage());
 		} finally {
 			try {
 			if (rs != null) {
@@ -743,7 +719,7 @@ public class UserControllerServer {
 				conn.close();
 			}
 			} catch (SQLException e) {
-				System.err.println(e.getMessage());
+				Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, e.getMessage());
 			}
 		}
 		return isValid;
@@ -773,8 +749,7 @@ public class UserControllerServer {
 				success = true;
 			}
 		} catch (SQLException e) {
-			// TODO Log message appropriately
-			System.err.println(e.getMessage());
+			Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, e.getMessage());
 		} finally {
 			try {			
 			if (ps != null) {
@@ -785,7 +760,7 @@ public class UserControllerServer {
 				conn.close();
 			}
 			} catch (SQLException e) {
-				System.err.println(e.getMessage());
+				Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, e.getMessage());
 			}
 		}
 		
@@ -824,8 +799,7 @@ public class UserControllerServer {
 				}
 			}
 		} catch (SQLException e) {
-			// TODO Log message appropriately
-			System.err.println(e.getMessage());
+			Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, e.getMessage());
 		} finally {
 			try {			
 			if (ps != null) {
@@ -836,7 +810,7 @@ public class UserControllerServer {
 				conn.close();
 			}
 			} catch (SQLException e) {
-				System.err.println(e.getMessage());
+				Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, e.getMessage());
 			}
 		}
 		//TODO return the amount if update was successful, else return the old amount
@@ -861,8 +835,7 @@ public class UserControllerServer {
 					return currentDate;
 			}
 		} catch (SQLException e) {
-			// TODO Log message appropriately
-			System.err.println(e.getMessage());
+			Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, e.getMessage());
 		} finally {
 			try {			
 			if (ps != null) {
@@ -873,7 +846,7 @@ public class UserControllerServer {
 				conn.close();
 			}
 			} catch (SQLException e) {
-				System.err.println(e.getMessage());
+				Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, e.getMessage());
 			}
 		}
 		//fail

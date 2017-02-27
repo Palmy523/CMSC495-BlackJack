@@ -1,5 +1,6 @@
 package com.blackjack.shared;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.regexp.shared.RegExp;
 
 /**
@@ -35,40 +36,44 @@ public class FieldVerifier {
 	public static String EMAIL_ADDRESS_ERROR = "Sorry, the email address is invalid.";
 	
 	public enum FormatError {WHITE_SPACE, LENGTH, INVALID_CHARACTER, NONE, INVALID_FORMAT }
-	public static RegExp usernameRegex = RegExp.compile("/^[A-Za-z0-9_]$");
-	public static RegExp passwordRegex = RegExp.compile("/^[A-Za-z0-9!@#$%^&*()]$");
-	public static RegExp emailRegex = RegExp.compile("/\\S+@\\S+\\.\\S+/");
+	public static RegExp usernameRegex = RegExp.compile("^[a-zA-Z0-9_]+$");
+	public static RegExp passwordRegex = RegExp.compile("^[a-zA-Z0-9!@#$%^&*()]+$");
+	public static RegExp emailRegex = RegExp.compile("\\S+@\\S+\\.\\S+");
 	
 	public static FormatError isValidUsername(String name) {
 		//TODO make sure these work
+		GWT.log("/^[a-zA-Z0-9_]+$/");
+		GWT.log(usernameRegex.getSource());
+		GWT.log("/^[a-zA-Z0-9!@#$%^&*()]+$/");
+		GWT.log(passwordRegex.getSource());
+		GWT.log("/\\S+@\\S+\\.\\S+/");
+		GWT.log(emailRegex.getSource());
+
+		if (name.length() < 3 || name.length() > 16) {
+			return FormatError.LENGTH;
+		}
+		if (!usernameRegex.test(name)) {
+			return FormatError.INVALID_CHARACTER;
+		}
 		return FormatError.NONE;
-//		if (name.length() < 3 || name.length() > 16) {
-//			return FormatError.LENGTH;
-//		}
-//		if (usernameRegex.test(name)) {
-//			return FormatError.INVALID_CHARACTER;
-//		}
-//		return FormatError.NONE;
 	}
 	
 	public static FormatError isValidPassword(String password) {
 		//TODO make sure these work
+		if (password.length() < 8 || password.length() > 16) {
+			return FormatError.LENGTH;
+		}
+		if (!passwordRegex.test(password)) {
+			return FormatError.INVALID_CHARACTER;
+		}
 		return FormatError.NONE;
-//		if (password.length() < 8 || password.length() > 16) {
-//			return FormatError.LENGTH;
-//		}
-//		if (!passwordRegex.test(password)) {
-//			return FormatError.INVALID_CHARACTER;
-//		}
-//		return FormatError.NONE;
 	}
 	
 	public static FormatError isValidEmail(String email) {
 		//TODO make sure these work
+		if (!emailRegex.test(email)) {
+			return FormatError.INVALID_FORMAT;
+		}
 		return FormatError.NONE;
-//		if (!emailRegex.test(email)) {
-//			return FormatError.INVALID_FORMAT;
-//		}
-//		return FormatError.NONE;
 	}
 }
