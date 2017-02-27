@@ -76,12 +76,12 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 
 			@Override
 			public void onSuccess(LoginEvent result) {
-				Events.eventBus.fireEvent(result);
 				if (result.isSuccess()) {
 					onLoginSuccess(result);
 				} else {
 					onLoginFailure(result);
 				}
+				Events.eventBus.fireEvent(result);
 			}
 		};
 		
@@ -101,6 +101,7 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 					"Thanks for loggin in! You have been rewarded "
 					+ "with a daily bonus in the amount of $250!");
 		}
+		
 	}
 	
 	/**

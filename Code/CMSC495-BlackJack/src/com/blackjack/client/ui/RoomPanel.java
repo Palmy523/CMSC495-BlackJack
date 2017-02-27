@@ -103,9 +103,10 @@ public class RoomPanel extends FocusPanel {
 	
 	public void enable(boolean enable) {
 		String enabled = (!enable) ? "true" : "false";
-		if (enable)
+		if (enable) {
 			this.getElement().removeAttribute("disabled");
-		else {
+			this.setTitle("Click to play this room");
+		} else {
 			this.getElement().setAttribute("disabled", enabled);
 			this.setTitle("Requirements not met");
 		}

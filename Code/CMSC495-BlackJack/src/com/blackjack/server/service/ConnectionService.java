@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.blackjack.client.Config;
+import com.google.appengine.api.utils.SystemProperty;
 import com.google.gwt.core.shared.GWT;
 
 /**
@@ -155,8 +156,7 @@ public class ConnectionService {
 	 * @return true if in development mode, false if in production
 	 */
 	public static boolean isDevelopmentMode() {
-		return true;
-//		return !GWT.isProdMode() && GWT.isClient();
+		return SystemProperty.environment.value() != SystemProperty.Environment.Value.Production;
 	}
 	
 	/**
