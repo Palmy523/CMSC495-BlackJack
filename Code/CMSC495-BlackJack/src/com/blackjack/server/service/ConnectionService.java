@@ -8,7 +8,10 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import com.blackjack.client.Config;
 import com.google.gwt.core.shared.GWT;
 
 /**
@@ -41,6 +44,8 @@ public class ConnectionService {
 	 */
 	private static final String devConnectionNoDB = "jdbc:mysql://localhost:3306";
 	
+	private static final String prodConnection = "jdbc:google:mysql://cmsc495-blackjack:us-central1:blackjack-db/blackjack?user=root";
+	
 	/**
 	 * The connection string to the development mode database
 	 */
@@ -50,24 +55,6 @@ public class ConnectionService {
 	 * The path to the schema creation script for the database.
 	 */
 	private static final String pathToSchemaScript = "//scripts//CreateDB.sql";
-	
-	//Checks if the database exists on startup and creates it if not
-	//Then creates the schema
-	public static void initDB() {
-		//NOT WORKING BECAUSE OF SCRIPT ACCESS ERRORS
-		//System.out.println("-------------------Creating Database If None Exists------------------");
-		return;
-//		try {
-//			if (!ConnectionService.DBExists(devDBName) && isDevelopmentMode()) {
-//				createDB(devDBName);
-//				createSchema();
-//				System.out.println("-------------------------------Finished--------------------------");
-//			}
-//		} catch (SQLException e) {
-//			// TODO log message appropriately
-//			System.err.println("Error connecting to MySQL server");
-//		}
-	}
 	
 	/**
 	 * Gets the MySQL connection for the app with no database identifier
@@ -85,7 +72,7 @@ public class ConnectionService {
 				System.out.println("Error initializing NoDBConnection: " + e.getMessage());
 			}
 		} else {
-			//TODO return connection string for Google Cloud SQL
+
 		}
 		return connection;
 	}
@@ -96,6 +83,7 @@ public class ConnectionService {
 	 * for the production database if in production.
 	 */
 	public static Connection getConnection() {
+		Logger.getLogger(ConnectionService.class.getName()).log(Level.INFO, "Connecting to DB");
 		Connection connection = null;
 		if (isDevelopmentMode()) {
 			try {
@@ -103,11 +91,16 @@ public class ConnectionService {
 				connection = (Connection)DriverManager.getConnection(
 						devConnection, devuserName, devpassword);
 			} catch(ClassNotFoundException | SQLException e) {
-				//TODO log message appropriately
+				Logger.getLogger(ConnectionService.class.getName()).log(Level.SEVERE, e.getMessage() + "/nConnection: " + devConnection);
 				System.out.println("Error initializing connection: " + e.getMessage());
 			}
 		} else {
-			//TODO return connection string for Google Cloud SQL
+			try {
+				connection = (Connection)DriverManager.getConnection(prodConnection);
+			} catch (SQLException e) {
+				Logger.getLogger(ConnectionService.class.getName()).log(Level.SEVERE, e.getMessage() + "/nConnection: " + prodConnection);
+				System.out.println("Error initializing Connection.");
+			}		
 		}
 		return connection;
 	}
@@ -162,7 +155,8 @@ public class ConnectionService {
 	 * @return true if in development mode, false if in production
 	 */
 	public static boolean isDevelopmentMode() {
-		return !GWT.isProdMode();
+		return true;
+//		return !GWT.isProdMode() && GWT.isClient();
 	}
 	
 	/**
