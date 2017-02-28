@@ -7,6 +7,8 @@ import com.blackjack.client.event.Events;
 import com.blackjack.client.event.GameEvent;
 import com.blackjack.client.service.UserService;
 import com.blackjack.client.service.UserServiceAsync;
+import com.blackjack.client.sounds.SoundManager;
+import com.blackjack.client.sounds.SoundManager.SoundName;
 import com.blackjack.client.ui.BlackJackGamePanel;
 import com.google.gwt.core.shared.GWT;
 
@@ -33,6 +35,7 @@ public class HandEndAction extends GameAction {
 		
 		if (event.getActionType() == ActionType.BLACKJACK) {
 			panel.displayInstruction("Blackjack!" + message);
+			SoundManager.play(SoundName.WIN);
 			float award = GameState.getBetAmount() + (GameState.getBetAmount() * (3/2));
 			UserController.updateChipCount(award);
 		} else if (event.getActionType() == ActionType.DEALER_BLACKJACK) {
@@ -51,6 +54,7 @@ public class HandEndAction extends GameAction {
 		} else if (event.getActionType() == ActionType.PLAYER_BUST) {
 			panel.displayInstruction("Dealer wins!" + message);
 		} else if (event.getActionType() == ActionType.DEALER_BUST) {
+			SoundManager.play(SoundName.WIN);
 			panel.displayInstruction("You win!" + message);
 			float award = GameState.getBetAmount() * 2;
 			UserController.updateChipCount(award);
@@ -62,6 +66,7 @@ public class HandEndAction extends GameAction {
 		} else if (dealerHandVal < playerHandVal) {
 			panel.displayInstruction("You win!" + message);
 			UserController.updateChipCount(GameState.getBetAmount() * 2);
+			SoundManager.play(SoundName.WIN);
 		}
 		
 		DealerAI.cancelDealerActions();

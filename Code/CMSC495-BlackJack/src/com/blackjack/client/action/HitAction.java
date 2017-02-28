@@ -10,6 +10,7 @@ import com.blackjack.client.event.GameEvent;
 import com.blackjack.client.sounds.SoundManager;
 import com.blackjack.client.sounds.SoundManager.SoundName;
 import com.blackjack.client.ui.BlackJackGamePanel;
+import com.blackjack.client.ui.GameButton.GameButtonType;
 import com.google.gwt.core.client.GWT;
 
 public class HitAction extends GameAction {
@@ -28,6 +29,8 @@ public class HitAction extends GameAction {
 		
 				
 		if(state.getTurn() == TurnState.PLAYER_TURN){
+			
+			panel.enableButton(GameButtonType.SPLIT, false);
 			
 			if(!state.isSplit() || state.isHittingPrimary()==true)
 			{
@@ -82,14 +85,21 @@ public class HitAction extends GameAction {
 					
 					if(!state.isSplit()|| state.isHittingPrimary() == true){
 						panel.twentyone();
-						GameState.setTurn(TurnState.DEALER_TURN);
-						DealerTurnAction action = new DealerTurnAction(panel);
-						action.processAction(event);
+						
+						if(!state.isSplit()){
+							GameState.setTurn(TurnState.DEALER_TURN);
+							DealerTurnAction action = new DealerTurnAction(panel);
+							action.processAction(event);
+						}
+						
+						state.setHittingPrimary(false);
+						state.setHittingSplit(true);
 					}
 					else{					
 						panel.twentyone_Split();
-						state.setHittingPrimary(false);
-						state.setHittingSplit(true);
+						GameState.setTurn(TurnState.DEALER_TURN);
+						DealerTurnAction action = new DealerTurnAction(panel);
+						action.processAction(event);						
 					}
 				}			
 		}

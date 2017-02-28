@@ -28,6 +28,11 @@ public class StandAction extends GameAction {
 				panel.disableAllButtons();
 				SoundManager.play(SoundName.STAND);
 				GameState.setTurn(TurnState.DEALER_TURN);
+				
+				GameState.setHittingPrimary(true);
+				GameState.setHittingSplit(false);
+				GameState.setSplit(false);
+				
 				DealerTurnAction action = new DealerTurnAction(panel);
 				action.processAction(event);
 			} else if (GameState.isSplit() && GameState.isHittingPrimary()) {
