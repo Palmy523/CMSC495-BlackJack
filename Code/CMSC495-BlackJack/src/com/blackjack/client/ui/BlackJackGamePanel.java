@@ -237,6 +237,10 @@ public class BlackJackGamePanel extends SimplePanel {
 		playerHandPanel.twentyone();
 	}
 	
+	public void dealerTwentyone(){
+		dealerHandPanel.twentyone();
+	}
+	
 	public void twentyone_Split() {
 		playerHandPanel.twentyone_Split();
 	}

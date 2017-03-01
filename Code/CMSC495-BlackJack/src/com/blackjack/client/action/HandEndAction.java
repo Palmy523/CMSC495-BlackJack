@@ -69,6 +69,10 @@ public class HandEndAction extends GameAction {
 			SoundManager.play(SoundName.WIN);
 		}
 		
+		GameState.setHittingPrimary(true);
+		GameState.setHittingSplit(false);
+		GameState.setSplit(false);
+				
 		DealerAI.cancelDealerActions();
 		event.setActionType(ActionType.HAND_END);
 		Events.eventBus.fireEvent(event);

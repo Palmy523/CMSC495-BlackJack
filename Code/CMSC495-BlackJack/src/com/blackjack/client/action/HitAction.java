@@ -82,6 +82,7 @@ public class HitAction extends GameAction {
 				else if(score == 21){
 					
 					panel.displayInstruction("You got 21!");
+					panel.disableAllButtons();
 					
 					if(!state.isSplit()|| state.isHittingPrimary() == true){
 						panel.twentyone();
