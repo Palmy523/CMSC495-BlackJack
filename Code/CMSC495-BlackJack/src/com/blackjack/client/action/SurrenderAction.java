@@ -17,7 +17,7 @@ public class SurrenderAction extends GameAction {
 		panel.displayInstruction("Surrendered");
 		event.setActionType(ActionType.SURRENDER);
 		event.getGameState().setSurrender(true);
-		GameState.getUser().setBankAmount(GameState.getUser().getBankAmount()+(float)GameState.getBetAmount()/2);
+		//GameState.getUser().setBankAmount(GameState.getUser().getBankAmount()+(float)GameState.getBetAmount()/2);
 		HandEndAction handEndAction = new HandEndAction(panel);
 		handEndAction.processAction(event);
 
