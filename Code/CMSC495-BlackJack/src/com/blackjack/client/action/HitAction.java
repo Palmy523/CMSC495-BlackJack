@@ -129,7 +129,12 @@ public class HitAction extends GameAction {
 				hand.busts();				
 				BustAction b = new BustAction(panel);				
 				b.processAction(event);
-			}			
+			}
+			else if(score == 21){
+				panel.dealerTwentyone();
+				HandEndAction h = new HandEndAction(panel);
+				h.processAction(event);
+			}
 		}
 	}
 
