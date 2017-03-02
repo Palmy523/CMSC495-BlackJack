@@ -65,7 +65,7 @@ public class UserServiceImpl extends RemoteServiceServlet implements UserService
 		if(UserControllerServer.userNameExists(username))
 		{
 			createAccountEvent.setUserNameTaken(true);
-			createAccountEvent.setErrorString("This user name is already in use." + "\r\n");
+			createAccountEvent.setErrorString("This username is already in use." + "\r\n");
 			createAccountEvent.setSuccess(false);
 		}
 			

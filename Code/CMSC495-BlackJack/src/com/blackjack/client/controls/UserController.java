@@ -221,7 +221,7 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 	public static void onCreateAccountFailure(CreateAccountEvent event) {
 		String errorMessage = "An error occurred";
 		if (event.isUserNameTaken()) {
-			errorMessage = "Sorry, that user name is already taken.";
+			errorMessage = "Sorry, that username is already taken.";
 		} else if (event.isEmailTaken()) {
 			errorMessage = "Sorry, that email is already in use.";
 		}
