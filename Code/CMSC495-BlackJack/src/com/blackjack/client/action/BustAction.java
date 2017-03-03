@@ -52,6 +52,8 @@ public class BustAction extends GameAction {
 				panel.playerBust();
 				GameState.setHittingPrimary(false);
 				GameState.setHittingSplit(true);
+				HitAction h = new HitAction(panel);
+				h.processAction(event);
 			}
 		} else if (turn == TurnState.DEALER_TURN) {
 			panel.dealerBust();

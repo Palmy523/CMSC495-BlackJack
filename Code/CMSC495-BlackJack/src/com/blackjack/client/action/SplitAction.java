@@ -32,6 +32,9 @@ public class SplitAction extends GameAction {
 			
 			GameState.setHittingPrimary(true);
 			
+			HitAction h = new HitAction(panel);
+			h.processAction(event);
+			
 			event.setActionType(ActionType.SPLIT);
 			Events.eventBus.fireEvent(event);
 		}

@@ -35,6 +35,8 @@ public class StandAction extends GameAction {
 				panel.playerStand();
 				GameState.setHittingPrimary(false);
 				GameState.setHittingSplit(true);
+				HitAction h = new HitAction(panel);
+				h.processAction(event);
 			}
 		} else if (GameState.getTurn() == TurnState.DEALER_TURN) {
 			panel.dealerStand();
