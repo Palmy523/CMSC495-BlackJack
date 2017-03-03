@@ -40,7 +40,7 @@ public class InsuranceAction extends GameAction {
 		//update user chip count state
 		UserController.updateChipCount(-insuranceBet);
 
-		if (GameState.getDealerHand().dealerHasNatural()) {
+		if (GameState.getDealerHand().getHandValue() == 21) {
 			panel.showDealerCard();
 			panel.getDealerHandPanel().twentyone();
 			event.setActionType(ActionType.DEALER_BLACKJACK);

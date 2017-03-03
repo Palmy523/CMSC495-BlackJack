@@ -103,20 +103,6 @@ public class Hand {
 		}
 		return total;
 	}
-	
-	/**
-	 * When the dealer shows an Ace this method determines
-	 * if the card face down has a 10 value. 
-	 * @return true if dealer has a Natural Blackjack
-	 */
-	public boolean dealerHasNatural() {
-		if (cards.length == 2) {
-			if (showingAce() && getHandValue() == 21) {
-					return true;
-			}
-		}
-		return false;
-	}
 
 	/**
 	 * Determines if what would be the up card for a dealer, is an ace.

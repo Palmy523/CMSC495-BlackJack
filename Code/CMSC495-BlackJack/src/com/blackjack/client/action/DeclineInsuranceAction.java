@@ -32,7 +32,7 @@ public class DeclineInsuranceAction extends GameAction {
 	@Override
 	public void processAction(GameEvent event) {
 		panel.displayInsurancePrompt(false);
-		if (GameState.getDealerHand().dealerHasNatural()) {
+		if (GameState.getDealerHand().getHandValue() == 21) {
 			panel.showDealerCard();
 			panel.getDealerHandPanel().twentyone();
 			event.setActionType(ActionType.DEALER_BLACKJACK);
