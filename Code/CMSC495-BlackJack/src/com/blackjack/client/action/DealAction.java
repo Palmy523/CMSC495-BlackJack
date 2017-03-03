@@ -2,6 +2,7 @@ package com.blackjack.client.action;
 
 import java.util.Random;
 
+import com.blackjack.client.action.GameAction.ActionType;
 import com.blackjack.client.controls.UserController;
 import com.blackjack.client.entities.Card;
 import com.blackjack.client.entities.Deck;
@@ -103,6 +104,12 @@ public class DealAction extends GameAction {
 			handEndAction.processAction(event);
 		} else if (dealerHand.showingAce()) {
 			panel.displayInsurancePrompt(true);
+		} else if (dealerHand.getHandValue() ==21) {
+			panel.showDealerCard();
+			panel.getDealerHandPanel().twentyone();
+			event.setActionType(ActionType.DEALER_BLACKJACK);
+			HandEndAction action = new HandEndAction(panel);
+			action.processAction(event);
 		} else {
 			if (!dealerHand.showingAce()) {
 				panel.enableButton(GameButtonType.DEAL, false);
