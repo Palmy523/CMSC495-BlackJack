@@ -8,6 +8,7 @@ import com.blackjack.client.entities.Hand.HandType;
 import com.blackjack.client.event.Events;
 import com.blackjack.client.event.GameEvent;
 import com.blackjack.client.ui.BlackJackGamePanel;
+import com.blackjack.client.ui.GameButton.GameButtonType;
 
 /**
  * Performs a split of the primary hand into two separate hands.
@@ -35,7 +36,9 @@ public class SplitAction extends GameAction {
 		if (GameState.getTurn() == TurnState.PLAYER_TURN && GameState.getPlayerHand().canSplit()) {
 			// TODO Auto-generated method stub
 			panel.getSplitButton().setEnabled(false);
-
+			panel.enableButton(GameButtonType.DOUBLE_DOWN, false);
+			panel.enableButton(GameButtonType.SURRENDER, false);
+			
 			// Splits players hand into two separate hands
 			panel.splitPlayerHand();
 			GameState.setSplit(true);

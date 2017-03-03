@@ -85,6 +85,7 @@ public class HandEndAction extends GameAction {
 		GameState.setHittingPrimary(true);
 		GameState.setHittingSplit(false);
 		GameState.setSplit(false);
+		GameState.setDoubledDown(false);
 				
 		DealerAI.cancelDealerActions();
 		event.setActionType(ActionType.HAND_END);

@@ -41,6 +41,7 @@ public class HitAction extends GameAction {
 		Hand hand;
 		Card drawn;
 		
+		panel.enableButton(GameButtonType.SURRENDER, false);
 				
 		if(GameState.getTurn() == TurnState.PLAYER_TURN){
 			
