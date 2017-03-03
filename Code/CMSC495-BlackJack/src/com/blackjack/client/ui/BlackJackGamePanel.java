@@ -36,8 +36,6 @@ public class BlackJackGamePanel extends SimplePanel {
 	private HandPanel dealerHandPanel;
 	private Button dealButton;
 	private Label betLabelValue;
-	private Label sideBetLabelValue;
-	private Label sideBetLabel;
 	private Label instructionLabel;
 	private UserMessageBox insurancePrompt;
 	/**
@@ -92,22 +90,6 @@ public class BlackJackGamePanel extends SimplePanel {
 		betPanel.add(betLabel);
 		betPanel.add(betLabelValue);
 		
-		FlowPanel sideBetPanel = new FlowPanel();
-		sideBetLabel = new Label("Side Bet: ");
-		sideBetLabel.setStylePrimaryName("label");
-		sideBetLabel.addStyleDependentName("goldFont");
-		sideBetLabel.addStyleDependentName("underline");
-		sideBetLabel.getElement().setAttribute("style", "margin-right: 38px;");
-		sideBetLabel.setVisible(false);
-		
-		sideBetLabelValue = new Label("$0");
-		sideBetLabelValue.setStylePrimaryName("label");
-		sideBetLabelValue.addStyleDependentName("goldFont");
-		sideBetLabelValue.setVisible(false);
-		
-		sideBetPanel.add(sideBetLabel);
-		sideBetPanel.add(sideBetLabelValue);
-		
 		instructionLabel = new Label();
 		instructionLabel.setStylePrimaryName("label");
 		instructionLabel.addStyleDependentName("goldFont");
@@ -128,7 +110,6 @@ public class BlackJackGamePanel extends SimplePanel {
 		chip100 = new ChipButton(ChipButton.ChipValue.ONE_HUNDERED);
 		
 		chipPanel.add(betPanel);
-		chipPanel.add(sideBetPanel);
 		HTML br = new HTML("<br/>");
 		br.setHeight("0px");
 		chipPanel.add(br);
@@ -292,17 +273,6 @@ public class BlackJackGamePanel extends SimplePanel {
 		betLabelValue.setText("$" + value);
 	}
 	
-	
-	public void betInsurance(float amount) {
-		String value = NumberFormat.getDecimalFormat().format(amount);
-		if (value.contains(".")) {
-			if (value.substring(value.indexOf('.'), value.length()).length() < 3) {
-				value += "0";
-			}
-		}
-		sideBetLabelValue.setText("$" + value);
-	}
-	
 	/**
 	 * Enables or disabled a button specified by the button type.
 	 * @param button the button to disable/enable
@@ -401,11 +371,6 @@ public class BlackJackGamePanel extends SimplePanel {
 	
 	public void displayInsurancePrompt(boolean visible) {
 		insurancePrompt.setVisible(visible);
-	}
-	
-	public void displayInsuranceBet(boolean visible) {
-		sideBetLabel.setVisible(visible);
-		sideBetLabelValue.setVisible(visible);
 	}
 	
 	/**

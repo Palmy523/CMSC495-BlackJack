@@ -47,9 +47,7 @@ public class HandEndAction extends GameAction {
 			if (event.getGameState().isInsurance()) {
 				UserController.updateChipCount(GameState.getBetAmount()
 						+ GameState.getInsuranceBetAmt());
-				panel.displayInsuranceBet(false);
 			}
-			panel.displayInsuranceBet(false);
 		} else if (event.getActionType() == ActionType.SURRENDER) {
 			panel.displayInstruction("You surrendered. You get half your bet back." + message);
 			UserController.updateChipCount((float)GameState.getBetAmount() / 2);

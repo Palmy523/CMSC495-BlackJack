@@ -20,10 +20,8 @@ public class InsuranceAction extends GameAction {
 		panel.displayInsurancePrompt(false);
 		event.getGameState().setInsurance(true);
 
-		//Create/Display Side Bet
+		//Side Bet Created
 		float insuranceBet = event.getGameState().getBetAmount()/2;
-		panel.betInsurance(insuranceBet);
-		panel.displayInsuranceBet(true);
 
 		//update user chip count state
 		UserController.updateChipCount(-insuranceBet);
@@ -32,16 +30,18 @@ public class InsuranceAction extends GameAction {
 			panel.showDealerCard();
 			panel.getDealerHandPanel().twentyone();
 			event.setActionType(ActionType.DEALER_BLACKJACK);
-//			if (event.getGameState().isInsurance()) {
-//				UserController.updateChipCount(GameState.getInsuranceBetAmt()*2);
-//				panel.displayInsuranceBet(false);
-//			}
+			if (event.getGameState().isInsurance()) {
+				// Player is awarded 2:1 and player's bet is return to them
+				int insuranceAward = GameState.getInsuranceBetAmt()*2;
+				UserController.updateChipCount(insuranceAward);
+				panel.displayInstruction("Awarded $" + insuranceAward);
+			}
 			
 			HandEndAction action = new HandEndAction(panel);
 			action.processAction(event);
 		} else {
 			
-			panel.displayInstruction("Dealer doesn't have Blackjack");
+			panel.displayInstruction("Dealer doesn't have Blackjack. Loss $" + insuranceBet + " side bet.");
 			panel.enableButton(GameButtonType.DEAL, false);
 			panel.enableButton(GameButtonType.HIT, true);
 			panel.enableButton(GameButtonType.STAND, true);
@@ -51,11 +51,6 @@ public class InsuranceAction extends GameAction {
 
 			if (GameState.getPlayerHand().canSplit())
 				panel.enableButton(GameButtonType.SPLIT, true);
-			
-			// Need to find a way to display side bet for at least
-			// 5 seconds before hiding insurance bet
-			panel.displayInsuranceBet(false);
-
 		}
 		
 		event.setActionType(ActionType.INSURANCE);
