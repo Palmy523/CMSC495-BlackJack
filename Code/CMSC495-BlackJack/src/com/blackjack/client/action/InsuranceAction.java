@@ -41,7 +41,7 @@ public class InsuranceAction extends GameAction {
 			action.processAction(event);
 		} else {
 			
-			panel.displayInstruction("Dealer doesn't have Blackjack. Loss $" + insuranceBet + " side bet.");
+			panel.displayInstruction("Dealer does not have Blackjack. Loss $" + insuranceBet + " side bet.");
 			panel.enableButton(GameButtonType.DEAL, false);
 			panel.enableButton(GameButtonType.HIT, true);
 			panel.enableButton(GameButtonType.STAND, true);

@@ -15,13 +15,14 @@ public class DeclineInsuranceAction extends GameAction {
 	@Override
 	public void processAction(GameEvent event) {
 		panel.displayInsurancePrompt(false);
-		if (GameState.getDealerHand().getHandValue() == 21) {
+		if (GameState.getDealerHand().dealerHasNatural()) {
 			panel.showDealerCard();
 			panel.getDealerHandPanel().twentyone();
 			event.setActionType(ActionType.DEALER_BLACKJACK);
 			HandEndAction action = new HandEndAction(panel);
 			action.processAction(event);
 		} else {
+			panel.displayInstruction("Dealer does not have Blackjack.");
 			panel.enableButton(GameButtonType.DEAL, false);
 			panel.enableButton(GameButtonType.HIT, true);
 			panel.enableButton(GameButtonType.STAND, true);
