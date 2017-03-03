@@ -43,6 +43,13 @@ public class GameController {
 			public void processAction(GameEvent event) {
 				if (event.getActionType() == ActionType.HAND_END) {
 					startGame();
+					
+					if(GameState.getUser().getBankAmount() < GameState.getRoom().getChipLimit())
+					{
+						panel.displayInstruction("You no longer meet the requirements to play in this room. Please exit the room.");
+						panel.disableAllButtons();
+						panel.chipsEnabled(false);
+					}
 				}
 			}
 		};
