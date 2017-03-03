@@ -125,4 +125,8 @@ public class Hand {
 	public boolean getBustStatus(){
 		return hasBusted;
 	}
+	
+	public int getNumCards(){
+		return numCards;
+	}
 }

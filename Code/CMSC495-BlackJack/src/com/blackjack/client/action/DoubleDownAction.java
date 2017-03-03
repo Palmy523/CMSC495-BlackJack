@@ -40,6 +40,8 @@ public class DoubleDownAction extends GameAction {
 			return;
 		}
 		
+		GameState.setDoubledDown(true);
+		
 		Card drawn = deck.draw();
 		SoundManager.play(SoundName.PLACE4);
 		panel.hitPlayerHand_DoubleDown(drawn);
@@ -47,6 +49,31 @@ public class DoubleDownAction extends GameAction {
 		state.setPlayerHand(hand);
 		score = hand.getHandValue();
 		
+		
+		if(state.isSplit()){
+			
+			int splitScore;
+			Hand splitHand = state.getPlayerSplitHand();
+			
+			if(splitHand.getBustStatus()){
+				return;
+			}
+			
+			//dealing second card to split hand
+			Card drawn2 = deck.draw();
+			SoundManager.play(SoundName.PLACE4);
+			panel.hitPlayerSplitHand(drawn2);
+			splitHand.hit(drawn2);
+			
+			//dealing double down card to split hand
+			Card drawn3 = deck.draw();
+			panel.hitPlayerSplitHand_DoubleDown(drawn3);
+			splitHand.hit(drawn3);
+			state.setPlayerSplitHand(splitHand);
+			splitScore = splitHand.getHandValue();			
+		}
+		
+		panel.disableAllButtons();
 		event.setActionType(ActionType.HIT);
 		Events.eventBus.fireEvent(event);
 		

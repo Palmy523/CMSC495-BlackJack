@@ -34,7 +34,11 @@ public class HitAction extends GameAction {
 			
 			if(!state.isSplit() || state.isHittingPrimary()==true)
 			{
+				
 				hand = state.getPlayerHand();	
+				if(hand.getNumCards()>=2){
+					panel.enableButton(GameButtonType.DOUBLE_DOWN, false);
+				}
 				
 				if(hand.getBustStatus()){
 					return;
@@ -52,6 +56,7 @@ public class HitAction extends GameAction {
 			}
 			else
 			{
+				panel.enableButton(GameButtonType.DOUBLE_DOWN, false);
 				hand = state.getPlayerSplitHand();	
 				
 				if(hand.getBustStatus()){
@@ -82,12 +87,12 @@ public class HitAction extends GameAction {
 				else if(score == 21){
 					
 					panel.displayInstruction("You got 21!");
-					panel.disableAllButtons();
 					
 					if(!state.isSplit()|| state.isHittingPrimary() == true){
 						panel.twentyone();
 						
 						if(!state.isSplit()){
+							panel.disableAllButtons();
 							GameState.setTurn(TurnState.DEALER_TURN);
 							DealerTurnAction action = new DealerTurnAction(panel);
 							action.processAction(event);
@@ -98,6 +103,7 @@ public class HitAction extends GameAction {
 					}
 					else{					
 						panel.twentyone_Split();
+						panel.disableAllButtons();
 						GameState.setTurn(TurnState.DEALER_TURN);
 						DealerTurnAction action = new DealerTurnAction(panel);
 						action.processAction(event);						
