@@ -60,6 +60,7 @@ public class DealAction extends GameAction {
 			return;
 
 		if(betAmount >= GameState.getRoom().getMinBet() && betAmount <= GameState.getRoom().getMaxBet()) {
+			panel.enableButton(GameButtonType.DEAL, false);
 			panel.chipsEnabled(false);
 			card = deck.draw();			
 			SoundManager.play(SoundName.PLACE1);
@@ -124,9 +125,10 @@ public class DealAction extends GameAction {
 		} else {
 			if (!dealerHand.showingAce()) {
 				panel.enableButton(GameButtonType.DEAL, false);
+				panel.chipsEnabled(false);
 				panel.enableButton(GameButtonType.HIT, true);
 				panel.enableButton(GameButtonType.STAND, true);
-				panel.chipsEnabled(false);
+
 				panel.enableButton(GameButtonType.SURRENDER, true);
 				panel.enableButton(GameButtonType.DOUBLE_DOWN, true);
 
