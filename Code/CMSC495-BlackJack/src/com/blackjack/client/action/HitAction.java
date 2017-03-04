@@ -12,30 +12,44 @@ import com.blackjack.client.sounds.SoundManager.SoundName;
 import com.blackjack.client.ui.BlackJackGamePanel;
 import com.blackjack.client.ui.GameButton.GameButtonType;
 import com.google.gwt.core.client.GWT;
-
+/**
+ * The HitAction is used to process a hit on a hand in the game of blackjack.
+ * This deals a card to the appropriate hand and performs any subsequent actions
+ * based on the hand value. 
+ * 
+ * @author Abby
+ */
 public class HitAction extends GameAction {
 
+	/**
+	 * 
+	 * @param panel The BlackJackGamePanel to update
+	 */
 	public HitAction(BlackJackGamePanel panel) {
 		super(panel);
 	}
 
+	/**
+	 * Processes a hit by dealing a card to the hand for the player or 
+	 * dealer based on the turn state. Checks value after hit and determines
+	 * if hit causes a bust, ends the hand or procs the dealer turn if necessary.
+	 */
 	@Override
 	public void processAction(GameEvent event) {
-		GameState state = event.getGameState();
-		Deck deck = state.getDeck();
+		Deck deck = GameState.getDeck();
 		int score;
 		Hand hand;
 		Card drawn;
 		
 				
-		if(state.getTurn() == TurnState.PLAYER_TURN){
+		if(GameState.getTurn() == TurnState.PLAYER_TURN){
 			
 			panel.enableButton(GameButtonType.SPLIT, false);
 			
-			if(!state.isSplit() || state.isHittingPrimary()==true)
+			if(!GameState.isSplit() || GameState.isHittingPrimary()==true)
 			{
 				
-				hand = state.getPlayerHand();	
+				hand = GameState.getPlayerHand();	
 				if(hand.getNumCards()>=2){
 					panel.enableButton(GameButtonType.DOUBLE_DOWN, false);
 				}
@@ -48,16 +62,14 @@ public class HitAction extends GameAction {
 				SoundManager.play(SoundName.PLACE4);
 				panel.hitPlayerHand(drawn);
 				hand.hit(drawn);
-				state.setPlayerHand(hand);
+				GameState.setPlayerHand(hand);
 				score=hand.getHandValue();
 				
-				GWT.log("Hit Player hand with " + drawn.getRank());
-				GWT.log("Player hand value: " + hand.getHandValue());
 			}
 			else
 			{
 				panel.enableButton(GameButtonType.DOUBLE_DOWN, false);
-				hand = state.getPlayerSplitHand();	
+				hand = GameState.getPlayerSplitHand();	
 				
 				if(hand.getBustStatus()){
 					return;
@@ -67,11 +79,9 @@ public class HitAction extends GameAction {
 				SoundManager.play(SoundName.PLACE4);
 				panel.hitPlayerSplitHand(drawn);
 				hand.hit(drawn);
-				state.setPlayerSplitHand(hand);
+				GameState.setPlayerSplitHand(hand);
 				score=hand.getHandValue();
 				
-				GWT.log("Hit Player Split hand with " + drawn.getRank());
-				GWT.log("Player hand value: " + hand.getHandValue());
 			}	
 				
 				event.setActionType(ActionType.HIT);
@@ -88,18 +98,18 @@ public class HitAction extends GameAction {
 					
 					panel.displayInstruction("You got 21!");
 					
-					if(!state.isSplit()|| state.isHittingPrimary() == true){
+					if(!GameState.isSplit()|| GameState.isHittingPrimary() == true){
 						panel.twentyone();
 						
-						if(!state.isSplit()){
+						if(!GameState.isSplit()){
 							panel.disableAllButtons();
 							GameState.setTurn(TurnState.DEALER_TURN);
 							DealerTurnAction action = new DealerTurnAction(panel);
 							action.processAction(event);
 						}
 						
-						state.setHittingPrimary(false);
-						state.setHittingSplit(true);
+						GameState.setHittingPrimary(false);
+						GameState.setHittingSplit(true);
 					}
 					else{					
 						panel.twentyone_Split();
@@ -110,9 +120,9 @@ public class HitAction extends GameAction {
 					}
 				}			
 		}
-		else if(state.getTurn() == TurnState.DEALER_TURN){
+		else if(GameState.getTurn() == TurnState.DEALER_TURN){
 			
-			hand = state.getDealerHand();
+			hand = GameState.getDealerHand();
 			
 			if(hand.getBustStatus()){
 				return;
@@ -122,14 +132,10 @@ public class HitAction extends GameAction {
 			SoundManager.play(SoundName.PLACE4);
 			panel.hitDealerHand(drawn);
 			hand.hit(drawn);
-			state.setDealerHand(hand);
+			GameState.setDealerHand(hand);
 			score = hand.getHandValue();	
-			
-			event.setActionType(ActionType.HIT);
-			Events.eventBus.fireEvent(event);
+
 					
-			GWT.log("Hit Dealer hand with " + drawn.getRank());
-			GWT.log("Dealer hand value: " + hand.getHandValue());
 			
 			if(score> 21){
 				hand.busts();				
@@ -141,6 +147,9 @@ public class HitAction extends GameAction {
 				HandEndAction h = new HandEndAction(panel);
 				h.processAction(event);
 			}
+			
+			event.setActionType(ActionType.HIT);
+			Events.eventBus.fireEvent(event);
 		}
 	}
 

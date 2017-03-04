@@ -10,14 +10,29 @@ import com.blackjack.client.ui.BlackJackGamePanel;
 import com.blackjack.client.ui.GameButton.GameButtonType;
 import com.google.gwt.core.client.GWT;
 
+/**
+ * The BetAction class performs a bet in the game. It is called
+ * and executed each time a bet is placed.
+ * 
+ * @author Stephanie
+ *
+ */
 public class BetAction extends GameAction {
 	private int betAmount;
 
+	/**
+	 * Constructor
+	 * @param panel the BlackJackGamePanel to update
+	 * @param betAmount the amount to update the bet by
+	 */
 	public BetAction(BlackJackGamePanel panel, int betAmount) {
 		super(panel);
 		this.betAmount = betAmount;
 	}
 
+	/**
+	 * Processes the bet
+	 */
 	@Override
 	public void processAction(GameEvent event) {
 

@@ -7,6 +7,11 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextBox;
 
+/**
+ * UI piece used for confirming an email address.
+ * @author Dave
+ *
+ */
 public class ConfirmEmailForm extends SimplePanel {
 
 	private TextBox confirmKeyTextBox;

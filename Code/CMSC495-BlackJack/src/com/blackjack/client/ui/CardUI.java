@@ -3,6 +3,11 @@ package com.blackjack.client.ui;
 import com.blackjack.client.entities.Card;
 import com.google.gwt.user.client.ui.SimplePanel;
 
+/**
+ * UI that represents a single card.
+ * @author Dave
+ *
+ */
 public class CardUI extends SimplePanel{
 
 	private Card card;

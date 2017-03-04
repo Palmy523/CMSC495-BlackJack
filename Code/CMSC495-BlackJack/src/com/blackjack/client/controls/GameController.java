@@ -24,6 +24,12 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Button;
 
+/**
+ * Contains methods to fire appropriate GameActions.
+ * 
+ * @author Dave
+ *
+ */
 public class GameController {
 
 	private Dashboard dashboard;
@@ -32,6 +38,11 @@ public class GameController {
 	private HandlerRegistration registration;
 	private UserController userController;
 
+	/**
+	 * 
+	 * @param dashboard the dashboard to control screen navigation
+	 * @param gameState the game state to update when actions are performed
+	 */
 	public GameController(Dashboard dashboard, GameState gameState) {
 		this.dashboard = dashboard;
 		gamePanel = dashboard.getGamePanel();
@@ -121,7 +132,7 @@ public class GameController {
 		GameEvent event = new GameEvent(gameState);
 		event.setActionType(ActionType.DEAL);
 		// Create a new DealAction
-		DealAction action = new DealAction(100, gamePanel);
+		DealAction action = new DealAction(gamePanel);
 		// Invoke the processAction method of the DealAction
 		action.processAction(event);
 	}
@@ -215,6 +226,9 @@ public class GameController {
 		this.gameState = gameState;
 	}
 
+	/**
+	 * Called to show that the player has not accepted insurance.
+	 */
 	public void noInsurance() {
 		GameEvent event = new GameEvent(gameState);
 		event.setActionType(ActionType.INSURANCE);

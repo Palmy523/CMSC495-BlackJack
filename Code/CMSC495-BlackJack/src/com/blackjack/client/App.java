@@ -44,7 +44,12 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.ui.RootPanel;
-
+/**
+ * Entry point class for the app. Sets up all handlers for UI
+ * 
+ * @author Dave
+ *
+ */
 public class App {
 
 	private Dashboard dashboard;
@@ -362,6 +367,9 @@ public class App {
 
 	}
 
+	/**
+	 * Sets up the confirm email form handlers
+	 */
 	private void setupConfirmEmailForm() {
 		confirmEmailForm.getSubmitButton().addClickHandler(new ClickHandler() {
 
@@ -434,6 +442,9 @@ public class App {
 		Events.eventBus.addHandler(LoginEvent.TYPE, handler);
 	}
 
+	/**
+	 * Sets up all handlers relating to the game panel
+	 */
 	private void setupGamePanel() {
 		gamePanel.displayInstruction("Place bet");
 		

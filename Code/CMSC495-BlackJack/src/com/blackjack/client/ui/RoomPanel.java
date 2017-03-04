@@ -6,6 +6,12 @@ import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 
+/**
+ * UI used for selection of rooms
+ * 
+ * @author Dave
+ *
+ */
 public class RoomPanel extends FocusPanel {
 
 	private Label difficultyLabel;

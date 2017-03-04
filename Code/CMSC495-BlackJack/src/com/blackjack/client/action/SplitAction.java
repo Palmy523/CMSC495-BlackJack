@@ -9,12 +9,27 @@ import com.blackjack.client.event.Events;
 import com.blackjack.client.event.GameEvent;
 import com.blackjack.client.ui.BlackJackGamePanel;
 
+/**
+ * Performs a split of the primary hand into two separate hands.
+ * 
+ * @author Lea
+ *
+ */
 public class SplitAction extends GameAction {
 
+	/**
+	 * 
+	 * @param panel the BlackJackGamePanel to update.
+	 */
 	public SplitAction(BlackJackGamePanel panel) {
 		super(panel);
 	}
 
+	/**
+	 * Updates the UI by taking one card from the primary hand and putting
+	 * it into a separate split hand. Updates the game state appropriately so other
+	 * actions can perform appropriately.
+	 */
 	@Override
 	public void processAction(GameEvent event) {
 		if (GameState.getTurn() == TurnState.PLAYER_TURN && GameState.getPlayerHand().canSplit()) {

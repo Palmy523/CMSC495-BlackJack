@@ -7,21 +7,35 @@ import com.blackjack.client.event.GameEvent;
 import com.blackjack.client.ui.BlackJackGamePanel;
 import com.blackjack.client.ui.GameButton.GameButtonType;
 
+/**
+ * Action used to process an insurance action in blackjack.
+ * 
+ * @author Lea
+ *
+ */
 public class InsuranceAction extends GameAction {
 
+	/**
+	 * @param panel the BlackJackGamePanel to update
+	 */
 	public InsuranceAction(BlackJackGamePanel panel) {
 		super(panel);
 	}
 
+	/**
+	 * Sets the game state to and updates chip counts for when insurance action 
+	 * is accepted by the player. Checks for dealer natural 21 after accepting and 
+	 * ends the turn. If the dealer doesn't have natural, resumes gameplay as normal.
+	 */
 	@Override
 	public void processAction(GameEvent event) {
 		// TODO Auto-generated method stub
 
 		panel.displayInsurancePrompt(false);
-		event.getGameState().setInsurance(true);
+		GameState.setInsurance(true);
 
 		//Side Bet Created
-		float insuranceBet = event.getGameState().getBetAmount()/2;
+		float insuranceBet = GameState.getBetAmount()/2;
 
 		//update user chip count state
 		UserController.updateChipCount(-insuranceBet);
@@ -30,7 +44,7 @@ public class InsuranceAction extends GameAction {
 			panel.showDealerCard();
 			panel.getDealerHandPanel().twentyone();
 			event.setActionType(ActionType.DEALER_BLACKJACK);
-			if (event.getGameState().isInsurance()) {
+			if (GameState.isInsurance()) {
 				// Player is awarded 2:1 and player's bet is return to them
 				int insuranceAward = GameState.getInsuranceBetAmt()*2;
 				UserController.updateChipCount(insuranceAward);

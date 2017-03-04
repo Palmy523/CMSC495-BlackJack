@@ -7,9 +7,22 @@ import java.util.logging.Logger;
 import javax.mail.*;
 import javax.mail.internet.*;
 
-
+/**
+ * Used for sending emails to users.
+ * 
+ * @author Stephanie
+ *
+ */
 public class EmailService {
 
+	/**
+	 * Sends an email 
+	 * 
+	 * @param email the email address to send the message to
+	 * @param subject the subject line of the email
+	 * @param messageText the message body of the email
+	 * @return true if the operation was successful, false if otherwise.
+	 */
 	    private static boolean sendEmail(String email, String subject, String messageText) {
 	      boolean success = false;
 			Properties properties;

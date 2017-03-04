@@ -5,6 +5,12 @@ import java.util.Calendar;
 
 public class CompareDates {
 
+	/**
+	 * Compares two days to determine if one is the same day as the other.
+	 * @param date1 the first date to compare
+	 * @param date2 the date to compare the first with
+	 * @return true if the dates are of the same day, false if otherwise.
+	 */
 	public static boolean isSameDay(Date date1, Date date2) {
 		if (date1 == null || date2 == null) {
 			throw new IllegalArgumentException("The date must not be null");

@@ -5,6 +5,11 @@ import com.blackjack.client.action.GameAction.ActionType;
 import com.blackjack.client.entities.GameState;
 import com.google.gwt.event.shared.GwtEvent;
 
+/**
+ * Class used to represent an event that occurs in gameplay.
+ * 
+ * @author Dave
+ */
 public class GameEvent extends GwtEvent<GameAction> {
 
 	public static Type<GameAction> TYPE = new Type<GameAction>();	

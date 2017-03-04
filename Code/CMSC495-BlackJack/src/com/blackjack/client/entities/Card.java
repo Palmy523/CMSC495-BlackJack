@@ -1,9 +1,26 @@
 package com.blackjack.client.entities;
 
+/**
+ * Class used to represent a card from a deck of cards.
+ * 
+ * @author Dave
+ *
+ */
 public class Card {
 
+	/**
+	 * The set is used to determine which SET of cards to use (for UI purposes)
+	 */
 	public static enum Set {ONE}
+	
+	/**
+	 * Represents the Suit of the card 
+	 */
 	public static enum Suit {HEARTS, DIAMONDS, CLUBS, SPADES}
+	
+	/**
+	 * Represents the rank of the card.
+	 */
 	public static enum Rank {ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING}
 	
 	private Set set;
@@ -58,6 +75,9 @@ public class Card {
 		this.rank = type;
 	}	
 	
+	/**
+	 * @return the name of the suit based on the suit
+	 */
 	public String getSuitName() {
 		switch(suit) {
 			case HEARTS : return "Hearts";
@@ -68,6 +88,9 @@ public class Card {
 		}
 	}
 	
+	/**
+	 * @return a string representation of the rank of the card.
+	 */
 	public String getRankName() {
 		switch(rank) {
 			case ACE : return "Ace";
@@ -87,6 +110,11 @@ public class Card {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param rank the rank of the card to get the value for.
+	 * @return the value of a card based on the rank.
+	 */
 	public static int getValue(Rank rank) {
 		switch (rank)
 		{
@@ -120,7 +148,7 @@ public class Card {
 	}
 	
 	/**
-	 * Returns the value of concat card
+	 * Returns the value of this card
 	 * @return the value of the card
 	 */
 	public int getValue() {

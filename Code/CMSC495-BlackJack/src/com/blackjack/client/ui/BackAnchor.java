@@ -4,6 +4,12 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Label;
 
+/**
+ * UI piece that is used for navigation.
+ * 
+ * @author Dave
+ *
+ */
 public class BackAnchor extends FocusPanel {
 
 	public BackAnchor() {

@@ -5,12 +5,22 @@ import com.blackjack.client.entities.Card.Set;
 import com.blackjack.client.entities.Card.Suit;
 import com.blackjack.client.entities.Card.Rank;
 
+/**
+ * Static class used to apply styling to cards.
+ * @author Dave
+ *
+ */
 public class CardStyleHelper {
 
 	public static String getCardStyle() {
 		return "card";
 	}
 
+	/**
+	 * 
+	 * @param set
+	 * @return returns the appropriate style name for the set of cards used.
+	 */
 	public static String getSetStyle(Set set) {
 		switch (set) {
 		case ONE:
@@ -20,6 +30,10 @@ public class CardStyleHelper {
 		}
 	}
 
+	/**
+	 * @param suit
+	 * @return the style name for a suit
+	 */
 	public static String getSuitStyle(Suit suit) {
 		switch (suit) {
 		case HEARTS:
@@ -35,6 +49,11 @@ public class CardStyleHelper {
 		}
 	}
 
+	/**
+	 * 
+	 * @param type
+	 * @return the style name for the rank
+	 */
 	public static String getRankStyle(Rank type) {
 		switch (type) {
 		case ACE:
@@ -68,6 +87,11 @@ public class CardStyleHelper {
 		}
 	}
 
+	/**
+	 * Automatically applies a style to a card and removes any previous styles
+	 * 
+	 * @param ui the CardUI to update the style for.
+	 */
 	public static void applyCardStyle(CardUI ui) {
 		Card card = ui.getCard();
 		String[] styles = ui.getStyleName().split(",");

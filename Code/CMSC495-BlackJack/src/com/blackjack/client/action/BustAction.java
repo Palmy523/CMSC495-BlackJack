@@ -7,12 +7,19 @@ import com.blackjack.client.ui.BlackJackGamePanel;
 import com.blackjack.client.entities.GameState.TurnState;
 
 /**
+ * The BustAction is processed when the hand value for a hand 
+ * goes over 21. This handles the ending of turns, hands, and updates
+ * the UI with a visual display of a Bust.
  * 
  * @author Lea
  *
  */
 public class BustAction extends GameAction {
 
+	/**
+	 * Constructor.
+	 * @param panel The BlackJackGamePanel to update
+	 */
 	public BustAction(BlackJackGamePanel panel) {
 		super(panel);
 		// TODO Auto-generated constructor stub
@@ -21,12 +28,10 @@ public class BustAction extends GameAction {
 	/**
 	 * determines if the current turn busted (dealer or player)
 	 * 
-	 * if player busted, ends player's turn and invokes DealerTurnAction 
-	 * 		processAction(event)
-	 * if dealer busted, ends dealer's turn and invokes HandEndAction
-	 * 		processAction(event)
+	 * if player busted, ends player's turn and invokes DealerTurnAction
+	 * processAction(event) if dealer busted, ends dealer's turn and invokes
+	 * HandEndAction processAction(event)
 	 * 
-	 *  //TODO identify possible exceptions
 	 */
 	@SuppressWarnings("static-access")
 	@Override

@@ -3,6 +3,11 @@ package com.blackjack.client.ui;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 
+/**
+ * UI that represents a chip with plus and minus bet options.
+ * @author Dave
+ *
+ */
 public class ChipButton extends FlowPanel {
 
 	public enum ChipValue {ONE, FIVE, TWENTY_FIVE, FIFTY, ONE_HUNDERED}

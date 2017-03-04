@@ -4,24 +4,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.regexp.shared.RegExp;
 
 /**
- * <p>
- * FieldVerifier validates that the name the user enters is valid.
- * </p>
- * <p>
- * This class is in the <code>shared</code> package because we use it in both
- * the client code and on the server. On the client, we verify that the name is
- * valid before sending an RPC request so the user doesn't have to wait for a
- * network round trip to get feedback. On the server, we verify that the name is
- * correct to ensure that the input is correct regardless of where the RPC
- * originates.
- * </p>
- * <p>
- * When creating a class that is used on both the client and the server, be sure
- * that all code is translatable and does not use native JavaScript. Code that
- * is not translatable (such as code that interacts with a database or the file
- * system) cannot be compiled into client-side JavaScript. Code that uses native
- * JavaScript (such as Widgets) cannot be run on the server.
- * </p>
+ * Javascript client side implementation of input verification.
  */
 public class FieldVerifier {
 
@@ -35,11 +18,32 @@ public class FieldVerifier {
 			+ " requirements. Passwords can only be between 8-16 characters in length.";
 	public static String EMAIL_ADDRESS_ERROR = "Sorry, the email address is invalid.";
 	
+	/**
+	 * Error codes for what caused the regex to fail.
+	 */
 	public enum FormatError {WHITE_SPACE, LENGTH, INVALID_CHARACTER, NONE, INVALID_FORMAT }
+	
+	/**
+	 * Regexp for checking usernames 
+	 */
 	public static RegExp usernameRegex = RegExp.compile("^[a-zA-Z0-9_]+$");
+	
+	/**
+	 * Regexp for checking password inputs.
+	 */
 	public static RegExp passwordRegex = RegExp.compile("^[a-zA-Z0-9!@#$%^&*()]+$");
+	
+	/**
+	 * Regex for checking email inputs.
+	 */
 	public static RegExp emailRegex = RegExp.compile("\\S+@\\S+\\.\\S+");
 	
+	/**
+	 * Checks if the supplied username is valid.
+	 * @param name the username to check
+	 * @return FormatError.NONE if all requirements met, or a FormatError that determines
+	 * what caused the regex to fail.
+	 */
 	public static FormatError isValidUsername(String name) {
 		//TODO make sure these work
 		GWT.log("/^[a-zA-Z0-9_]+$/");
@@ -58,6 +62,12 @@ public class FieldVerifier {
 		return FormatError.NONE;
 	}
 	
+	/**
+	 * Validates a password for proper format
+	 * @param password the password to check.
+	 * @return FormatError.NONE if all requirements met, or a FormatError that determines
+	 * what caused the regex to fail.	 
+	 */
 	public static FormatError isValidPassword(String password) {
 		//TODO make sure these work
 		if (password.length() < 8 || password.length() > 16) {
@@ -69,6 +79,12 @@ public class FieldVerifier {
 		return FormatError.NONE;
 	}
 	
+	/**
+	 * Validates an email input 
+	 * @param email the email to validate.
+	 * @return FormatError.NONE if all requirements met, or a FormatError that determines
+	 * what caused the regex to fail.
+	 */
 	public static FormatError isValidEmail(String email) {
 		//TODO make sure these work
 		if (!emailRegex.test(email)) {

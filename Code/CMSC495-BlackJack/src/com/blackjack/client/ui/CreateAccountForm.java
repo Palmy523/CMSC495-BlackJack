@@ -10,6 +10,11 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
 
+/**
+ * UI used for creating a user account.
+ * @author Dave
+ *
+ */
 public class CreateAccountForm extends FormPanel {
 
 	private Label userNameLabel;

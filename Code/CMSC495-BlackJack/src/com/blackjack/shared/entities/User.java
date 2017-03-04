@@ -3,6 +3,11 @@ package com.blackjack.shared.entities;
 import java.io.Serializable;
 import java.sql.Date;
 
+/**
+ * Entity class that represents a user.
+ * @author Dave
+ *
+ */
 public class User implements Serializable{
 
 	/**

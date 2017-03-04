@@ -9,6 +9,11 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 
+/**
+ * UI used for resetting a forgotten password
+ * @author Dave
+ *
+ */
 public class ForgotPasswordForm extends FormPanel {
 
 	private Label emailLabel;

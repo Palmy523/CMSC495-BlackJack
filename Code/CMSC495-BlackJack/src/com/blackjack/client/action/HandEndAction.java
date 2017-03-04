@@ -13,21 +13,24 @@ import com.blackjack.client.ui.BlackJackGamePanel;
 import com.google.gwt.core.shared.GWT;
 
 /**
- * -Check the hand values to determine who wins and determine push
- * -Award money and update chip amounts appropriately. Calls the 
+ * Check the hand values to determine who wins and determine push
+ * Award money and update chip amounts appropriately. Calls the 
  * GameController startGame() method to start a new hand.
  *
+ * @author Dave
  */
 public class HandEndAction extends GameAction {
 
 	private final static String message = "\nPlace the minimum bet and click 'Deal' to start a new hand";
-	private UserServiceAsync service = GWT.create(UserService.class);
 	
 	public HandEndAction(BlackJackGamePanel panel) {
 		super(panel);		
 	}
 
-	@SuppressWarnings("static-access")
+	/**
+	 * Checks the state of hands and actions that led to the end of the hand
+	 * and award money appropriately/reset the game.
+	 */
 	@Override
 	public void processAction(GameEvent event) {
 		float easyPlayMultiplier = 1f;
@@ -47,7 +50,7 @@ public class HandEndAction extends GameAction {
 			UserController.updateChipCount(award);
 		} else if (event.getActionType() == ActionType.DEALER_BLACKJACK) {
 			panel.displayInstruction("Dealer has Blackjack!" + message);
-			if (event.getGameState().isInsurance()) {
+			if (GameState.isInsurance()) {
 				UserController.updateChipCount(GameState.getBetAmount()
 						+ GameState.getInsuranceBetAmt());
 			}

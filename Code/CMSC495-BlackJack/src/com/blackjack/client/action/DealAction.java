@@ -18,43 +18,50 @@ import com.blackjack.client.ui.GameButton.GameButtonType;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Timer;
 
+/**
+ * The DealAction handles the dealing of cards out to the player and 
+ * dealer. Additionally, this checks initial state of the hands, updates
+ * turns appropriately, and enables buttons to be used after the deal.
+ * 
+ * @author Jeff
+ *
+ */
 public class DealAction extends GameAction {
 
-	Deck deck;
-	Hand playerHand;
-	Hand dealerHand;
-	int cardNum;
-	Card card;
+	private Deck deck;
+	private Hand playerHand;
+	private Hand dealerHand;
+	private int cardNum;
+	private Card card;
 
-	public DealAction(int delay, BlackJackGamePanel panel) {
+	/**
+	 * 
+	 * @param panel the BlackJackGamePanel to update
+	 */
+	public DealAction(BlackJackGamePanel panel) {
 		super(panel);
 	}
 
+	/**
+	 * Performs a deal, enables buttons appropriately, and updates the UI
+	 */
 	@Override
 	public void processAction(final GameEvent event) {
 		GameState state = event.getGameState();
-		int betAmount = state.getBetAmount();
+		int betAmount = GameState.getBetAmount();
 		UserController.updateChipCount(-betAmount);
 		cardNum = 0;
-		deck = state.getDeck();
+		deck = GameState.getDeck();
 		playerHand = new Hand();
 		dealerHand = new Hand();
 		panel.resetHands();
-		//Update panel based on state, see accessors below 
-		//for potentially required state objects
-		//state.getBetAmount()
-		//state.getDealerHand()
-		//state.getPlayerHand()
-		//state.getDeck()
-		//state.getTurn()
 
-		if(state.getTurn() != TurnState.AWAITING_DEAL)
+		if(GameState.getTurn() != TurnState.AWAITING_DEAL)
 			return;
 
-		if(betAmount >= state.getRoom().getMinBet() && betAmount <= state.getRoom().getMaxBet()) {
+		if(betAmount >= GameState.getRoom().getMinBet() && betAmount <= GameState.getRoom().getMaxBet()) {
 			panel.chipsEnabled(false);
 			card = deck.draw();			
-			//playRandomDealSound();
 			SoundManager.play(SoundName.PLACE1);
 			panel.dealPlayerCard(card);
 			playerHand.hit(card);
@@ -84,6 +91,10 @@ public class DealAction extends GameAction {
 
 	}
 
+	/**
+	 * Method to perform when dealing has finished
+	 * @param event
+	 */
 	private void endDeal(GameEvent event) {
 		GameState.setDealerHand(dealerHand);
 		GameState.setPlayerHand(playerHand);
@@ -132,6 +143,11 @@ public class DealAction extends GameAction {
 		Events.eventBus.fireEvent(event);
 	}
 
+	/**
+	 * Deals a card to a player or dealer
+	 * 
+	 * @param cardNum the card number (out of 4) to be dealt
+	 */
 	private void dealCard(int cardNum)
 	{
 		if(cardNum == 0)

@@ -124,6 +124,12 @@ public class HandUI extends FlowPanel {
 		hit(cardUI);
 	}
 	
+	/**
+	 * Hits this hand with a card and displays it and a 90 deg angle signifying a double
+	 * down hit.
+	 * 
+	 * @param card
+	 */
 	public void hit_DoubleDown(Card card) {
 		CardUI cardUI = new CardUI(card);
 		cardUI.setDoubleDown(true);
@@ -165,20 +171,29 @@ public class HandUI extends FlowPanel {
 		return handUI;
 	}
 	
+	/**
+	 * Displays the stand label over this hand.
+	 */
 	public void stand() {
 		standLabel.setVisible(true);
 	}
 	
+	/**
+	 * Displays the bust label over this hand.
+	 */
 	public void bust() {
 		bustLabel.setVisible(true);
 	}
 	
+	/**
+	 * Displays the 21! label over this hand.
+	 */
 	public void twentyone(){
 		twentyoneLabel.setVisible(true);
 	}
 	
 	/**
-	 * Resets the hand to empt by clearing the hand and UI
+	 * Resets the hand to empty by clearing the hand and UI
 	 */
 	public void reset() {
 		for (CardUI cardUI : cardUIs) {
@@ -195,6 +210,9 @@ public class HandUI extends FlowPanel {
 		//TODO if this HandUI is split, reset it to it's original position
 	}
 	
+	/**
+	 * Shows the dealers down card.
+	 */
 	public void showDealerCard() {
 		if (cardUIs[0] != null) {
 			cardUIs[0].setFaceUp(true);

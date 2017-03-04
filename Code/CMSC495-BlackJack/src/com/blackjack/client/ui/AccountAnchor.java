@@ -5,6 +5,13 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Label;
 
+/**
+ * UI Piece that is a link for account management and display of 
+ * chips for a user.
+ * 
+ * @author Dave
+ *
+ */
 public class AccountAnchor extends FocusPanel {
 
 	private FlowPanel content;
@@ -27,6 +34,10 @@ public class AccountAnchor extends FocusPanel {
 		this.add(content);
 	}
 	
+	/**
+	 * Updates the account anchor with the specified amount
+	 * @param amount the amount of money to display in the account anchor.
+	 */
 	public void updateChipCount(float amount) {
 		String value = NumberFormat.getDecimalFormat().format(amount);
 		if (value.contains(".")) {

@@ -14,6 +14,13 @@ import com.blackjack.server.service.ConnectionService;
 import com.blackjack.server.service.MD5EncryptionService;
 import com.blackjack.shared.entities.User;
 
+/**
+ * Server user controller used for all SQL actions in the database to 
+ * update user information.
+ * 
+ * @author Dave
+ *
+ */
 public class UserControllerServer {
 
 	public static final boolean isEasyPlayDefault = true;
@@ -767,8 +774,14 @@ public class UserControllerServer {
 		return success;
 	}
 	
+	/**
+	 * Updates the players chip count with the specified amount.
+	 * 
+	 * @param userID the userId of the user to update the chip count for
+	 * @param amount the amount to subtract or add to the current amount in the DB
+	 * @return the new total amount of chips fo the user.
+	 */
 	public static float updateChipCount(String userID, float amount) {
-		//TODO update the database with the new amount using controller
 
 		int userIDInt = Integer.valueOf(userID);
 		
@@ -818,6 +831,12 @@ public class UserControllerServer {
 		return -1;
 	}
 	
+	/**
+	 * Updates the user's last login to now.
+	 * 
+	 * @param username the username of the user to update the login date of
+	 * @return the current date if successful, or null if unsuccessful
+	 */
 	public static Date updateLastLogin(String username) {
 
 		Date currentDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());

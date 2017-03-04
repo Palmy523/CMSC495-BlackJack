@@ -1,6 +1,5 @@
 package com.blackjack.client.action;
 
-import com.blackjack.client.action.GameAction.ActionType;
 import com.blackjack.client.controls.UserController;
 import com.blackjack.client.entities.Card;
 import com.blackjack.client.entities.Deck;
@@ -14,12 +13,30 @@ import com.blackjack.client.sounds.SoundManager.SoundName;
 import com.blackjack.client.ui.BlackJackGamePanel;
 import com.google.gwt.core.client.GWT;
 
+/**
+ * The DoubleDownAction performs actions relating to a DoubleDown
+ * in blackjack. Hits the primary and (if necessary) split hand with
+ * an extra card and doubles the current bet.
+ * 
+ * @author Stephanie
+ *
+ */
 public class DoubleDownAction extends GameAction {
 
+	/**
+	 * 
+	 * @param panel The BlackJackGamePanel to updates
+	 */
 	public DoubleDownAction(BlackJackGamePanel panel) {
 		super(panel);
 	}
 
+	/**
+	 * Processes the DoubleDown action by doubling the current bet
+	 * and hitting one card to the primary hand. It also hits a card to 
+	 * the split hand if the hand is split. Initiates busts, and dealer turn
+	 * appropriately.
+	 */
 	@Override
 	public void processAction(GameEvent event) {
 		
@@ -30,11 +47,11 @@ public class DoubleDownAction extends GameAction {
 		
 		panel.displayInstruction("Doubled Down");
 		event.setActionType(ActionType.DOUBLE_DOWN);
-		event.getGameState().setDoubledDown(true);
+		GameState.setDoubledDown(true);
 		panel.bet(GameState.getBetAmount()*2);
 		UserController.updateChipCount(-GameState.getBetAmount());
 		GameState.setBetAmount(GameState.getBetAmount()*2);
-		hand = state.getPlayerHand();	
+		hand = GameState.getPlayerHand();	
 		
 		if(hand.getBustStatus()){
 			return;
@@ -46,14 +63,13 @@ public class DoubleDownAction extends GameAction {
 		SoundManager.play(SoundName.PLACE4);
 		panel.hitPlayerHand_DoubleDown(drawn);
 		hand.hit(drawn);
-		state.setPlayerHand(hand);
+		GameState.setPlayerHand(hand);
 		score = hand.getHandValue();
 		
 		
-		if(state.isSplit()){
+		if(GameState.isSplit()){
 			
-			int splitScore;
-			Hand splitHand = state.getPlayerSplitHand();
+			Hand splitHand = GameState.getPlayerSplitHand();
 			
 			if(splitHand.getBustStatus()){
 				return;
@@ -69,16 +85,10 @@ public class DoubleDownAction extends GameAction {
 			Card drawn3 = deck.draw();
 			panel.hitPlayerSplitHand_DoubleDown(drawn3);
 			splitHand.hit(drawn3);
-			state.setPlayerSplitHand(splitHand);
-			splitScore = splitHand.getHandValue();			
+			GameState.setPlayerSplitHand(splitHand);
 		}
 		
 		panel.disableAllButtons();
-		event.setActionType(ActionType.HIT);
-		Events.eventBus.fireEvent(event);
-		
-		GWT.log("Hit Player hand with " + drawn.getRank());
-		GWT.log("Player hand value: " + hand.getHandValue());
 		
 		if(score > 21){
 			hand.busts();
@@ -93,6 +103,10 @@ public class DoubleDownAction extends GameAction {
 			DealerTurnAction action = new DealerTurnAction(panel);
 			action.processAction(event);
 		}
+		
+		event.setActionType(ActionType.HIT);
+		Events.eventBus.fireEvent(event);
+
 	}
 
 }

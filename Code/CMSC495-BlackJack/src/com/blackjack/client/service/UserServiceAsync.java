@@ -9,6 +9,12 @@ import com.blackjack.shared.events.UpdateEmailEvent;
 import com.blackjack.shared.events.UpdatePasswordEvent;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+/**
+ * An async interface used to instantiate a service class for communication with the 
+ * server and define a callback method to perform based on the server response.
+ * @author Dave
+ *
+ */
 public interface UserServiceAsync {
 
 	void login(String username, String password, AsyncCallback<LoginEvent> callback);

@@ -5,6 +5,14 @@ import com.blackjack.client.entities.Card.Set;
 import com.blackjack.client.entities.Card.Suit;
 import com.google.gwt.user.client.Random;
 
+/**
+ * Represents a deck of cards. A deck can consist of multiple decks, each deck
+ * that makes up this deck will be comprised of a standard deck of cards with 
+ * jokers excluded.
+ * 
+ * @author Dave
+ *
+ */
 public class Deck {
 
 	private Card[] cards;
@@ -12,6 +20,12 @@ public class Deck {
 	private int numberOfDecks;
 	private int numCards;
 	
+	/**
+	 * 
+	 * @param set the set of cards that makes up this deck
+	 * @param numberOfDecks the number of standard 52 card decks that make up this deck
+	 * @param autoShuffle determines if the deck should be shuffled on creation.
+	 */
 	public Deck(Set set, int numberOfDecks, boolean autoShuffle) {
 		this.numberOfDecks = numberOfDecks;
 		this.set = set;
@@ -57,6 +71,9 @@ public class Deck {
 		}
 	}
 	
+	/**
+	 * @return a percentage of cards used in the deck.
+	 */
 	public float getCardUsage() {
 		return numCards / cards.length;
 	}

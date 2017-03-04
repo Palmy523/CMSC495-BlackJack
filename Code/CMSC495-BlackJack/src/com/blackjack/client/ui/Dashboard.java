@@ -113,6 +113,11 @@ public class Dashboard extends SimplePanel {
 
 	}
 	
+	/**
+	 * Updates the ui (if back is clicked from browser) to load the 
+	 * last screen that was navigated to.
+	 * @param name
+	 */
 	private void loadHistoryItem(String name) {
 		if (!place[0].equals(name)) {
 			String last = place[0];
@@ -226,15 +231,14 @@ public class Dashboard extends SimplePanel {
 		History.newItem("login");
 	}
 	
+	/**
+	 * Displays the forgot password ui.
+	 */
 	public void displayForgotPasswordForm() {
 		this.loadView(forgotPasswordForm);
 		History.newItem("forgotPassword");
 	}
-	
-	public void displayEmailConfirmationPanel(boolean display) {
-		//TODO display the email confirmation panel
-	}
-	
+
 	/**
 	 * Display the create account screen
 	 */
@@ -243,16 +247,24 @@ public class Dashboard extends SimplePanel {
 		History.newItem("createAccount");
 	}
 	
-	
+	/**
+	 * Displays the account management ui.
+	 */
 	public void displayAccountManagementScreen() {
 		this.loadView(accountManagementForm);
 		History.newItem("accountManagement");
 	}
 	
+	/**
+	 * displays the confirm email ui
+	 */
 	public void displayConfirmEmailForm() {
 		this.loadView(confirmEmailForm);
 	}
 	
+	/**
+	 * Displays the blackjack game panel.
+	 */
 	public void displayGamePanel() {
 		this.loadView(gamePanel);		
 		History.newItem("game");

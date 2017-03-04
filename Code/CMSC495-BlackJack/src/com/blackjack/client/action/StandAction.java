@@ -1,6 +1,5 @@
 package com.blackjack.client.action;
 
-import com.blackjack.client.action.GameAction.ActionType;
 import com.blackjack.client.entities.GameState;
 import com.blackjack.client.entities.GameState.TurnState;
 import com.blackjack.client.event.Events;
@@ -9,12 +8,27 @@ import com.blackjack.client.sounds.SoundManager;
 import com.blackjack.client.sounds.SoundManager.SoundName;
 import com.blackjack.client.ui.BlackJackGamePanel;
 
+/**
+ * Action used to process a stand for a hand.
+ * 
+ * @author Abby
+ *
+ */
 public class StandAction extends GameAction {
 
+	/**
+	 * 
+	 * @param panel the BlackJackGamePanel to update.
+	 */
 	public StandAction(BlackJackGamePanel panel) {
 		super(panel);
 	}
 
+	/**
+	 * Causes the state of the hand to go into a stand state. Updates UI
+	 * by displaying the stand label. Ends turns and procs dealers turn or 
+	 * HandEnd appropriately.
+	 */
 	@Override
 	public void processAction(GameEvent event) {
 		if (GameState.getTurn() == TurnState.PLAYER_TURN) {

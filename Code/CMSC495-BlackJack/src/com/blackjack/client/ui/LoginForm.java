@@ -8,6 +8,12 @@ import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextBox;
 
+/**
+ * UI used for user login.
+ * 
+ * @author Dave
+ *
+ */
 public class LoginForm extends SimplePanel {
 
 	private Label userNameLabel;

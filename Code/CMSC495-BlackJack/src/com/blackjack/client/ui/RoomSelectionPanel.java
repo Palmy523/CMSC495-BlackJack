@@ -7,6 +7,11 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 
+/**
+ * UI used to display a selection of multiple rooms for the user.
+ * @author Dave
+ *
+ */
 public class RoomSelectionPanel extends FlowPanel {
 
 	private CheckBox difficultyCheckBox;
@@ -94,6 +99,9 @@ public class RoomSelectionPanel extends FlowPanel {
 		this.roomPanels = roomPanels;
 	}
 	
+	/**
+	 * Enables appropriate rooms based on the User
+	 */
 	public void updateRoomEnabledness() {
 
 		if (UserController.getUser() != null) {

@@ -317,7 +317,6 @@ public class BlackJackGamePanel extends SimplePanel {
 		chip100.setEnabled(enabled);	
 	}
 	
-	
 	/**
 	 * Disables all the game buttons for the user
 	 */

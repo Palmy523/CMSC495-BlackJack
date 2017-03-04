@@ -10,6 +10,12 @@ import com.blackjack.shared.events.UpdatePasswordEvent;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
+/**
+ * Abstract class used to instantiate a remote service class for communication 
+ * with the server.
+ * @author Dave
+ *
+ */
 @RemoteServiceRelativePath("UserService")
 public interface UserService extends RemoteService {
 	

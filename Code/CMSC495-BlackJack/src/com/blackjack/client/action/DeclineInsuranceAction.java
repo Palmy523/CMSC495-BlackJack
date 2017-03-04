@@ -6,12 +6,29 @@ import com.blackjack.client.event.GameEvent;
 import com.blackjack.client.ui.BlackJackGamePanel;
 import com.blackjack.client.ui.GameButton.GameButtonType;
 
+/**
+ * The DeclineInsuranceAction performs the needed steps when 
+ * a player declines insurance. Checks the natural state of 
+ * the dealer hand and procs end turn if necessary.
+ * 
+ * @author Lea
+ *
+ */
 public class DeclineInsuranceAction extends GameAction {
 
+	/**
+	 * 
+	 * @param panel the BlackJackGamePanel to update.
+	 */
 	public DeclineInsuranceAction(BlackJackGamePanel panel) {
 		super(panel);
 	}
+	
 
+	/**
+	 * Processes the decline insurance action by ending the turn if the 
+	 * Dealer has a natural blackjack or resumes play as normal if not.
+	 */
 	@Override
 	public void processAction(GameEvent event) {
 		panel.displayInsurancePrompt(false);

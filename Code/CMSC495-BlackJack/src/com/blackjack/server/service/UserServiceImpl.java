@@ -16,6 +16,14 @@ import com.blackjack.shared.events.UpdateEmailEvent;
 import com.blackjack.shared.events.UpdatePasswordEvent;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
+/**
+ * Server side implementation of the  user service used to check
+ * updates to the databse and communicate appropriate messages
+ * to the client.
+ * 
+ * @author Jeff
+ *
+ */
 public class UserServiceImpl extends RemoteServiceServlet implements UserService {
 	
 	/**
@@ -23,6 +31,9 @@ public class UserServiceImpl extends RemoteServiceServlet implements UserService
 	 */
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Performs a user login on username and password.
+	 */
 	@Override
 	public LoginEvent login(String username, String password) {
 				
@@ -57,6 +68,9 @@ public class UserServiceImpl extends RemoteServiceServlet implements UserService
 		
 	}
 	
+	/**
+	 * Creates an account with the specified username, password, and email.
+	 */
 	public CreateAccountEvent createAccount(String username, String password, String email) 
 	{
 		CreateAccountEvent createAccountEvent = new CreateAccountEvent();
@@ -82,6 +96,9 @@ public class UserServiceImpl extends RemoteServiceServlet implements UserService
 		return createAccountEvent;	
 	}
 	
+	/**
+	 * Updates the chip count for the user with the specified id by the appropriate amount.
+	 */
 	public UpdateChipEvent updateChipCount(String userID, float amount) 
 	{
 		UpdateChipEvent updateChipEvent = new UpdateChipEvent();
@@ -123,6 +140,9 @@ public class UserServiceImpl extends RemoteServiceServlet implements UserService
 		return resetPasswordEvent;
 	}
 	
+	/**
+	 * Updates the email for a user.
+	 */
 	public UpdateEmailEvent updateEmail(String userID, String newEmail, String tempKey) {
 				
 		UpdateEmailEvent updateEmailEvent = new UpdateEmailEvent();
@@ -151,6 +171,9 @@ public class UserServiceImpl extends RemoteServiceServlet implements UserService
 		return updateEmailEvent;
 	}
 	
+	/**
+	 * Confirms the email update for a user.
+	 */
 	public ConfirmEmailEvent confirmEmail(String userID, String confirmationKey) {
 				
 		ConfirmEmailEvent confirmEmailEvent = new ConfirmEmailEvent();
@@ -168,6 +191,9 @@ public class UserServiceImpl extends RemoteServiceServlet implements UserService
 		return confirmEmailEvent;
 	}
 	
+	/**
+	 * Updates the password for a user.
+	 */
 	public UpdatePasswordEvent updatePassword(String userID, String currentPassword, String newPassword) {
 		
 		UpdatePasswordEvent updatePasswordEvent = new UpdatePasswordEvent();

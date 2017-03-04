@@ -13,6 +13,11 @@ import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 
+/**
+ * UI of a simple message box to display messages to the user.
+ * @author Dave
+ *
+ */
 public class UserMessageBox extends FocusPanel {
 
 	public enum MessageType {ERROR, INFO, WARN}

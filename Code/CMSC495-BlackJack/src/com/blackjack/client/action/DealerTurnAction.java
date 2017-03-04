@@ -6,8 +6,19 @@ import com.blackjack.client.entities.GameState.TurnState;
 import com.blackjack.client.event.GameEvent;
 import com.blackjack.client.ui.BlackJackGamePanel;
 
+/**
+ * The DealerTurnAction is used to start the dealer's turn by 
+ * calling the DealerAI.
+ * 
+ * @author Dave
+ *
+ */
 public class DealerTurnAction extends GameAction {
 
+	/**
+	 * 
+	 * @param panel the BlackJackGamePanel UI to update.
+	 */
 	public DealerTurnAction(BlackJackGamePanel panel) {
 		super(panel);		
 	}

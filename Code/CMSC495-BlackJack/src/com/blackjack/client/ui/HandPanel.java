@@ -67,6 +67,9 @@ public class HandPanel extends FlowPanel {
 		primaryHandUI.stand();
 	}
 	
+	/**
+	 * Displays the stand label over the split hand.
+	 */
 	public void stand_Split() {
 		splitHandUI.stand();
 	}
@@ -78,15 +81,23 @@ public class HandPanel extends FlowPanel {
 		primaryHandUI.bust();
 	}
 	
+	/**
+	 * Displays the bust label over the split hand.
+	 */
 	public void bust_Split() {
 		splitHandUI.bust();
 	}
 	
-	//displays 21 label when player gets 21
+	/**
+	 * Displays the 21! label on the primary hand
+	 */
 	public void twentyone(){
 		primaryHandUI.twentyone();
 	}
 	
+	/**
+	 * Display the 21! label on the split hand
+	 */
 	public void twentyone_Split() {
 		splitHandUI.twentyone();
 	}
@@ -105,10 +116,9 @@ public class HandPanel extends FlowPanel {
 		Card cardOne = cardUIs[0].getCard();
 		Card cardTwo = cardUIs[1].getCard();
 		
-		//TODO Uncomment when done testing
-//		if (cardOne.getRank() != cardTwo.getRank()) {
-//			return;
-//		}
+		if (cardOne.getRank() != cardTwo.getRank()) {
+			return;
+		}
 
 		if (splitHandUI != null && this.getWidgetIndex(splitHandUI) != -1) {
 			this.remove(splitHandUI);
@@ -142,10 +152,16 @@ public class HandPanel extends FlowPanel {
 		primaryHandUI.removeStyleDependentName("left");
 	}
 	
+	/**
+	 * Shows the dealer down card.
+	 */
 	public void showDealerCard() {
 		primaryHandUI.showDealerCard();
 	}
 	
+	/**
+	 * Resets this HandPanel to default.
+	 */
 	public void reset() {
 		if (primaryHandUI != null) {
 			primaryHandUI.reset();
@@ -153,18 +169,34 @@ public class HandPanel extends FlowPanel {
 		this.join();
 	}
 	
+	/**
+	 * 
+	 * @return the number of cards in the primary hand.
+	 */
 	public int getNumberPrimaryCards() {
 		return primaryHandUI.getNumCardUIs();
 	}
 	
+	/**
+	 * Gets the number of cards in the split hand.
+	 * @return
+	 */
 	public int getNumberSplitCards() {
 		return splitHandUI.getNumCardUIs();
 	}
 
+	/**
+	 * Hits the primary hand with a card in double down display
+	 * @param card
+	 */
 	public void hit_DoubleDown(Card card) {
 		primaryHandUI.hit_DoubleDown(card);
 	}
 	
+	/**
+	 * Hits this split hand with a card in double down display
+	 * @param card
+	 */
 	public void hitSplit_DoubleDown(Card card) {
 		if (splitHandUI != null) {
 			splitHandUI.hit_DoubleDown(card);

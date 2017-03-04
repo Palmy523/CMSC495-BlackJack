@@ -1,6 +1,5 @@
 package com.blackjack.client.controls;
 
-import com.blackjack.client.action.GameAction;
 import com.blackjack.client.action.GameAction.ActionType;
 import com.blackjack.client.action.HandEndAction;
 import com.blackjack.client.action.HitAction;
@@ -12,15 +11,30 @@ import com.blackjack.client.event.GameEvent;
 import com.blackjack.client.ui.BlackJackGamePanel;
 import com.google.gwt.user.client.Timer;
 
+/**
+ * Class used to issue a series of commands by the dealer based on the 
+ * state of the hand. 
+ * 
+ * @author Dave
+ *
+ */
 public class DealerAI {
 
 	private BlackJackGamePanel gamePanel;
 	private static Timer timer;
 
+	/**
+	 * 
+	 * @param panel The BlackJackGamePanel to update
+	 */
 	public DealerAI(BlackJackGamePanel panel) {
 		this.gamePanel = panel;
 	}
 
+	/**
+	 * Starts the dealers turn with a timer at 1 second intervals
+	 * @param event
+	 */
 	public void startTurn(final GameEvent event) {
 
 
@@ -37,6 +51,12 @@ public class DealerAI {
 		timer.scheduleRepeating(1000);
 	}
 
+	/**
+	 * Performs an appropriate action by the dealer based on the state
+	 * of the cards. 
+	 * 
+	 * @param event
+	 */
 	public void processTurn(GameEvent event) {
 
 		int dealerHandValue = GameState.getDealerHand().getHandValue();
@@ -77,6 +97,9 @@ public class DealerAI {
 		return (dealerHandValue < 17);
 	}
 	
+	/**
+	 * Stops the dealer from issuing any more actions.
+	 */
 	public static void cancelDealerActions() {
 		if (timer != null) {
 			timer.cancel();

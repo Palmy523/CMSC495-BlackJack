@@ -10,11 +10,26 @@ import com.blackjack.client.entities.Card.Rank;
  */
 public class Hand {
 
+	/**
+	 * enum to determine if the hand is of dealer or player type.
+	 */
 	public enum HandType {DEALER, PLAYER}
 
-	public static final int MAX_CARDS = 21;
+	public static final int MAX_CARDS = 11;
+	
+	/**
+	 * The cards in this hand
+	 */
 	private Card[] cards;
+	
+	/**
+	 * The number of cards in this hand
+	 */
 	private int numCards = 0;
+	
+	/**
+	 * Flag to determine if the value of this hand causes a bust.
+	 */
 	private boolean hasBusted = false;
 	
 	/**
@@ -103,7 +118,10 @@ public class Hand {
 		return false;
 	}
 
-	
+	/**
+	 * Determines if what would be the up card for a dealer, is an ace.
+	 * @return
+	 */
 	public boolean showingAce() {
 		if(cards[1].getRank() == Rank.ACE) {
 			return true;
@@ -111,13 +129,19 @@ public class Hand {
 		return false;
 	}
 	
+	/**
+	 * Determines if this hand can be split.
+	 * @return
+	 */
 	public boolean canSplit() {
-		//TODO if(cards[0].getRank() == cards[1].getRank())
 		if(cards[0].getValue() == cards[1].getValue())
 			return true;
 		return false;
 	}
 	
+	/**
+	 * Busts this hand.
+	 */
 	public void busts(){
 		hasBusted = true;
 	}

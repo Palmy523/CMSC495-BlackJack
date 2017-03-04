@@ -6,6 +6,11 @@ import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.ui.Button;
 
+/**
+ * UI button that represents a button used in the game of 21!
+ * @author Dave
+ *
+ */
 public class GameButton extends Button {
 
 	public enum GameButtonType {HIT, STAND, DOUBLE_DOWN, INSURANCE, SURRENDER, SPLIT, DEAL}

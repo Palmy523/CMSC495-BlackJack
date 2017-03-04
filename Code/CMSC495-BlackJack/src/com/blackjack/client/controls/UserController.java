@@ -22,8 +22,14 @@ import com.blackjack.shared.events.UpdatePasswordEvent;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+/**
+ * Contains all methods to handle user functions in the app.
+ * 
+ * @author Dave/Abby
+ *
+ */
 public class UserController {
-
+	
 public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred, please try again later";
 	
 	private static Dashboard dashboard;
@@ -64,7 +70,6 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 			return;
 		}
 		
-		//TODO verify username and password formats
 		if (FieldVerifier.isValidUsername(username) == FormatError.INVALID_CHARACTER) {
 			dashboard.displayMessage(MessageType.INFO, FieldVerifier.USER_REGEX_ERROR);
 			return;
@@ -394,7 +399,7 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 	 */
 	public static void onConfirmEmailSuccess(ConfirmEmailEvent result) {
 		dashboard.displayMessage(MessageType.INFO, "Your email has been updated successfully");
-		dashboard.displayEmailConfirmationPanel(false);
+		dashboard.displayAccountManagementScreen();
 	}
 	
 	/**

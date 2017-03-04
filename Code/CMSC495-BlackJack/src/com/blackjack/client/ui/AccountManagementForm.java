@@ -8,6 +8,11 @@ import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextBox;
 
+/**
+ * UI piece used for password and email updating.
+ * @author Dave
+ *
+ */
 public class AccountManagementForm extends SimplePanel {
 	
 	private PasswordTextBox currentPasswordTextBox;

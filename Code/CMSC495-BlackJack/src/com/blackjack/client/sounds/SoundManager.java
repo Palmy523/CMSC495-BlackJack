@@ -4,11 +4,21 @@ import java.util.HashMap;
 
 import com.google.gwt.media.client.Audio;
 
-
+/**
+ * The SoundManager is used to create, and play sounds for the application.
+ * @author Dave
+ *
+ */
 public class SoundManager {
 
+	/**
+	 * An enumerator of all sounds created.
+	 */
 	public enum SoundName {FAN1, CHIP_BET, PLACE1, PLACE2, PLACE3, PLACE4, STAND, BUST, WIN}
 	
+	/**
+	 * A dictionary that stores all enums with their sound value.
+	 */
 	private static HashMap<SoundName, Audio> sounds = new HashMap<SoundName, Audio>();
 	
 	static {
