@@ -34,6 +34,10 @@ public class HandEndAction extends GameAction {
 		if(GameState.isEasyPlay())
 			easyPlayMultiplier = .5f;
 		int playerHandVal = GameState.getPlayerHand().getHandValue();
+		if (GameState.isSplit()) {
+			int splitValue = GameState.getPlayerSplitHand().getHandValue();
+			playerHandVal = (playerHandVal > splitValue) ? playerHandVal : splitValue;
+		}
 		int dealerHandVal = GameState.getDealerHand().getHandValue();
 		
 		if (event.getActionType() == ActionType.BLACKJACK) {
@@ -43,7 +47,6 @@ public class HandEndAction extends GameAction {
 			UserController.updateChipCount(award);
 		} else if (event.getActionType() == ActionType.DEALER_BLACKJACK) {
 			panel.displayInstruction("Dealer has Blackjack!" + message);
-			
 			if (event.getGameState().isInsurance()) {
 				UserController.updateChipCount(GameState.getBetAmount()
 						+ GameState.getInsuranceBetAmt());

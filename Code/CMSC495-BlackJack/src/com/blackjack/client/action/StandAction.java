@@ -33,6 +33,7 @@ public class StandAction extends GameAction {
 				action.processAction(event);
 			} else if (GameState.isSplit() && GameState.isHittingPrimary()) {
 				panel.playerStand();
+				SoundManager.play(SoundName.STAND);
 				GameState.setHittingPrimary(false);
 				GameState.setHittingSplit(true);
 				HitAction h = new HitAction(panel);
@@ -40,6 +41,7 @@ public class StandAction extends GameAction {
 			}
 		} else if (GameState.getTurn() == TurnState.DEALER_TURN) {
 			panel.dealerStand();
+			SoundManager.play(SoundName.STAND);
 			GameState.setTurn(TurnState.HAND_END);
 
 			// create HandEndAction-implement and end action
