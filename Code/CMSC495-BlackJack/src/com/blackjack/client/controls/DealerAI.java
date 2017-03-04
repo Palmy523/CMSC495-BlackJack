@@ -60,9 +60,19 @@ public class DealerAI {
 	public void processTurn(GameEvent event) {
 
 		int dealerHandValue = GameState.getDealerHand().getHandValue();
-		int playerHandValue = GameState.getPlayerHand().getHandValue();
+		int playerHandVal = GameState.getPlayerHand().getHandValue();
+		if (GameState.isSplit()) {
+			int splitValue = GameState.getPlayerSplitHand().getHandValue();
+			if (splitValue <= 21) {
+				if (playerHandVal > 21) {
+					playerHandVal = splitValue;
+				} else {
+					playerHandVal = (playerHandVal > splitValue) ? playerHandVal : splitValue;
+				}
+			}
+		}
 		
-		if (playerHandValue > 21) {
+		if (playerHandVal > 21) {
 			HandEndAction handEnd = new HandEndAction(gamePanel);
 			event.setActionType(ActionType.PLAYER_BUST);
 			handEnd.processAction(event);

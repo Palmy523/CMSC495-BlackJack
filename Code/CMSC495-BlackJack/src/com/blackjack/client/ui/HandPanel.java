@@ -116,10 +116,6 @@ public class HandPanel extends FlowPanel {
 		Card cardOne = cardUIs[0].getCard();
 		Card cardTwo = cardUIs[1].getCard();
 		
-		if (cardOne.getRank() != cardTwo.getRank()) {
-			return;
-		}
-
 		if (splitHandUI != null && this.getWidgetIndex(splitHandUI) != -1) {
 			this.remove(splitHandUI);
 		}
