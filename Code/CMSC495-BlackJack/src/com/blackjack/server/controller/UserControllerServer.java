@@ -37,11 +37,7 @@ public class UserControllerServer {
 	 * false if username doesn't exist or password is invalid.
 	 */
 	public static User login(String username, String password) {
-		System.out.println(password);
-		System.out.println(password.length());
 		password = MD5EncryptionService.encrypt(password);
-		System.out.println(password);
-		System.out.println(password.length());
 		User user;
 		Connection conn = ConnectionService.getConnection();
 		PreparedStatement ps = null;
@@ -98,7 +94,6 @@ public class UserControllerServer {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
-			System.out.println(id);
 			ps = conn.prepareStatement("SELECT * FROM user WHERE user_id = ?;");
 			ps.setInt(1, id);
 			rs = ps.executeQuery();
@@ -342,10 +337,6 @@ public class UserControllerServer {
 	 */
 	public static boolean resetPassword(String emailAddress, String newPassword) {
 		String newPasswordEncrypted = MD5EncryptionService.encrypt(newPassword);
-		System.out.println(newPassword);
-		System.out.println(newPassword.length());
-		System.out.println(newPasswordEncrypted);
-		System.out.println(newPasswordEncrypted.length());
 		if (!emailExists(emailAddress)) {
 			return false;
 		}

@@ -45,14 +45,6 @@ public class FieldVerifier {
 	 * what caused the regex to fail.
 	 */
 	public static FormatError isValidUsername(String name) {
-		//TODO make sure these work
-		GWT.log("/^[a-zA-Z0-9_]+$/");
-		GWT.log(usernameRegex.getSource());
-		GWT.log("/^[a-zA-Z0-9!@#$%^&*()]+$/");
-		GWT.log(passwordRegex.getSource());
-		GWT.log("/\\S+@\\S+\\.\\S+/");
-		GWT.log(emailRegex.getSource());
-
 		if (name.length() < 3 || name.length() > 16) {
 			return FormatError.LENGTH;
 		}
