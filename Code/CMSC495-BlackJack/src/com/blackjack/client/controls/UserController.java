@@ -423,17 +423,6 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 			return;
 		}
 		
-		if (!(newPassword.equals(confirmNewPassword))) {
-			dashboard.displayMessage(MessageType.ERROR, "The new passwords do not match");
-			return;
-		}
-		
-		if(FieldVerifier.isValidPassword(currentPassword) == FormatError.LENGTH 
-				|| FieldVerifier.isValidPassword(currentPassword) == FormatError.INVALID_CHARACTER) {
-			dashboard.displayMessage(MessageType.ERROR, "The current password is invalid");
-			return;
-		}
-		
 		if(FieldVerifier.isValidPassword(currentPassword) == FormatError.LENGTH) {
 			dashboard.displayMessage(MessageType.ERROR, FieldVerifier.PASSWORD_LENGTH_ERROR);
 			return;
@@ -441,6 +430,22 @@ public static final String COMM_FAILURE_MESSAGE = "An unkown error has occurred,
 		
 		if (FieldVerifier.isValidPassword(currentPassword) == FormatError.INVALID_CHARACTER) {
 			dashboard.displayMessage(MessageType.ERROR, FieldVerifier.PASSWORD_REGEX_ERROR);
+			return;
+		}
+		
+		if (FieldVerifier.isValidPassword(newPassword) == FormatError.LENGTH) {
+			dashboard.displayMessage(MessageType.ERROR, FieldVerifier.PASSWORD_LENGTH_ERROR);
+			return;
+		}
+		
+		if (FieldVerifier.isValidPassword(newPassword) == FormatError.INVALID_CHARACTER) {
+			dashboard.displayMessage(MessageType.ERROR, FieldVerifier.PASSWORD_REGEX_ERROR);
+			return;
+		}
+		
+		if (!(newPassword.equals(confirmNewPassword))) {
+			dashboard.displayMessage(MessageType.ERROR, "The new passwords do not match");
+			return;
 		}
 		
 		String userID = String.valueOf(user.getUserID());

@@ -79,7 +79,7 @@ public class EmailService {
 	 */
 	public static boolean sendEmailUpdateKey(String email, String confirmationKey) {
 		String message = "You are receiving this email because you requested to update your "
-				+ "account email address. Your confirmation key is " + confirmationKey + "./n/r/n/r"
+				+ "account email address. Your confirmation key is " + confirmationKey + "."
 				+ "To complete the update please enter the code in the text box provided on our website."
 				+ " If you did not request an email update, someone is probably trying to sabotage you.";
 		return sendEmail(email, "21! Email Update Confirmation", message);
