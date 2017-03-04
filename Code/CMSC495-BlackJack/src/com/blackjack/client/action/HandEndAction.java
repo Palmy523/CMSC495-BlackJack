@@ -39,7 +39,13 @@ public class HandEndAction extends GameAction {
 		int playerHandVal = GameState.getPlayerHand().getHandValue();
 		if (GameState.isSplit()) {
 			int splitValue = GameState.getPlayerSplitHand().getHandValue();
-			playerHandVal = (playerHandVal > splitValue) ? playerHandVal : splitValue;
+			if (splitValue <= 21) {
+				if (playerHandVal > 21) {
+					playerHandVal = splitValue;
+				} else {
+					playerHandVal = (playerHandVal > splitValue) ? playerHandVal : splitValue;
+				}
+			}
 		}
 		int dealerHandVal = GameState.getDealerHand().getHandValue();
 		
@@ -61,7 +67,7 @@ public class HandEndAction extends GameAction {
 				playerHandVal == dealerHandVal) {
 			panel.displayInstruction("Push!" + message);
 			UserController.updateChipCount(GameState.getBetAmount());
-		} else if (event.getActionType() == ActionType.PLAYER_BUST) {
+		} else if (event.getActionType() == ActionType.PLAYER_BUST || playerHandVal > 21) {
 			panel.displayInstruction("Dealer wins!" + message);
 		} else if (event.getActionType() == ActionType.DEALER_BUST) {
 			SoundManager.play(SoundName.WIN);
